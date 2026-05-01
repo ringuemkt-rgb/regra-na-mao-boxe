@@ -29,11 +29,12 @@ import {
   Instagram,
 } from "lucide-react";
 import { useState } from "react";
-import ebookMockup from "@/assets/ebook-mockup.png";
+import ebookMockup from "@/assets/ebook-cover.png";
 import heroBg from "@/assets/hero-bg.jpg";
-import preview1 from "@/assets/preview-1.jpg";
-import preview2 from "@/assets/preview-2.jpg";
-import preview3 from "@/assets/preview-3.jpg";
+import pageAreas from "@/assets/page-areas-validas.png";
+import pageArbitro from "@/assets/page-arbitro-juizes.png";
+import pageFaltas from "@/assets/page-faltas.png";
+import pageJuiz from "@/assets/page-juiz-round.png";
 
 // 🔧 Edite aqui os links de checkout e WhatsApp
 const LINK_CHECKOUT_CAKTO = "https://pay.cakto.com.br/brpc38k_870046";
