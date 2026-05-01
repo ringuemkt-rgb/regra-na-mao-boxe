@@ -6,55 +6,60 @@
 
 @layer base {
   :root {
-    /* Boxe de Cria — paleta esportiva premium */
-    --background: 220 30% 6%;
-    --foreground: 0 0% 98%;
+    /* Boxe de Cria — paleta oficial
+       Navy #051C36 · Branco gelo #F8FAFC · Dourado #DAA735
+       Vermelho impacto #C5252D · Cinza claro #E7EEF5 · Preto grafite #081423 */
+    --background: 213 76% 12%;          /* navy #051C36 */
+    --foreground: 210 40% 98%;          /* branco gelo */
 
-    --card: 220 28% 10%;
-    --card-foreground: 0 0% 98%;
+    --card: 215 47% 9%;                 /* preto grafite levemente azulado */
+    --card-foreground: 210 40% 98%;
 
-    --popover: 220 28% 10%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 215 47% 9%;
+    --popover-foreground: 210 40% 98%;
 
-    /* Vermelho boxe / sangue */
-    --primary: 0 78% 48%;
+    /* Vermelho impacto */
+    --primary: 358 67% 47%;             /* #C5252D */
     --primary-foreground: 0 0% 100%;
 
-    /* Azul escuro marinho */
-    --secondary: 220 60% 14%;
-    --secondary-foreground: 0 0% 98%;
+    /* Navy secundário */
+    --secondary: 213 76% 16%;
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 220 20% 16%;
-    --muted-foreground: 220 10% 70%;
+    --muted: 213 40% 18%;
+    --muted-foreground: 210 25% 78%;
 
-    /* Dourado / amarelo troféu */
-    --accent: 45 95% 55%;
-    --accent-foreground: 220 30% 6%;
+    /* Dourado */
+    --accent: 43 70% 53%;               /* #DAA735 */
+    --accent-foreground: 215 47% 9%;
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 358 67% 47%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 220 20% 18%;
-    --input: 220 20% 18%;
-    --ring: 0 78% 48%;
+    --border: 213 40% 22%;
+    --input: 213 40% 22%;
+    --ring: 43 70% 53%;
 
     --radius: 1rem;
 
     /* Tokens custom */
-    --gold: 45 95% 55%;
-    --gold-deep: 38 90% 45%;
-    --navy: 220 60% 14%;
-    --navy-deep: 220 70% 8%;
-    --blood: 0 78% 48%;
-    --blood-deep: 0 80% 38%;
+    --gold: 43 70% 53%;
+    --gold-deep: 38 75% 42%;
+    --navy: 213 76% 12%;
+    --navy-deep: 215 75% 8%;
+    --graphite: 215 47% 9%;
+    --ice: 210 40% 98%;
+    --light-gray: 211 38% 93%;
+    --blood: 358 67% 47%;
+    --blood-deep: 358 70% 38%;
 
-    --gradient-hero: linear-gradient(135deg, hsl(220 70% 8%) 0%, hsl(0 60% 18%) 50%, hsl(220 70% 8%) 100%);
-    --gradient-blood: linear-gradient(135deg, hsl(0 78% 48%) 0%, hsl(0 80% 38%) 100%);
-    --gradient-gold: linear-gradient(135deg, hsl(45 95% 55%) 0%, hsl(38 90% 45%) 100%);
-    --gradient-card: linear-gradient(180deg, hsl(220 28% 12%) 0%, hsl(220 30% 8%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(215 75% 8%) 0%, hsl(213 76% 14%) 50%, hsl(215 75% 8%) 100%);
+    --gradient-blood: linear-gradient(135deg, hsl(358 67% 47%) 0%, hsl(358 70% 38%) 100%);
+    --gradient-gold: linear-gradient(135deg, hsl(43 70% 53%) 0%, hsl(38 75% 42%) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(213 60% 13%) 0%, hsl(215 75% 8%) 100%);
 
-    --shadow-blood: 0 20px 50px -12px hsl(0 78% 48% / 0.5);
-    --shadow-gold: 0 10px 30px -10px hsl(45 95% 55% / 0.4);
+    --shadow-blood: 0 20px 50px -12px hsl(358 67% 47% / 0.55);
+    --shadow-gold: 0 10px 30px -10px hsl(43 70% 53% / 0.45);
     --shadow-deep: 0 25px 60px -15px hsl(0 0% 0% / 0.7);
 
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
