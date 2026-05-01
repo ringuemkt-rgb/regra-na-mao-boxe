@@ -394,9 +394,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* placeholder fechamento extra removido */}
-      <div className="hidden">
-        <span>
+
 
       {/* PARA QUEM É */}
       <section className="py-20 sm:py-28">
