@@ -29,11 +29,12 @@ import {
   Instagram,
 } from "lucide-react";
 import { useState } from "react";
-import ebookMockup from "@/assets/ebook-mockup.png";
+import ebookMockup from "@/assets/ebook-cover.png";
 import heroBg from "@/assets/hero-bg.jpg";
-import preview1 from "@/assets/preview-1.jpg";
-import preview2 from "@/assets/preview-2.jpg";
-import preview3 from "@/assets/preview-3.jpg";
+import pageAreas from "@/assets/page-areas-validas.png";
+import pageArbitro from "@/assets/page-arbitro-juizes.png";
+import pageFaltas from "@/assets/page-faltas.png";
+import pageJuiz from "@/assets/page-juiz-round.png";
 
 // 🔧 Edite aqui os links de checkout e WhatsApp
 const LINK_CHECKOUT_CAKTO = "https://pay.cakto.com.br/brpc38k_870046";
@@ -322,31 +323,78 @@ const Index = () => {
             ))}
           </div>
 
-          {/* Prévias visuais */}
-          <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto mb-12">
-            {[preview1, preview2, preview3].map((src, i) => (
-              <div
-                key={i}
-                className="relative rounded-2xl overflow-hidden border border-border shadow-deep hover:scale-[1.02] transition-smooth"
-              >
-                <img
-                  src={src}
-                  alt={`Prévia da página ${i + 1} do e-book Regras do Boxe na Mão`}
-                  className="w-full h-full object-cover aspect-[4/5]"
-                  loading="lazy"
-                  width={800}
-                  height={1024}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
-                <div className="absolute bottom-4 left-4 font-display uppercase text-xs tracking-widest text-accent">
-                  Prévia {i + 1}
-                </div>
-              </div>
-            ))}
-          </div>
           <div className="text-center"><CtaButton /></div>
         </div>
       </section>
+
+      {/* PRÉVIAS REAIS DO E-BOOK */}
+      <section className="py-20 sm:py-28">
+        <div className="container">
+          <SectionTitle
+            kicker="Veja por dentro"
+            title="Páginas reais do e-book"
+            sub="Conteúdo 100% visual, ilustrado e diagramado para consulta rápida — exatamente como você vai receber em PDF."
+          />
+
+          <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+            {[
+              {
+                src: pageAreas,
+                tag: "Pág. 35",
+                title: "Áreas válidas e zonas proibidas",
+                desc: "Onde o golpe pontua e onde vira infração — com mapa anatômico, lista do que não pode e lembrete do treinador.",
+              },
+              {
+                src: pageArbitro,
+                tag: "Pág. 23",
+                title: "Árbitro, juízes e corner: papéis na prática",
+                desc: "Quem faz o quê no ringue, comandos básicos (BOX, BREAK, STOP, TIME) e os erros de corner que mais prejudicam o atleta.",
+              },
+              {
+                src: pageFaltas,
+                tag: "Pág. 22",
+                title: "Faltas, medidas do árbitro e consequências",
+                desc: "Cautela verbal, warning, perda de ponto e desclassificação — com exemplos visuais e o que o treinador deve ensinar.",
+              },
+              {
+                src: pageJuiz,
+                tag: "Pág. 37",
+                title: "Como o juiz lê um round",
+                desc: "10-Point Must, os 3 pilares de julgamento, exemplo prático de pontuação e o que o treinador deve observar.",
+              },
+            ].map((p) => (
+              <article
+                key={p.title}
+                className="group rounded-2xl overflow-hidden border border-border bg-card shadow-deep hover:border-accent/60 transition-smooth"
+              >
+                <div className="relative overflow-hidden bg-secondary">
+                  <img
+                    src={p.src}
+                    alt={`Página real do e-book — ${p.title}`}
+                    className="w-full h-auto group-hover:scale-[1.02] transition-smooth"
+                    loading="lazy"
+                  />
+                  <div className="absolute top-4 left-4 gradient-gold text-accent-foreground font-display text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-md shadow-gold">
+                    {p.tag}
+                  </div>
+                </div>
+                <div className="p-6">
+                  <h3 className="font-display text-xl sm:text-2xl font-bold uppercase mb-2 leading-tight">
+                    {p.title}
+                  </h3>
+                  <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
+                    {p.desc}
+                  </p>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <div className="text-center mt-14"><CtaButton /></div>
+        </div>
+      </section>
+
+
 
       {/* PARA QUEM É */}
       <section className="py-20 sm:py-28">
