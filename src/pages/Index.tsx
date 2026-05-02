@@ -35,13 +35,20 @@ import pageManopla from "@/assets/caminho-pag71-manopla.png";
 import pageDefesas from "@/assets/caminho-pag65-defesas.png";
 import pageDireto from "@/assets/caminho-pag63-direto.png";
 import pageCombinacoes from "@/assets/caminho-pag67-combinacoes.png";
+import regrasCover from "@/assets/ebook-cover.png";
+import regrasAreas from "@/assets/page-areas-validas.png";
+import regrasArbitro from "@/assets/page-arbitro-juizes.png";
+import regrasFaltas from "@/assets/page-faltas.png";
+import regrasJuizRound from "@/assets/page-juiz-round.png";
 
 // 🔧 Edite aqui o link de pagamento e o WhatsApp
 const PAYMENT_LINK = "INSERIR_LINK_DE_PAGAMENTO_AQUI";
+const PAYMENT_LINK_REGRAS = "https://pay.cakto.com.br/3wz3cxj_768081";
 const LINK_WHATSAPP = "LINK_WHATSAPP";
 
 const PRICE = "R$ 49,90";
 const OLD_PRICE = "R$ 97,00";
+const PRICE_REGRAS = "R$ 39,90";
 
 const CtaButton = ({
   children = "QUERO MEU E-BOOK POR R$49,90",
@@ -367,6 +374,100 @@ const Index = () => {
             <p className="text-xs text-muted-foreground mt-4">
               Link de pagamento: <code className="text-accent">{PAYMENT_LINK}</code>
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* COMPLETE SUA BIBLIOTECA — E-BOOK REGRAS DO BOXE */}
+      <section className="py-20 sm:py-28 relative overflow-hidden">
+        <div className="absolute inset-0 gradient-hero opacity-60" />
+        <div className="container relative z-10">
+          <SectionTitle
+            kicker="Complete sua biblioteca"
+            title="Conheça também: Regras do Boxe na Mão"
+            sub="O guia visual definitivo para entender as regras oficiais do boxe — perfeito para complementar os fundamentos técnicos e treinar com domínio completo do esporte."
+          />
+
+          <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-10 items-center">
+            <div className="relative flex justify-center">
+              <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full" />
+              <img
+                src={regrasCover}
+                alt="E-book Regras do Boxe na Mão — Boxe de Cria"
+                className="relative w-full max-w-sm drop-shadow-2xl rounded-2xl border border-accent/30"
+                loading="lazy"
+              />
+            </div>
+
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/15 border border-primary/40 mb-5">
+                <Trophy className="size-4 text-primary" />
+                <span className="text-xs font-display font-semibold tracking-widest uppercase">2º E-book Boxe de Cria</span>
+              </div>
+
+              <h3 className="font-display text-3xl sm:text-4xl font-bold uppercase leading-tight mb-4">
+                Domine as <span className="text-gold-gradient">regras oficiais</span> do boxe de forma visual e prática.
+              </h3>
+
+              <p className="text-muted-foreground text-base sm:text-lg mb-6 leading-relaxed">
+                Áreas válidas de golpe, faltas, função do árbitro e dos juízes, critérios de pontuação no sistema 10-Point Must e muito mais — tudo ilustrado para consulta rápida.
+              </p>
+
+              <ul className="space-y-3 mb-8">
+                {[
+                  "Áreas válidas e proibidas de golpe",
+                  "Faltas e penalidades explicadas",
+                  "Funções do árbitro e dos juízes",
+                  "Como um round é pontuado (10-Point Must)",
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-3">
+                    <CheckCircle2 className="size-5 text-accent shrink-0 mt-0.5" />
+                    <span className="font-body text-base">{item}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="flex items-baseline gap-3 mb-6">
+                <span className="text-xs uppercase tracking-widest text-muted-foreground">Por apenas</span>
+                <span className="font-display text-5xl font-bold text-gold-gradient">{PRICE_REGRAS}</span>
+              </div>
+
+              <a
+                href={PAYMENT_LINK_REGRAS}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => {
+                  // @ts-ignore
+                  if (typeof window !== "undefined" && (window as any).fbq) (window as any).fbq("track", "InitiateCheckout");
+                }}
+              >
+                <Button
+                  size="lg"
+                  className="gradient-blood text-primary-foreground font-display font-bold text-base sm:text-lg uppercase tracking-wider px-6 sm:px-8 py-7 rounded-2xl shadow-blood hover:scale-[1.03] transition-smooth border-2 border-primary/60"
+                >
+                  <BookOpenCheck className="!size-5" />
+                  Quero o E-book Regras por {PRICE_REGRAS}
+                </Button>
+              </a>
+            </div>
+          </div>
+
+          <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto">
+            {[
+              { src: regrasAreas, tag: "Áreas válidas" },
+              { src: regrasFaltas, tag: "Faltas" },
+              { src: regrasArbitro, tag: "Árbitro & Juízes" },
+              { src: regrasJuizRound, tag: "Pontuação" },
+            ].map((p) => (
+              <div key={p.tag} className="rounded-xl overflow-hidden border border-border bg-card hover:border-accent/60 transition-smooth group">
+                <div className="relative">
+                  <img src={p.src} alt={`Página real — ${p.tag}`} className="w-full h-auto group-hover:scale-[1.03] transition-smooth" loading="lazy" />
+                  <div className="absolute bottom-2 left-2 bg-background/90 backdrop-blur text-foreground font-display text-[10px] sm:text-xs font-bold uppercase tracking-widest px-2 py-1 rounded">
+                    {p.tag}
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
