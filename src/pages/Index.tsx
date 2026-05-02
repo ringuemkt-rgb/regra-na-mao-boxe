@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import {
   ShieldCheck,
   Trophy,
-  Scale,
   ListChecks,
   Megaphone,
   HeartPulse,
@@ -10,14 +9,12 @@ import {
   Dumbbell,
   Users,
   Building2,
-  HandHeart,
   Swords,
   Zap,
   CheckCircle2,
   XCircle,
   AlertTriangle,
   Star,
-  Download,
   MessageCircle,
   ChevronDown,
   Flame,
@@ -27,35 +24,47 @@ import {
   FileText,
   Clock,
   Instagram,
+  Brain,
+  Activity,
+  Compass,
+  Hand,
 } from "lucide-react";
 import { useState } from "react";
-import ebookMockup from "@/assets/ebook-cover.png";
-import heroBg from "@/assets/hero-bg.jpg";
-import pageAreas from "@/assets/page-areas-validas.png";
-import pageArbitro from "@/assets/page-arbitro-juizes.png";
-import pageFaltas from "@/assets/page-faltas.png";
-import pageJuiz from "@/assets/page-juiz-round.png";
+import promo from "@/assets/caminho-promo.png";
+import pageManopla from "@/assets/caminho-pag71-manopla.png";
+import pageDefesas from "@/assets/caminho-pag65-defesas.png";
+import pageDireto from "@/assets/caminho-pag63-direto.png";
+import pageCombinacoes from "@/assets/caminho-pag67-combinacoes.png";
 
-// 🔧 Edite aqui os links de checkout e WhatsApp
-const LINK_CHECKOUT_CAKTO = "https://pay.cakto.com.br/brpc38k_870046";
+// 🔧 Edite aqui o link de pagamento e o WhatsApp
+const PAYMENT_LINK = "INSERIR_LINK_DE_PAGAMENTO_AQUI";
 const LINK_WHATSAPP = "LINK_WHATSAPP";
 
-const PRICE = "R$ 39,90";
-const OLD_PRICE = "R$ 79,90";
+const PRICE = "R$ 49,90";
+const OLD_PRICE = "R$ 97,00";
 
 const CtaButton = ({
-  children = "QUERO MEU E-BOOK AGORA",
+  children = "QUERO MEU E-BOOK POR R$49,90",
   className = "",
 }: {
   children?: React.ReactNode;
   className?: string;
 }) => (
-  <a href={LINK_CHECKOUT_CAKTO} target="_blank" rel="noopener noreferrer">
+  <a
+    href={PAYMENT_LINK}
+    target="_blank"
+    rel="noopener noreferrer"
+    onClick={() => {
+      // Meta Pixel — evento opcional pré-checkout
+      // @ts-ignore
+      if (typeof window !== "undefined" && (window as any).fbq) (window as any).fbq("track", "InitiateCheckout");
+    }}
+  >
     <Button
       size="lg"
-      className={`gradient-blood text-primary-foreground font-display font-bold text-lg sm:text-xl uppercase tracking-wider px-8 py-7 rounded-2xl shadow-blood hover:scale-105 transition-smooth border-2 border-accent/40 animate-pulse-glow ${className}`}
+      className={`gradient-gold text-accent-foreground font-display font-bold text-base sm:text-xl uppercase tracking-wider px-6 sm:px-10 py-7 rounded-2xl shadow-gold hover:scale-[1.03] transition-smooth border-2 border-accent/60 animate-pulse-glow ${className}`}
     >
-      <Flame className="!size-6 text-accent" />
+      <Flame className="!size-6" />
       {children}
     </Button>
   </a>
@@ -76,88 +85,59 @@ const SectionTitle = ({
         {kicker}
       </span>
     )}
-    <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold uppercase leading-[1.05] mb-4">
+    <h2 className="font-display text-3xl sm:text-5xl md:text-6xl font-bold uppercase leading-[1.05] mb-4">
       {title}
     </h2>
-    {sub && <p className="text-muted-foreground text-base sm:text-lg">{sub}</p>}
+    {sub && <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">{sub}</p>}
   </div>
 );
 
 const painCards = [
-  "Você sabe o que realmente conta ponto?",
-  "Sabe diferenciar advertência, dedução e desclassificação?",
-  "Sabe explicar KO, RSC, abandono e decisão por pontos?",
-  "Seu aluno sabe o que não pode fazer no ringue?",
+  { icon: ListChecks, title: "Falta de sequência didática", desc: "Aulas montadas no improviso, sem progressão lógica entre fundamentos." },
+  { icon: AlertTriangle, title: "Dificuldade para corrigir erros", desc: "Você vê o erro, mas falta vocabulário técnico e ordem para corrigir." },
+  { icon: Target, title: "Treinos sem progressão clara", desc: "O aluno repete por meses e não sente que está evoluindo de verdade." },
 ];
 
-const solutionCards = [
-  { icon: BookOpenCheck, t: "Linguagem simples" },
-  { icon: Eye, t: "Visual didático" },
-  { icon: Target, t: "Aplicação prática" },
-  { icon: Megaphone, t: "Ideal para professores" },
-  { icon: Zap, t: "Ótimo para iniciantes" },
-  { icon: ListChecks, t: "Consulta rápida pré-luta" },
-];
-
-const features = [
-  { n: "01", icon: BookOpenCheck, title: "Regras principais do boxe", desc: "Entenda a estrutura da luta, rounds, categorias, conduta e funcionamento básico." },
-  { n: "02", icon: Trophy, title: "Pontuação e critérios de vitória", desc: "Aprenda o que os juízes observam e como o sistema de pontuação é aplicado." },
-  { n: "03", icon: Target, title: "Golpes válidos e áreas permitidas", desc: "Saiba onde o golpe pode pontuar e quais áreas são consideradas legais." },
-  { n: "04", icon: AlertTriangle, title: "Faltas e penalidades", desc: "Golpe baixo, segurar, empurrar, bater na nuca, virar de costas e outras infrações." },
-  { n: "05", icon: Megaphone, title: "Comandos do árbitro", desc: "Entenda os comandos mais importantes e como o atleta deve responder." },
-  { n: "06", icon: Dumbbell, title: "Equipamentos obrigatórios", desc: "Luvas, bandagens, protetor bucal, uniforme, capacete e itens de segurança." },
-  { n: "07", icon: HeartPulse, title: "Segurança e saúde", desc: "Interrupções, contagens, retorno seguro e proteção do atleta." },
-  { n: "08", icon: ListChecks, title: "Checklist para treinador", desc: "Revisão prática para usar antes da aula, treino, sparring ou competição." },
+const content = [
+  { icon: ShieldCheck, t: "Postura, guarda e deslocamentos" },
+  { icon: Hand, t: "Jab, direto, cruzado, gancho e uppercut" },
+  { icon: Eye, t: "Defesa, distância e controle do ringue" },
+  { icon: Dumbbell, t: "Bandagem, equipamentos e prevenção" },
+  { icon: Activity, t: "Mobilidade, aquecimento e preparação física" },
+  { icon: ListChecks, t: "Estrutura da sessão e avaliação" },
+  { icon: Brain, t: "Mentalidade, ética e cultura do boxe" },
 ];
 
 const audience = [
-  "É treinador e quer explicar regras com mais clareza.",
-  "É atleta iniciante e quer competir com mais segurança.",
-  "Tem projeto social e precisa de material didático.",
-  "É pai, mãe ou responsável e quer entender melhor as lutas.",
-  "Gosta de boxe e quer assistir sabendo o que está acontecendo.",
-  "Quer ensinar boxe com mais organização e profissionalismo.",
+  { icon: Megaphone, t: "Dá aula de boxe ou quer começar" },
+  { icon: Dumbbell, t: "É personal trainer e usa boxe nos treinos" },
+  { icon: Building2, t: "Trabalha com projeto social" },
+  { icon: ListChecks, t: "Quer organizar melhor suas aulas" },
+  { icon: ShieldCheck, t: "Quer corrigir alunos com mais segurança" },
+  { icon: BookOpenCheck, t: "Quer estudar boxe de forma profissional" },
 ];
 
-const without = [
-  "Aluno perdido nas regras",
-  "Treinador explicando tudo de improviso",
-  "Confusão sobre faltas",
-  "Insegurança antes da luta",
-  "Pouca padronização no ensino",
-];
-
-const withGuide = [
-  "Revisão rápida",
-  "Material visual para aula",
-  "Mais clareza para atleta",
-  "Mais segurança no treino",
-  "Mais autoridade para o professor",
+const benefits = [
+  "Menos improviso na aula",
+  "Mais clareza para corrigir erros",
+  "Mais segurança para conduzir iniciantes",
+  "Mais autoridade diante dos alunos",
+  "Mais organização para montar treinos",
+  "Mais profissionalismo na sua entrega",
 ];
 
 const bonuses = [
-  { icon: ListChecks, title: "Checklist pré-luta" },
-  { icon: AlertTriangle, title: "Resumo de faltas comuns" },
-  { icon: Trophy, title: "Guia rápido de pontuação" },
-  { icon: BookOpenCheck, title: "Material de apoio para professores" },
-  { icon: Eye, title: "Revisão visual para iniciantes" },
-];
-
-const seals = [
-  { icon: Lock, t: "Pagamento seguro" },
-  { icon: FileText, t: "Produto digital" },
-  { icon: Clock, t: "Acesso rápido" },
-  { icon: BookOpenCheck, t: "PDF educativo" },
-  { icon: Instagram, t: "Suporte via Instagram" },
+  { icon: ListChecks, title: "Checklist do professor antes da aula", desc: "Tenha certeza de que nada importante foi esquecido antes de começar." },
+  { icon: FileText, title: "Modelo simples de planejamento de treino", desc: "Estrutura pronta para montar sessões com aquecimento, técnica e finalização." },
+  { icon: AlertTriangle, title: "Lista de erros comuns para corrigir iniciantes", desc: "Os deslizes que mais aparecem nas primeiras aulas — e como corrigir." },
 ];
 
 const faqs = [
-  { q: "Esse e-book serve para iniciantes?", a: "Sim. Ele foi feito com linguagem simples e visual para quem está começando ou quer revisar as regras de forma prática." },
-  { q: "Serve para treinadores?", a: "Sim. O treinador é um dos principais públicos. O material ajuda a explicar regras, orientar atletas e organizar melhor o ensino." },
-  { q: "É sobre boxe olímpico ou profissional?", a: "O material aborda fundamentos e diferenças importantes entre o boxe amador/olímpico e o profissional, sempre com linguagem acessível." },
-  { q: "Recebo o material como?", a: "Após a compra pela Cakto, você recebe o acesso ao material digital." },
-  { q: "Posso usar em aula?", a: "Sim. O e-book foi pensado para estudo, consulta e apoio didático." },
-  { q: "Substitui regulamento oficial?", a: "Não. É um material educativo e didático. Para competições oficiais, sempre consulte o regulamento vigente da entidade responsável." },
+  { q: "O material é físico ou digital?", a: "Digital, em PDF. Você consulta no celular, tablet ou computador." },
+  { q: "Para quem é indicado?", a: "Professores, treinadores, personal trainers, praticantes e projetos sociais." },
+  { q: "Serve para iniciantes?", a: "Sim, especialmente para quem quer entender e ensinar a base com método." },
+  { q: "Como recebo o material?", a: "Por link de acesso enviado logo após a confirmação do pagamento." },
+  { q: "Posso revender?", a: "Não. Uso pessoal e educativo, protegido por direitos autorais." },
 ];
 
 const Faq = ({ q, a }: { q: string; a: string }) => {
@@ -181,67 +161,61 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
       {/* HERO */}
-      <header className="relative min-h-screen flex items-center pt-10 pb-32 lg:pb-20">
+      <header className="relative pt-10 pb-24 lg:pb-20">
+        <div className="absolute inset-0 z-0 gradient-hero" />
         <div
-          className="absolute inset-0 z-0 opacity-25"
+          className="absolute inset-0 z-0 opacity-[0.07] mix-blend-screen"
           style={{
-            backgroundImage: `url(${heroBg})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
+            backgroundImage:
+              "repeating-linear-gradient(45deg, hsl(40 53% 54% / 0.4) 0 1px, transparent 1px 12px)",
           }}
         />
-        <div className="absolute inset-0 z-0 gradient-hero opacity-90" />
-        <div className="absolute inset-0 z-0 bg-gradient-to-b from-background/40 via-transparent to-background" />
 
         <div className="container relative z-10 grid lg:grid-cols-2 gap-12 items-center">
-          <div className="animate-slide-up">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blood/15 border border-blood/40 mb-6">
-              <Flame className="size-4 text-accent" />
-              <span className="text-xs sm:text-sm font-display font-semibold tracking-widest uppercase text-foreground">
-                E-book visual · Acesso imediato · Apenas {PRICE}
+          <div className="animate-slide-up order-2 lg:order-1">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/40 mb-6">
+              <Star className="size-4 text-accent" />
+              <span className="text-xs sm:text-sm font-display font-semibold tracking-widest uppercase">
+                Lançamento · Boxe de Cria
               </span>
             </div>
 
             <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold uppercase leading-[0.95] mb-6">
-              Entenda as <span className="text-primary">Regras do Boxe</span> Sem <span className="text-accent">Complicação</span>
+              Aprenda a ensinar boxe com{" "}
+              <span className="text-gold-gradient">método, segurança e autoridade</span>.
             </h1>
 
             <p className="text-base sm:text-lg text-muted-foreground mb-8 max-w-xl leading-relaxed">
-              Um guia visual, direto e prático para <strong className="text-foreground">treinadores, atletas, projetos sociais e apaixonados por luta</strong> aprenderem pontuação, faltas, comandos do árbitro, equipamentos, segurança e fundamentos essenciais do boxe.
+              Um manual prático para <strong className="text-foreground">professores, treinadores, personal trainers e praticantes</strong> que querem dominar os fundamentos técnicos do boxe e organizar aulas com mais clareza.
             </p>
 
             <div className="flex flex-wrap items-end gap-6 mb-8">
               <div>
-                <div className="text-xs uppercase tracking-widest text-muted-foreground mb-1">Acesso imediato</div>
+                <div className="text-xs uppercase tracking-widest text-muted-foreground mb-1">Acesso digital imediato</div>
                 <div className="flex items-baseline gap-3">
                   <span className="text-xl text-muted-foreground line-through">{OLD_PRICE}</span>
-                  <span className="font-display text-5xl sm:text-6xl font-bold text-accent">{PRICE}</span>
+                  <span className="font-display text-5xl sm:text-6xl font-bold text-gold-gradient">{PRICE}</span>
                 </div>
               </div>
             </div>
 
             <CtaButton />
 
-            <div className="flex flex-col sm:flex-row sm:items-center gap-2 mt-6 text-sm text-muted-foreground">
-              <span className="inline-flex items-center gap-2"><Lock className="size-4 text-accent" /> Compra segura pela Cakto</span>
-              <span className="hidden sm:inline">·</span>
-              <span className="inline-flex items-center gap-2"><FileText className="size-4 text-accent" /> Material digital em PDF</span>
-            </div>
+            <p className="text-sm text-muted-foreground mt-4 inline-flex items-center gap-2">
+              <Lock className="size-4 text-accent" /> Acesso digital imediato após o pagamento.
+            </p>
           </div>
 
           {/* Mockup */}
-          <div className="relative flex justify-center lg:justify-end">
-            <div className="absolute inset-0 bg-blood/20 blur-3xl rounded-full" />
+          <div className="relative flex justify-center order-1 lg:order-2">
+            <div className="absolute inset-0 bg-accent/15 blur-3xl rounded-full" />
             <img
-              src={ebookMockup}
-              alt="Capa do e-book Regras do Boxe na Mão — Boxe de Cria"
-              className="relative w-full max-w-md animate-float drop-shadow-2xl"
-              width={1024}
-              height={1024}
+              src={promo}
+              alt="O Caminho do Boxeador — Fundamentos Técnicos · E-book Boxe de Cria"
+              className="relative w-full max-w-md drop-shadow-2xl rounded-2xl border border-accent/20"
+              width={950}
+              height={1400}
             />
-            <div className="absolute -bottom-2 right-2 lg:right-10 gradient-gold text-accent-foreground font-display font-bold uppercase text-xs sm:text-sm px-4 py-2 rounded-xl shadow-gold rotate-3">
-              PDF Premium
-            </div>
           </div>
         </div>
       </header>
@@ -250,22 +224,18 @@ const Index = () => {
       <section className="py-20 sm:py-28 bg-navy-deep relative">
         <div className="container">
           <SectionTitle
-            kicker="A real do ringue"
-            title="Treinar boxe sem entender regra é subir no ringue com metade da preparação."
+            kicker="O problema"
+            title="Você está ensinando boxe… ou apenas repetindo treino?"
+            sub="Muitos professores sabem fazer, mas não sabem organizar o ensino. O resultado é aula improvisada, aluno confuso, erro técnico repetido e pouca evolução. Este manual foi criado para transformar conhecimento solto em método aplicável."
           />
-          <p className="text-center text-muted-foreground max-w-3xl mx-auto -mt-6 mb-12 text-base sm:text-lg leading-relaxed">
-            Muitos atletas treinam golpe, base, manopla e condicionamento, mas chegam na competição sem entender pontuação, faltas, comandos do árbitro e critérios de decisão. Isso gera <strong className="text-foreground">insegurança, perda de pontos, confusão no corner e risco desnecessário</strong>.
-          </p>
-          <div className="grid sm:grid-cols-2 gap-5 max-w-4xl mx-auto">
+          <div className="grid sm:grid-cols-3 gap-5 max-w-5xl mx-auto">
             {painCards.map((p) => (
-              <div
-                key={p}
-                className="gradient-card border border-border rounded-2xl p-6 flex gap-4 hover:border-primary/50 transition-smooth"
-              >
-                <div className="size-12 rounded-xl gradient-blood flex items-center justify-center shrink-0 shadow-blood">
-                  <AlertTriangle className="size-6 text-primary-foreground" />
+              <div key={p.title} className="gradient-card border border-border rounded-2xl p-6 hover:border-primary/50 transition-smooth">
+                <div className="size-12 rounded-xl gradient-blood flex items-center justify-center mb-4 shadow-blood">
+                  <p.icon className="size-6 text-primary-foreground" />
                 </div>
-                <p className="font-display text-lg font-semibold uppercase leading-tight self-center">{p}</p>
+                <h3 className="font-display text-lg font-bold uppercase leading-tight mb-2">{p.title}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">{p.desc}</p>
               </div>
             ))}
           </div>
@@ -274,247 +244,129 @@ const Index = () => {
 
       {/* SOLUÇÃO */}
       <section className="py-20 sm:py-28">
-        <div className="container">
+        <div className="container max-w-4xl text-center">
           <SectionTitle
             kicker="A solução"
-            title="O Regras do Boxe na Mão foi criado para resolver isso."
-            sub="Um material visual e organizado para estudar rápido, revisar antes da aula, orientar atletas iniciantes e ensinar as regras de forma simples, sem linguagem complicada."
+            title="O Caminho do Boxeador organiza o ensino do boxe — do fundamento à aplicação."
+            sub="Você terá uma estrutura visual e prática para planejar aulas, corrigir postura, ensinar golpes, trabalhar defesa, controlar progressão e conduzir o aluno com mais segurança."
           />
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto mb-12">
-            {solutionCards.map((s) => (
-              <div
-                key={s.t}
-                className="gradient-card border border-border rounded-2xl p-6 flex items-center gap-4 hover:border-accent/50 transition-smooth"
-              >
-                <div className="size-12 rounded-xl gradient-gold flex items-center justify-center shrink-0 shadow-gold">
-                  <s.icon className="size-6 text-accent-foreground" />
-                </div>
-                <span className="font-display text-lg font-bold uppercase">{s.t}</span>
-              </div>
-            ))}
-          </div>
-          <div className="text-center"><CtaButton /></div>
+          <CtaButton />
         </div>
       </section>
 
-      {/* O QUE TEM DENTRO */}
+      {/* O QUE VOCÊ VAI ENCONTRAR */}
       <section className="py-20 sm:py-28 bg-navy-deep">
         <div className="container">
           <SectionTitle
             kicker="Conteúdo"
-            title="O que você vai aprender"
-            sub="Direto ao ponto. Visual. Pronto para consultar no celular antes da luta."
+            title="O que você vai encontrar"
+            sub="Tudo o que sustenta uma aula de boxe bem dada — do fundamento básico à condução pedagógica."
           />
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-14">
-            {features.map((f) => (
-              <div
-                key={f.title}
-                className="gradient-card border border-border rounded-2xl p-6 hover:border-accent/50 hover:-translate-y-1 transition-smooth group relative"
-              >
-                <span className="absolute top-4 right-5 font-display text-3xl font-bold text-accent/20 group-hover:text-accent/60 transition-smooth">
-                  {f.n}
-                </span>
-                <div className="size-14 rounded-xl bg-secondary border border-border flex items-center justify-center mb-4 group-hover:gradient-blood group-hover:border-transparent transition-smooth">
-                  <f.icon className="size-7 text-accent group-hover:text-primary-foreground transition-smooth" />
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto mb-12">
+            {content.map((c) => (
+              <div key={c.t} className="gradient-card border border-border rounded-2xl p-6 flex items-center gap-4 hover:border-accent/50 transition-smooth">
+                <div className="size-12 rounded-xl gradient-gold flex items-center justify-center shrink-0 shadow-gold">
+                  <c.icon className="size-6 text-accent-foreground" />
                 </div>
-                <h3 className="font-display text-lg font-bold uppercase mb-2 leading-tight">{f.title}</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">{f.desc}</p>
+                <span className="font-display text-base sm:text-lg font-bold uppercase leading-tight">{c.t}</span>
               </div>
             ))}
           </div>
-
           <div className="text-center"><CtaButton /></div>
         </div>
       </section>
 
-      {/* PRÉVIAS REAIS DO E-BOOK */}
+      {/* PARA QUEM É */}
+      <section className="py-20 sm:py-28">
+        <div className="container">
+          <SectionTitle kicker="Público" title="Esse material é para você se…" />
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto">
+            {audience.map((a) => (
+              <div key={a.t} className="gradient-card border border-border rounded-2xl p-6 flex items-start gap-4 hover:border-accent/50 transition-smooth">
+                <div className="size-11 rounded-xl bg-secondary border border-border flex items-center justify-center shrink-0">
+                  <a.icon className="size-5 text-accent" />
+                </div>
+                <span className="font-body text-base leading-snug">{a.t}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* BENEFÍCIOS */}
+      <section className="py-20 sm:py-28 bg-navy-deep">
+        <div className="container">
+          <SectionTitle
+            kicker="Benefícios"
+            title="Você não compra só um PDF. Você compra direção."
+          />
+          <div className="grid sm:grid-cols-2 gap-4 max-w-3xl mx-auto mb-12">
+            {benefits.map((b) => (
+              <div key={b} className="flex items-start gap-3 bg-card border border-border rounded-xl px-5 py-4">
+                <CheckCircle2 className="size-6 text-accent shrink-0" />
+                <span className="font-display text-base sm:text-lg uppercase font-semibold">{b}</span>
+              </div>
+            ))}
+          </div>
+          <div className="text-center"><CtaButton /></div>
+        </div>
+      </section>
+
+      {/* PROVA VISUAL — PÁGINAS REAIS */}
       <section className="py-20 sm:py-28">
         <div className="container">
           <SectionTitle
             kicker="Veja por dentro"
             title="Páginas reais do e-book"
-            sub="Conteúdo 100% visual, ilustrado e diagramado para consulta rápida — exatamente como você vai receber em PDF."
+            sub="Conteúdo 100% visual, ilustrado e diagramado — exatamente como você vai receber em PDF."
           />
-
           <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
             {[
-              {
-                src: pageAreas,
-                tag: "Pág. 35",
-                title: "Áreas válidas e zonas proibidas",
-                desc: "Onde o golpe pontua e onde vira infração — com mapa anatômico, lista do que não pode e lembrete do treinador.",
-              },
-              {
-                src: pageArbitro,
-                tag: "Pág. 23",
-                title: "Árbitro, juízes e corner: papéis na prática",
-                desc: "Quem faz o quê no ringue, comandos básicos (BOX, BREAK, STOP, TIME) e os erros de corner que mais prejudicam o atleta.",
-              },
-              {
-                src: pageFaltas,
-                tag: "Pág. 22",
-                title: "Faltas, medidas do árbitro e consequências",
-                desc: "Cautela verbal, warning, perda de ponto e desclassificação — com exemplos visuais e o que o treinador deve ensinar.",
-              },
-              {
-                src: pageJuiz,
-                tag: "Pág. 37",
-                title: "Como o juiz lê um round",
-                desc: "10-Point Must, os 3 pilares de julgamento, exemplo prático de pontuação e o que o treinador deve observar.",
-              },
+              { src: pageDireto, tag: "Pág. 63", title: "Direto de trás: potência com controle", desc: "Cadeia mecânica, onde entrar, erros comuns e checklist técnico para gerar força sem perder base." },
+              { src: pageDefesas, tag: "Pág. 65", title: "Defesas básicas integradas", desc: "Bloqueio, aparo, slip, esquiva e passo atrás — quando usar cada uma e como combinar com resposta." },
+              { src: pageCombinacoes, tag: "Pág. 67", title: "Combinações fundamentais para ensino", desc: "Sequências simples que educam ritmo, distância e decisão — com critérios de qualidade." },
+              { src: pageManopla, tag: "Pág. 71", title: "Manopla pedagógica: ritmo, precisão e comunicação", desc: "Como usar a manopla para ensinar técnica, timing, defesa e leitura — sem virar treino aleatório." },
             ].map((p) => (
-              <article
-                key={p.title}
-                className="group rounded-2xl overflow-hidden border border-border bg-card shadow-deep hover:border-accent/60 transition-smooth"
-              >
+              <article key={p.title} className="group rounded-2xl overflow-hidden border border-border bg-card shadow-deep hover:border-accent/60 transition-smooth">
                 <div className="relative overflow-hidden bg-secondary">
-                  <img
-                    src={p.src}
-                    alt={`Página real do e-book — ${p.title}`}
-                    className="w-full h-auto group-hover:scale-[1.02] transition-smooth"
-                    loading="lazy"
-                  />
+                  <img src={p.src} alt={`Página real do e-book — ${p.title}`} className="w-full h-auto group-hover:scale-[1.02] transition-smooth" loading="lazy" />
                   <div className="absolute top-4 left-4 gradient-gold text-accent-foreground font-display text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-md shadow-gold">
                     {p.tag}
                   </div>
                 </div>
                 <div className="p-6">
-                  <h3 className="font-display text-xl sm:text-2xl font-bold uppercase mb-2 leading-tight">
-                    {p.title}
-                  </h3>
-                  <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
-                    {p.desc}
-                  </p>
+                  <h3 className="font-display text-xl sm:text-2xl font-bold uppercase mb-2 leading-tight">{p.title}</h3>
+                  <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">{p.desc}</p>
                 </div>
               </article>
             ))}
           </div>
-
           <div className="text-center mt-14"><CtaButton /></div>
         </div>
       </section>
 
-
-
-      {/* PARA QUEM É */}
-      <section className="py-20 sm:py-28">
-        <div className="container max-w-4xl">
-          <SectionTitle kicker="Para quem é" title="Esse material é para você se…" />
-          <ul className="space-y-4">
-            {audience.map((a) => (
-              <li
-                key={a}
-                className="flex items-start gap-4 gradient-card border border-border rounded-2xl p-5 hover:border-accent/40 transition-smooth"
-              >
-                <CheckCircle2 className="size-6 text-accent shrink-0 mt-0.5" />
-                <span className="text-base sm:text-lg">{a}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      {/* AUTORIDADE */}
-      <section className="py-20 sm:py-28 bg-navy-deep">
-        <div className="container max-w-4xl">
-          <SectionTitle kicker="Autoridade" title="Criado por quem vive o boxe na prática" />
-          <div className="gradient-card border border-border rounded-2xl p-8 sm:p-10">
-            <div className="flex items-center gap-3 mb-5">
-              <ShieldCheck className="size-8 text-accent" />
-              <span className="font-display font-bold uppercase tracking-wide">Boxe de Cria</span>
-            </div>
-            <p className="text-muted-foreground leading-relaxed mb-8 text-base sm:text-lg">
-              Material desenvolvido por <strong className="text-foreground">Satoshi Nishiuchi</strong>, fisioterapeuta, quiropraxista, treinador de boxe e criador do Boxe de Cria. O objetivo é unir <strong className="text-foreground">técnica, segurança, didática e valores de formação</strong> para tornar o boxe mais claro, acessível e bem ensinado.
-            </p>
-            <div className="border-t border-border pt-6">
-              <div className="font-display text-2xl font-bold uppercase">Satoshi Nishiuchi</div>
-              <div className="text-accent font-display uppercase tracking-widest text-sm mt-1">Boxe de Cria</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* VALOR — comparação */}
-      <section className="py-20 sm:py-28">
-        <div className="container">
-          <SectionTitle kicker="O valor real" title="Por que esse e-book vale mais do que custa?" />
-          <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-            {/* Sem o guia */}
-            <div className="rounded-2xl p-8 border border-primary/40 bg-card">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="size-10 rounded-lg bg-primary/20 flex items-center justify-center">
-                  <XCircle className="size-6 text-primary" />
-                </div>
-                <h3 className="font-display text-2xl font-bold uppercase">Sem o guia</h3>
-              </div>
-              <ul className="space-y-3">
-                {without.map((w) => (
-                  <li key={w} className="flex items-start gap-3 text-muted-foreground">
-                    <XCircle className="size-5 text-primary shrink-0 mt-0.5" />
-                    <span>{w}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Com o guia */}
-            <div className="rounded-2xl p-8 border-2 border-accent bg-card shadow-gold">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="size-10 rounded-lg gradient-gold flex items-center justify-center">
-                  <CheckCircle2 className="size-6 text-accent-foreground" />
-                </div>
-                <h3 className="font-display text-2xl font-bold uppercase">Com o guia</h3>
-              </div>
-              <ul className="space-y-3">
-                {withGuide.map((w) => (
-                  <li key={w} className="flex items-start gap-3 text-foreground">
-                    <CheckCircle2 className="size-5 text-accent shrink-0 mt-0.5" />
-                    <span>{w}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* OFERTA */}
-      <section className="py-20 sm:py-28 gradient-hero relative overflow-hidden">
-        <div className="absolute inset-0 bg-blood/10" />
-        <div className="container relative z-10 max-w-3xl text-center">
-          <span className="inline-block text-accent font-display font-bold tracking-[0.3em] text-xs sm:text-sm uppercase mb-3">
-            Oferta de Lançamento
-          </span>
-          <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold uppercase leading-[1.05] mb-6">
-            Garanta agora o seu <span className="text-accent">Regras do Boxe na Mão</span>
-          </h2>
-          <p className="text-lg text-foreground/90 mb-8">
-            Pagamento único. Acesso digital. Material em PDF para estudar, consultar e usar como apoio didático.
-          </p>
+      <section className="py-20 sm:py-28 bg-navy-deep">
+        <div className="container max-w-3xl">
+          <div className="rounded-3xl border-2 border-accent/40 bg-card p-8 sm:p-12 text-center shadow-gold">
+            <span className="inline-block text-accent font-display font-bold tracking-[0.3em] text-xs uppercase mb-3">A oferta</span>
+            <h2 className="font-display text-3xl sm:text-5xl font-bold uppercase mb-4 leading-tight">
+              Leve agora por apenas <span className="text-gold-gradient">{PRICE}</span>
+            </h2>
+            <p className="text-muted-foreground text-base sm:text-lg mb-8 leading-relaxed">
+              Menos que uma aula particular. Mais que um simples material. Um guia para consultar, estudar e aplicar no treino.
+            </p>
 
-          <div className="gradient-card border-2 border-accent/40 rounded-3xl p-8 mb-8 shadow-deep">
-            <div className="flex items-center justify-center gap-2 mb-4">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="size-5 fill-accent text-accent" />
-              ))}
+            <div className="flex items-baseline justify-center gap-4 mb-8">
+              <span className="text-2xl text-muted-foreground line-through">{OLD_PRICE}</span>
+              <span className="font-display text-6xl sm:text-7xl font-bold text-gold-gradient">{PRICE}</span>
             </div>
-            <div className="flex items-baseline justify-center gap-3 mb-1">
-              <span className="text-xl text-muted-foreground line-through">De {OLD_PRICE}</span>
-            </div>
-            <div className="font-display text-6xl sm:text-7xl font-bold text-accent mb-1">{PRICE}</div>
-            <div className="text-sm text-muted-foreground mb-6">à vista · Pix, cartão ou boleto</div>
-            <a href={LINK_CHECKOUT_CAKTO} target="_blank" rel="noopener noreferrer">
-              <Button
-                size="lg"
-                className="gradient-blood text-primary-foreground font-display font-bold text-base sm:text-xl uppercase tracking-wider px-8 py-7 rounded-2xl shadow-blood hover:scale-105 transition-smooth border-2 border-accent/40 animate-pulse-glow w-full sm:w-auto"
-              >
-                <Flame className="!size-6 text-accent" />
-                COMPRAR AGORA POR {PRICE}
-              </Button>
-            </a>
-            <div className="text-xs text-muted-foreground mt-4">
-              Entrega pela Cakto · Acesso imediato após confirmação
-            </div>
+
+            <CtaButton>COMPRAR AGORA</CtaButton>
+
+            <p className="text-xs text-muted-foreground mt-4">
+              Link de pagamento: <code className="text-accent">{PAYMENT_LINK}</code>
+            </p>
           </div>
         </div>
       </section>
@@ -522,51 +374,38 @@ const Index = () => {
       {/* BÔNUS */}
       <section className="py-20 sm:py-28">
         <div className="container">
-          <SectionTitle
-            kicker="Bônus inclusos"
-            title="Ao comprar, você recebe também"
-            sub="Tudo dentro do mesmo PDF, sem precisar baixar nada extra."
-          />
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto">
+          <SectionTitle kicker="Brindes" title="Bônus de lançamento" />
+          <div className="grid md:grid-cols-3 gap-5 max-w-5xl mx-auto">
             {bonuses.map((b) => (
-              <div
-                key={b.title}
-                className="flex items-center gap-4 p-5 rounded-2xl bg-card border border-accent/30 hover:border-accent transition-smooth"
-              >
-                <div className="size-12 rounded-xl gradient-gold flex items-center justify-center shrink-0">
+              <div key={b.title} className="gradient-card border border-accent/30 rounded-2xl p-6 hover:border-accent transition-smooth">
+                <div className="size-12 rounded-xl gradient-gold flex items-center justify-center mb-4 shadow-gold">
                   <b.icon className="size-6 text-accent-foreground" />
                 </div>
-                <div>
-                  <div className="text-accent text-xs font-display font-bold uppercase tracking-widest mb-1">
-                    + Bônus
-                  </div>
-                  <h3 className="font-display text-lg font-bold uppercase leading-tight">{b.title}</h3>
-                </div>
+                <h3 className="font-display text-lg font-bold uppercase leading-tight mb-2">{b.title}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">{b.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* GARANTIA / CONFIANÇA */}
-      <section className="py-20 sm:py-28 bg-navy-deep">
-        <div className="container max-w-4xl">
-          <SectionTitle kicker="Confiança" title="Compra simples e segura" />
-          <p className="text-center text-muted-foreground text-base sm:text-lg max-w-2xl mx-auto mb-10">
-            Você será direcionado para a página de pagamento segura da Cakto. Após a confirmação, receberá o acesso ao material digital.
-          </p>
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
-            {seals.map((s) => (
-              <div
-                key={s.t}
-                className="flex flex-col items-center gap-2 p-5 rounded-2xl bg-card border border-border text-center"
-              >
-                <div className="size-12 rounded-xl gradient-gold flex items-center justify-center">
-                  <s.icon className="size-6 text-accent-foreground" />
-                </div>
-                <span className="font-display text-xs sm:text-sm font-bold uppercase">{s.t}</span>
-              </div>
-            ))}
+      {/* GARANTIA */}
+      <section className="py-20 sm:py-24 bg-navy-deep">
+        <div className="container max-w-3xl">
+          <div className="rounded-3xl border border-border bg-card p-8 sm:p-10 text-center">
+            <ShieldCheck className="size-14 mx-auto text-accent mb-4" />
+            <h2 className="font-display text-3xl sm:text-4xl font-bold uppercase mb-3">Compra segura</h2>
+            <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">
+              Você receberá acesso digital ao material após o pagamento. Caso tenha problema no acesso, entre em contato pelo WhatsApp da marca.
+            </p>
+            <a
+              href={LINK_WHATSAPP}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 mt-6 text-accent font-display font-semibold uppercase tracking-wider hover:underline"
+            >
+              <MessageCircle className="size-5" /> Falar no WhatsApp
+            </a>
           </div>
         </div>
       </section>
@@ -574,94 +413,55 @@ const Index = () => {
       {/* FAQ */}
       <section className="py-20 sm:py-28">
         <div className="container max-w-3xl">
-          <SectionTitle kicker="Dúvidas frequentes" title="Perguntas que todo mundo faz" />
-          <div className="space-y-4">
+          <SectionTitle kicker="Dúvidas" title="Perguntas frequentes" />
+          <div className="space-y-3">
             {faqs.map((f) => <Faq key={f.q} {...f} />)}
           </div>
+          <div className="text-center mt-12"><CtaButton /></div>
         </div>
       </section>
 
-      {/* CTA FINAL */}
-      <section className="py-20 sm:py-28 gradient-hero relative overflow-hidden">
-        <div className="absolute inset-0 bg-blood/10" />
-        <div className="container relative z-10 max-w-3xl text-center">
-          <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold uppercase leading-[1.05] mb-6">
-            Não deixe a regra ser o <span className="text-primary">ponto fraco</span> do seu boxe.
-          </h2>
-          <p className="text-lg text-foreground/90 mb-10">
-            Aprenda, revise, ensine e entre no ringue com mais clareza.
-          </p>
-          <CtaButton />
-          <div className="flex items-center justify-center gap-2 mt-6 text-sm text-muted-foreground">
-            <Download className="size-4 text-accent" />
-            <span>Acesso digital imediato após o pagamento</span>
-          </div>
-        </div>
-      </section>
-
-      {/* WHATSAPP */}
-      <section className="py-16 bg-navy-deep">
-        <div className="container max-w-2xl text-center">
-          <div className="inline-flex size-16 rounded-2xl gradient-gold items-center justify-center mb-5 shadow-gold">
-            <MessageCircle className="size-8 text-accent-foreground" />
-          </div>
-          <h2 className="font-display text-3xl sm:text-4xl font-bold uppercase mb-3">
-            Tem dúvida? Chame no WhatsApp
-          </h2>
-          <p className="text-muted-foreground mb-6">
-            A gente responde direto, sem enrolação, antes da sua compra.
-          </p>
-          <a href={LINK_WHATSAPP} target="_blank" rel="noopener noreferrer">
-            <Button
-              size="lg"
-              variant="outline"
-              className="font-display font-bold uppercase tracking-wider border-2 border-accent text-accent hover:bg-accent hover:text-accent-foreground rounded-2xl px-8 py-6 text-base"
-            >
-              <MessageCircle className="!size-5" />
-              Falar no WhatsApp
-            </Button>
+      {/* RODAPÉ */}
+      <footer className="py-14 border-t border-border bg-navy-deep">
+        <div className="container text-center space-y-3">
+          <div className="font-display text-2xl font-bold uppercase tracking-wider text-gold-gradient">Boxe de Cria</div>
+          <div className="font-display uppercase tracking-[0.3em] text-sm text-accent">De Cria pra Cria</div>
+          <p className="text-muted-foreground text-sm">Satoshi Nishiuchi · Autor</p>
+          <a
+            href={LINK_WHATSAPP}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-foreground/80 hover:text-accent transition-smooth text-sm"
+          >
+            <MessageCircle className="size-4" /> Contato / WhatsApp
           </a>
-        </div>
-      </section>
-
-      {/* FOOTER */}
-      <footer className="py-12 border-t border-border bg-background">
-        <div className="container max-w-4xl text-center">
-          <div className="font-display text-2xl font-bold uppercase tracking-wider mb-2">
-            Boxe <span className="text-primary">de</span> Cria
-          </div>
-          <p className="text-sm text-muted-foreground mb-1">Satoshi Nishiuchi</p>
-          <p className="text-xs text-accent font-display uppercase tracking-[0.3em] mb-6">
-            Conhecimento · Disciplina · Segurança · Respeito
+          <p className="text-xs text-muted-foreground max-w-2xl mx-auto pt-6 leading-relaxed">
+            Este material é educativo e não substitui avaliação médica, fisioterapêutica ou regras oficiais de competição.
           </p>
-          <p className="text-xs text-muted-foreground/70 leading-relaxed max-w-2xl mx-auto mb-4">
-            Material educativo. Não substitui regulamentos oficiais, orientação profissional individual, avaliação médica ou normas específicas de federações, comissões e eventos.
-          </p>
-          <p className="text-xs text-muted-foreground/60 leading-relaxed max-w-2xl mx-auto">
-            © Boxe de Cria e Satoshi Nishiuchi. Todos os direitos autorais reservados. Material protegido pela Lei nº 9.610/1998.
+          <p className="text-xs text-muted-foreground/70 pt-4">
+            © {new Date().getFullYear()} Boxe de Cria · Todos os direitos reservados.
           </p>
         </div>
       </footer>
 
-      {/* MOBILE STICKY CTA */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 lg:hidden p-3 bg-background/95 backdrop-blur-md border-t border-border">
-        <a href={LINK_CHECKOUT_CAKTO} target="_blank" rel="noopener noreferrer" className="block">
-          <Button className="w-full gradient-blood text-primary-foreground font-display font-bold uppercase tracking-wider text-base py-6 rounded-xl shadow-blood border border-accent/40">
-            <Flame className="!size-5 text-accent" />
-            Comprar por {PRICE}
+      {/* Botão flutuante mobile */}
+      <div className="fixed bottom-0 inset-x-0 z-50 lg:hidden p-3 bg-background/95 backdrop-blur border-t border-accent/30">
+        <a href={PAYMENT_LINK} target="_blank" rel="noopener noreferrer" className="block">
+          <Button className="w-full gradient-gold text-accent-foreground font-display font-bold text-base uppercase tracking-wider py-6 rounded-xl shadow-gold">
+            <Flame className="!size-5" /> Comprar agora · {PRICE}
           </Button>
         </a>
       </div>
 
-      {/* WhatsApp floating (desktop) */}
+      {/* WhatsApp flutuante */}
       <a
         href={LINK_WHATSAPP}
         target="_blank"
         rel="noopener noreferrer"
+        className="hidden lg:flex fixed bottom-6 right-6 z-50 size-14 rounded-full bg-[#25D366] items-center justify-center shadow-2xl hover:scale-110 transition-smooth"
         aria-label="Falar no WhatsApp"
-        className="hidden lg:flex fixed bottom-6 right-6 z-50 size-14 rounded-full gradient-gold items-center justify-center shadow-gold hover:scale-110 transition-smooth"
       >
-        <MessageCircle className="size-7 text-accent-foreground" />
+        <MessageCircle className="size-7 text-white" />
       </a>
     </div>
   );
