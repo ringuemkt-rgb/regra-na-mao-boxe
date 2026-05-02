@@ -35,13 +35,20 @@ import pageManopla from "@/assets/caminho-pag71-manopla.png";
 import pageDefesas from "@/assets/caminho-pag65-defesas.png";
 import pageDireto from "@/assets/caminho-pag63-direto.png";
 import pageCombinacoes from "@/assets/caminho-pag67-combinacoes.png";
+import regrasCover from "@/assets/ebook-cover.png";
+import regrasAreas from "@/assets/page-areas-validas.png";
+import regrasArbitro from "@/assets/page-arbitro-juizes.png";
+import regrasFaltas from "@/assets/page-faltas.png";
+import regrasJuizRound from "@/assets/page-juiz-round.png";
 
 // 🔧 Edite aqui o link de pagamento e o WhatsApp
 const PAYMENT_LINK = "INSERIR_LINK_DE_PAGAMENTO_AQUI";
+const PAYMENT_LINK_REGRAS = "https://pay.cakto.com.br/3wz3cxj_768081";
 const LINK_WHATSAPP = "LINK_WHATSAPP";
 
 const PRICE = "R$ 49,90";
 const OLD_PRICE = "R$ 97,00";
+const PRICE_REGRAS = "R$ 39,90";
 
 const CtaButton = ({
   children = "QUERO MEU E-BOOK POR R$49,90",
