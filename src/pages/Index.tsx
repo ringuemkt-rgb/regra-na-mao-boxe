@@ -28,6 +28,12 @@ import {
   Activity,
   Compass,
   Hand,
+  CreditCard,
+  QrCode,
+  Receipt,
+  Wallet,
+  Headphones,
+  Quote,
 } from "lucide-react";
 import { useState } from "react";
 import promo from "@/assets/caminho-promo.png";
@@ -42,16 +48,16 @@ import regrasFaltas from "@/assets/page-faltas.png";
 import regrasJuizRound from "@/assets/page-juiz-round.png";
 
 // 🔧 Edite aqui o link de pagamento e o WhatsApp
-const PAYMENT_LINK = "INSERIR_LINK_DE_PAGAMENTO_AQUI";
+const PAYMENT_LINK = "https://go.hotmart.com/D105758904F";
 const PAYMENT_LINK_REGRAS = "https://pay.cakto.com.br/3wz3cxj_768081";
 const LINK_WHATSAPP = "LINK_WHATSAPP";
 
-const PRICE = "R$ 49,90";
-const OLD_PRICE = "R$ 97,00";
+const PRICE = "R$ 67,00";
+const OLD_PRICE = "R$ 127,00";
 const PRICE_REGRAS = "R$ 39,90";
 
 const CtaButton = ({
-  children = "QUERO MEU E-BOOK POR R$49,90",
+  children = "GARANTIR MEU E-BOOK AGORA",
   className = "",
 }: {
   children?: React.ReactNode;
@@ -62,14 +68,13 @@ const CtaButton = ({
     target="_blank"
     rel="noopener noreferrer"
     onClick={() => {
-      // Meta Pixel — evento opcional pré-checkout
       // @ts-ignore
       if (typeof window !== "undefined" && (window as any).fbq) (window as any).fbq("track", "InitiateCheckout");
     }}
   >
     <Button
       size="lg"
-      className={`gradient-gold text-accent-foreground font-display font-bold text-base sm:text-xl uppercase tracking-wider px-6 sm:px-10 py-7 rounded-2xl shadow-gold hover:scale-[1.03] transition-smooth border-2 border-accent/60 animate-pulse-glow ${className}`}
+      className={`bg-[#D32F2F] hover:bg-[#B71C1C] text-white font-display font-bold text-base sm:text-xl uppercase tracking-wider px-6 sm:px-10 py-7 rounded-xl shadow-blood hover:scale-[1.02] transition-all duration-300 border-2 border-[#D32F2F] ${className}`}
     >
       <Flame className="!size-6" />
       {children}
