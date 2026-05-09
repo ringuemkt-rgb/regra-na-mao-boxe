@@ -232,7 +232,18 @@ const Index = () => {
         </div>
       </header>
 
-      {/* DOR */}
+      {/* TRUST BANNER */}
+      <section className="border-y border-accent/20 bg-navy-deep/80 py-5">
+        <div className="container">
+          <div className="flex flex-wrap justify-center items-center gap-x-8 gap-y-3 text-xs sm:text-sm font-display uppercase tracking-wider">
+            <span className="inline-flex items-center gap-2"><Lock className="size-4 text-accent" /> Compra Segura Hotmart</span>
+            <span className="inline-flex items-center gap-2"><ShieldCheck className="size-4 text-accent" /> Garantia de 7 Dias</span>
+            <span className="inline-flex items-center gap-2"><Zap className="size-4 text-accent" /> Acesso Imediato</span>
+            <span className="inline-flex items-center gap-2"><Headphones className="size-4 text-accent" /> Suporte com o Autor</span>
+          </div>
+        </div>
+      </section>
+
       <section className="py-20 sm:py-28 bg-navy-deep relative">
         <div className="container">
           <SectionTitle
