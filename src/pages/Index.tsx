@@ -555,24 +555,19 @@ const Index = () => {
         </div>
       </section>
 
-      {/* GARANTIA */}
-      <section className="py-20 sm:py-24 bg-navy-deep">
-        <div className="container max-w-3xl">
-          <div className="rounded-3xl border border-border bg-card p-8 sm:p-10 text-center">
-            <ShieldCheck className="size-14 mx-auto text-accent mb-4" />
-            <h2 className="font-display text-3xl sm:text-4xl font-bold uppercase mb-3">Compra segura</h2>
-            <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">
-              Você receberá acesso digital ao material após o pagamento. Caso tenha problema no acesso, entre em contato pelo WhatsApp da marca.
-            </p>
-            <a
-              href={LINK_WHATSAPP}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 mt-6 text-accent font-display font-semibold uppercase tracking-wider hover:underline"
-            >
-              <MessageCircle className="size-5" /> Falar no WhatsApp
-            </a>
-          </div>
+      {/* SUPORTE WHATSAPP */}
+      <section className="py-16 bg-navy-deep">
+        <div className="container max-w-2xl text-center">
+          <h2 className="font-display text-2xl sm:text-3xl font-bold uppercase mb-3">Tem dúvida antes de comprar?</h2>
+          <p className="text-muted-foreground mb-5">Fale direto com o autor pelo WhatsApp.</p>
+          <a
+            href={LINK_WHATSAPP}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-accent/40 text-accent font-display font-semibold uppercase tracking-wider hover:bg-accent/10 transition-smooth"
+          >
+            <MessageCircle className="size-5" /> Falar no WhatsApp
+          </a>
         </div>
       </section>
 
