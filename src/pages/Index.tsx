@@ -211,10 +211,10 @@ const Index = () => {
               </div>
             </div>
 
-            <CtaButton />
+            <CtaButton>QUERO O MANUAL COMPLETO</CtaButton>
 
             <p className="text-sm text-muted-foreground mt-4 inline-flex items-center gap-2">
-              <Lock className="size-4 text-accent" /> Acesso digital imediato após o pagamento.
+              <Lock className="size-4 text-accent" /> Garantia de 7 dias · Acesso imediato · Pagamento seguro
             </p>
           </div>
 
