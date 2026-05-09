@@ -1,82 +1,79 @@
 import { Button } from "@/components/ui/button";
 import {
   ShieldCheck,
-  Trophy,
-  ListChecks,
-  Megaphone,
-  HeartPulse,
-  BookOpenCheck,
-  Dumbbell,
-  Users,
-  Building2,
-  Swords,
-  Zap,
   CheckCircle2,
-  XCircle,
-  AlertTriangle,
-  Star,
-  MessageCircle,
   ChevronDown,
   Flame,
-  Target,
-  Eye,
   Lock,
-  FileText,
-  Clock,
-  Instagram,
-  Brain,
-  Activity,
-  Compass,
-  Hand,
-  CreditCard,
-  QrCode,
-  Receipt,
-  Wallet,
+  Zap,
   Headphones,
   Quote,
+  Instagram,
+  Youtube,
+  Sparkles,
+  ArrowRight,
+  BookOpen,
+  Award,
 } from "lucide-react";
 import { useState } from "react";
-import promo from "@/assets/caminho-promo.png";
-import pageManopla from "@/assets/caminho-pag71-manopla.png";
-import pageDefesas from "@/assets/caminho-pag65-defesas.png";
-import pageDireto from "@/assets/caminho-pag63-direto.png";
-import pageCombinacoes from "@/assets/caminho-pag67-combinacoes.png";
+import caminhoCover from "@/assets/caminho-promo.png";
 import regrasCover from "@/assets/ebook-cover.png";
-import regrasAreas from "@/assets/page-areas-validas.png";
-import regrasArbitro from "@/assets/page-arbitro-juizes.png";
-import regrasFaltas from "@/assets/page-faltas.png";
-import regrasJuizRound from "@/assets/page-juiz-round.png";
 
-// 🔧 Edite aqui o link de pagamento e o WhatsApp
-const PAYMENT_LINK = "https://go.hotmart.com/D105758904F";
-const PAYMENT_LINK_REGRAS = "https://pay.cakto.com.br/3wz3cxj_768081";
-const LINK_WHATSAPP = "LINK_WHATSAPP";
+// 🔧 Links oficiais
+const LINK_GUIA = "https://go.hotmart.com/D105758587D"; // Guia do Professor (Regras)
+const LINK_CAMINHO = "https://go.hotmart.com/D105758904F"; // Caminho do Boxeador
+// ⚠️ Substitua pelo link real do combo da Hotmart quando criado
+const LINK_COMBO = "https://go.hotmart.com/D105758904F";
 
-const PRICE = "R$ 67,00";
-const OLD_PRICE = "R$ 127,00";
-const PRICE_REGRAS = "R$ 39,90";
+const PRICE_GUIA = "R$ 67,00";
+const OLD_PRICE_GUIA = "R$ 97,00";
+const PRICE_CAMINHO = "R$ 67,00";
+const OLD_PRICE_CAMINHO = "R$ 97,00";
+const PRICE_COMBO = "R$ 97,00";
+const OLD_PRICE_COMBO = "R$ 134,00";
 
-const CtaButton = ({
-  children = "GARANTIR MEU E-BOOK AGORA",
+const trackCheckout = () => {
+  // @ts-ignore
+  if (typeof window !== "undefined" && (window as any).fbq)
+    // @ts-ignore
+    (window as any).fbq("track", "InitiateCheckout");
+};
+
+const RedCta = ({
+  href,
+  children,
   className = "",
 }: {
-  children?: React.ReactNode;
+  href: string;
+  children: React.ReactNode;
   className?: string;
 }) => (
-  <a
-    href={PAYMENT_LINK}
-    target="_blank"
-    rel="noopener noreferrer"
-    onClick={() => {
-      // @ts-ignore
-      if (typeof window !== "undefined" && (window as any).fbq) (window as any).fbq("track", "InitiateCheckout");
-    }}
-  >
+  <a href={href} target="_blank" rel="noopener noreferrer" onClick={trackCheckout} className="inline-block w-full sm:w-auto">
     <Button
       size="lg"
-      className={`bg-[#D32F2F] hover:bg-[#B71C1C] text-white font-display font-bold text-base sm:text-xl uppercase tracking-wider px-6 sm:px-10 py-7 rounded-xl shadow-blood hover:scale-[1.02] transition-all duration-300 border-2 border-[#D32F2F] ${className}`}
+      className={`w-full sm:w-auto bg-[#D32F2F] hover:bg-[#B71C1C] text-white font-display font-bold text-base sm:text-lg uppercase tracking-wider px-6 sm:px-10 py-7 rounded-xl shadow-blood transition-all duration-300 border-2 border-[#D32F2F] hover:brightness-90 ${className}`}
     >
-      <Flame className="!size-6" />
+      <Flame className="!size-5" />
+      {children}
+    </Button>
+  </a>
+);
+
+const GoldCta = ({
+  href,
+  children,
+  className = "",
+}: {
+  href: string;
+  children: React.ReactNode;
+  className?: string;
+}) => (
+  <a href={href} target="_blank" rel="noopener noreferrer" onClick={trackCheckout} className="inline-block w-full sm:w-auto">
+    <Button
+      size="lg"
+      className={`w-full sm:w-auto gradient-gold text-[#0D0D0D] font-display font-bold text-base sm:text-xl uppercase tracking-wider px-6 sm:px-12 py-8 rounded-xl shadow-gold transition-all duration-300 border-2 border-[#FFD700] hover:brightness-95 ${className}`}
+    >
+      <Sparkles className="!size-6" />
       {children}
     </Button>
   </a>
@@ -86,83 +83,120 @@ const SectionTitle = ({
   kicker,
   title,
   sub,
+  light = false,
 }: {
   kicker?: string;
   title: string;
   sub?: string;
+  light?: boolean;
 }) => (
   <div className="text-center max-w-3xl mx-auto mb-12">
     {kicker && (
-      <span className="inline-block text-accent font-display font-bold tracking-[0.3em] text-xs sm:text-sm uppercase mb-3">
+      <span className={`inline-block font-display font-bold tracking-[0.3em] text-xs sm:text-sm uppercase mb-3 ${light ? "text-[#D32F2F]" : "text-[#FFD700]"}`}>
         {kicker}
       </span>
     )}
-    <h2 className="font-display text-3xl sm:text-5xl md:text-6xl font-bold uppercase leading-[1.05] mb-4">
+    <h2 className={`font-display text-3xl sm:text-5xl md:text-6xl font-bold uppercase leading-[1.05] mb-4 ${light ? "text-[#0D0D0D]" : ""}`}>
       {title}
     </h2>
-    {sub && <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">{sub}</p>}
+    {sub && <p className={`text-base sm:text-lg leading-relaxed ${light ? "text-black/70" : "text-muted-foreground"}`}>{sub}</p>}
   </div>
 );
 
-const painCards = [
-  { icon: ListChecks, title: "Falta de sequência didática", desc: "Aulas montadas no improviso, sem progressão lógica entre fundamentos." },
-  { icon: AlertTriangle, title: "Dificuldade para corrigir erros", desc: "Você vê o erro, mas falta vocabulário técnico e ordem para corrigir." },
-  { icon: Target, title: "Treinos sem progressão clara", desc: "O aluno repete por meses e não sente que está evoluindo de verdade." },
-];
+const ProductCard = ({
+  cover,
+  badge,
+  title,
+  desc,
+  bullets,
+  price,
+  oldPrice,
+  href,
+}: {
+  cover: string;
+  badge: string;
+  title: string;
+  desc: string;
+  bullets: string[];
+  price: string;
+  oldPrice: string;
+  href: string;
+}) => (
+  <article className="gradient-card border-2 border-border rounded-3xl p-6 sm:p-8 flex flex-col hover:border-[#FFD700]/60 transition-smooth shadow-deep">
+    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#D32F2F]/15 border border-[#D32F2F]/40 mb-5 self-start">
+      <Award className="size-4 text-[#FFD700]" />
+      <span className="text-[10px] sm:text-xs font-display font-bold tracking-widest uppercase">{badge}</span>
+    </div>
 
-const content = [
-  { icon: ShieldCheck, t: "Postura, guarda e deslocamentos" },
-  { icon: Hand, t: "Jab, direto, cruzado, gancho e uppercut" },
-  { icon: Eye, t: "Defesa, distância e controle do ringue" },
-  { icon: Dumbbell, t: "Bandagem, equipamentos e prevenção" },
-  { icon: Activity, t: "Mobilidade, aquecimento e preparação física" },
-  { icon: ListChecks, t: "Estrutura da sessão e avaliação" },
-  { icon: Brain, t: "Mentalidade, ética e cultura do boxe" },
-];
+    <div className="relative mb-6 flex justify-center">
+      <div className="absolute inset-0 bg-[#FFD700]/10 blur-2xl rounded-full" />
+      <img
+        src={cover}
+        alt={title}
+        className="relative h-64 sm:h-72 w-auto drop-shadow-2xl rounded-xl"
+        loading="lazy"
+      />
+    </div>
 
-const audience = [
-  { icon: Megaphone, t: "Dá aula de boxe ou quer começar" },
-  { icon: Dumbbell, t: "É personal trainer e usa boxe nos treinos" },
-  { icon: Building2, t: "Trabalha com projeto social" },
-  { icon: ListChecks, t: "Quer organizar melhor suas aulas" },
-  { icon: ShieldCheck, t: "Quer corrigir alunos com mais segurança" },
-  { icon: BookOpenCheck, t: "Quer estudar boxe de forma profissional" },
-];
+    <h3 className="font-display text-xl sm:text-2xl font-bold uppercase leading-tight mb-3">{title}</h3>
+    <p className="text-muted-foreground text-sm sm:text-base mb-5 leading-relaxed">{desc}</p>
 
-const benefits = [
-  "Menos improviso na aula",
-  "Mais clareza para corrigir erros",
-  "Mais segurança para conduzir iniciantes",
-  "Mais autoridade diante dos alunos",
-  "Mais organização para montar treinos",
-  "Mais profissionalismo na sua entrega",
-];
+    <ul className="space-y-2.5 mb-6 flex-1">
+      {bullets.map((b) => (
+        <li key={b} className="flex items-start gap-3">
+          <CheckCircle2 className="size-5 text-[#FFD700] shrink-0 mt-0.5" />
+          <span className="text-sm sm:text-base">{b}</span>
+        </li>
+      ))}
+    </ul>
 
-const bonuses = [
-  { icon: ListChecks, title: "Checklist do professor antes da aula", desc: "Tenha certeza de que nada importante foi esquecido antes de começar." },
-  { icon: FileText, title: "Modelo simples de planejamento de treino", desc: "Estrutura pronta para montar sessões com aquecimento, técnica e finalização." },
-  { icon: AlertTriangle, title: "Lista de erros comuns para corrigir iniciantes", desc: "Os deslizes que mais aparecem nas primeiras aulas — e como corrigir." },
-];
+    <div className="flex items-baseline gap-3 mb-5">
+      <span className="text-base text-muted-foreground line-through">{oldPrice}</span>
+      <span className="font-display text-4xl sm:text-5xl font-bold text-gold-gradient">{price}</span>
+    </div>
+
+    <RedCta href={href}>Comprar agora</RedCta>
+
+    <p className="text-xs text-muted-foreground mt-4 text-center inline-flex items-center justify-center gap-2">
+      <ShieldCheck className="size-4 text-[#FFD700]" /> Garantia de 7 dias · Acesso imediato
+    </p>
+  </article>
+);
 
 const faqs = [
-  { q: "O material é físico ou digital?", a: "Digital, em PDF. Você consulta no celular, tablet ou computador." },
-  { q: "Para quem é indicado?", a: "Professores, treinadores, personal trainers, praticantes e projetos sociais." },
-  { q: "Serve para iniciantes?", a: "Sim, especialmente para quem quer entender e ensinar a base com método." },
-  { q: "Como recebo o material?", a: "Por link de acesso enviado logo após a confirmação do pagamento." },
-  { q: "Posso revender?", a: "Não. Uso pessoal e educativo, protegido por direitos autorais." },
+  {
+    q: "Por que vale R$ 67 cada e-book?",
+    a: "Você recebe um manual visual diagramado por um professor com anos de prática, que organizaria o conteúdo de dezenas de aulas particulares. Menos que uma mensalidade de academia — para consultar e aplicar para sempre.",
+  },
+  {
+    q: "Quanto tempo leva para ler?",
+    a: "Cada e-book é objetivo e visual: você consulta páginas específicas conforme a necessidade. Em poucas horas já tem material suficiente para reorganizar suas próximas aulas.",
+  },
+  {
+    q: "Qual a diferença entre os dois e-books?",
+    a: "O Guia do Professor foca em didática, regras e arbitragem. O Caminho do Boxeador foca nos fundamentos técnicos (golpes, defesa, deslocamento). Juntos, formam um método completo.",
+  },
+  {
+    q: "E se eu não gostar?",
+    a: "Você tem 7 dias para pedir reembolso. 100% do seu dinheiro de volta, sem perguntas. Risco zero.",
+  },
+  {
+    q: "Como recebo o material?",
+    a: "Por e-mail, em PDF, logo após a confirmação do pagamento via Hotmart. Acesso vitalício no celular, tablet ou computador.",
+  },
 ];
 
 const Faq = ({ q, a }: { q: string; a: string }) => {
   const [open, setOpen] = useState(false);
   return (
-    <div className="border border-border rounded-2xl bg-card overflow-hidden transition-smooth hover:border-accent/40">
+    <div className="border border-border rounded-2xl bg-card overflow-hidden transition-smooth hover:border-[#FFD700]/40">
       <button
         onClick={() => setOpen(!open)}
         className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left"
         aria-expanded={open}
       >
         <span className="font-display font-semibold text-base sm:text-lg uppercase tracking-wide">{q}</span>
-        <ChevronDown className={`size-5 text-accent shrink-0 transition-transform ${open ? "rotate-180" : ""}`} />
+        <ChevronDown className={`size-5 text-[#FFD700] shrink-0 transition-transform ${open ? "rotate-180" : ""}`} />
       </button>
       {open && <div className="px-6 pb-5 text-muted-foreground leading-relaxed">{a}</div>}
     </div>
@@ -171,231 +205,161 @@ const Faq = ({ q, a }: { q: string; a: string }) => {
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background overflow-x-hidden">
+    <div className="min-h-screen bg-[#0D0D0D] overflow-x-hidden">
       {/* HERO */}
-      <header className="relative pt-10 pb-24 lg:pb-20">
+      <header className="relative pt-12 pb-20">
         <div className="absolute inset-0 z-0 gradient-hero" />
         <div
-          className="absolute inset-0 z-0 opacity-[0.07] mix-blend-screen"
+          className="absolute inset-0 z-0 opacity-[0.06]"
           style={{
             backgroundImage:
-              "repeating-linear-gradient(45deg, hsl(40 53% 54% / 0.4) 0 1px, transparent 1px 12px)",
+              "repeating-linear-gradient(45deg, hsl(40 53% 54% / 0.4) 0 1px, transparent 1px 14px)",
           }}
         />
 
-        <div className="container relative z-10 grid lg:grid-cols-2 gap-12 items-center">
-          <div className="animate-slide-up order-2 lg:order-1">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/40 mb-6">
-              <Star className="size-4 text-accent" />
-              <span className="text-xs sm:text-sm font-display font-semibold tracking-widest uppercase">
-                Lançamento · Boxe de Cria
-              </span>
-            </div>
-
-            <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold uppercase leading-[0.95] mb-6">
-              Aprenda a ensinar boxe com{" "}
-              <span className="text-gold-gradient">método, segurança e autoridade</span>.
-            </h1>
-
-            <p className="text-base sm:text-lg text-muted-foreground mb-8 max-w-xl leading-relaxed">
-              Um manual prático para <strong className="text-foreground">professores, treinadores, personal trainers e praticantes</strong> que querem dominar os fundamentos técnicos do boxe e organizar aulas com mais clareza.
-            </p>
-
-            <div className="flex flex-wrap items-end gap-6 mb-8">
-              <div>
-                <div className="text-xs uppercase tracking-widest text-muted-foreground mb-1">Acesso digital imediato</div>
-                <div className="flex items-baseline gap-3">
-                  <span className="text-xl text-muted-foreground line-through">{OLD_PRICE}</span>
-                  <span className="font-display text-5xl sm:text-6xl font-bold text-gold-gradient">{PRICE}</span>
-                </div>
-              </div>
-            </div>
-
-            <CtaButton>QUERO O MANUAL COMPLETO</CtaButton>
-
-            <p className="text-sm text-muted-foreground mt-4 inline-flex items-center gap-2">
-              <Lock className="size-4 text-accent" /> Garantia de 7 dias · Acesso imediato · Pagamento seguro
-            </p>
+        <div className="container relative z-10 text-center max-w-5xl">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#FFD700]/10 border border-[#FFD700]/40 mb-6">
+            <Flame className="size-4 text-[#FFD700]" />
+            <span className="text-xs sm:text-sm font-display font-semibold tracking-widest uppercase text-[#FFD700]">
+              Boxe de Cria · Materiais Oficiais
+            </span>
           </div>
 
-          {/* Mockup */}
-          <div className="relative flex justify-center order-1 lg:order-2">
-            <div className="absolute inset-0 bg-accent/15 blur-3xl rounded-full" />
+          <h1 className="font-display text-4xl sm:text-6xl md:text-7xl font-bold uppercase leading-[0.95] mb-6">
+            Transforme suas aulas de boxe em um <span className="text-gold-gradient">método profissional</span>.
+          </h1>
+
+          <p className="text-base sm:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed">
+            Mesmo que você ainda se sinta improvisando — os manuais visuais que faltavam na sua biblioteca.
+          </p>
+
+          {/* Mockup duplo */}
+          <div className="relative flex items-end justify-center gap-4 sm:gap-8 mb-10 animate-slide-up">
+            <div className="absolute inset-0 bg-[#FFD700]/10 blur-3xl rounded-full" />
             <img
-              src={promo}
-              alt="O Caminho do Boxeador — Fundamentos Técnicos · E-book Boxe de Cria"
-              className="relative w-full max-w-md drop-shadow-2xl rounded-2xl border border-accent/20"
-              width={950}
-              height={1400}
+              src={regrasCover}
+              alt="Guia do Professor de Boxe"
+              className="relative h-56 sm:h-80 md:h-96 w-auto drop-shadow-2xl rounded-xl rotate-[-6deg] hover:rotate-0 transition-transform duration-500"
+              loading="eager"
             />
+            <img
+              src={caminhoCover}
+              alt="O Caminho do Boxeador — Fundamentos Técnicos"
+              className="relative h-56 sm:h-80 md:h-96 w-auto drop-shadow-2xl rounded-xl rotate-[6deg] hover:rotate-0 transition-transform duration-500"
+              loading="eager"
+            />
+          </div>
+
+          <div className="flex flex-col items-center gap-3">
+            <RedCta href="#produtos">Quero os manuais agora</RedCta>
+            <p className="text-sm text-muted-foreground inline-flex items-center gap-2">
+              <ArrowRight className="size-4 text-[#FFD700] animate-pulse" /> A partir de R$ 67 ou combo com desconto
+            </p>
+            <p className="text-xs uppercase tracking-widest text-[#FFD700]/80 mt-2 font-display">
+              🔥 Oferta de lançamento — preço promocional por tempo limitado
+            </p>
           </div>
         </div>
       </header>
 
       {/* TRUST BANNER */}
-      <section className="border-y border-accent/20 bg-navy-deep/80 py-5">
+      <section className="border-y border-[#FFD700]/20 bg-[#0a0a0a] py-5">
         <div className="container">
           <div className="flex flex-wrap justify-center items-center gap-x-8 gap-y-3 text-xs sm:text-sm font-display uppercase tracking-wider">
-            <span className="inline-flex items-center gap-2"><Lock className="size-4 text-accent" /> Compra Segura Hotmart</span>
-            <span className="inline-flex items-center gap-2"><ShieldCheck className="size-4 text-accent" /> Garantia de 7 Dias</span>
-            <span className="inline-flex items-center gap-2"><Zap className="size-4 text-accent" /> Acesso Imediato</span>
-            <span className="inline-flex items-center gap-2"><Headphones className="size-4 text-accent" /> Suporte com o Autor</span>
+            <span className="inline-flex items-center gap-2"><Lock className="size-4 text-[#FFD700]" /> Compra Segura Hotmart</span>
+            <span className="inline-flex items-center gap-2"><ShieldCheck className="size-4 text-[#FFD700]" /> Garantia 7 Dias</span>
+            <span className="inline-flex items-center gap-2"><Zap className="size-4 text-[#FFD700]" /> Acesso Imediato</span>
+            <span className="inline-flex items-center gap-2"><Headphones className="size-4 text-[#FFD700]" /> Suporte com o Autor</span>
           </div>
         </div>
       </section>
 
-      <section className="py-20 sm:py-28 bg-navy-deep relative">
+      {/* PRODUTOS */}
+      <section id="produtos" className="py-20 sm:py-28">
         <div className="container">
           <SectionTitle
-            kicker="O problema"
-            title="Você está ensinando boxe… ou apenas repetindo treino?"
-            sub="Muitos professores sabem fazer, mas não sabem organizar o ensino. O resultado é aula improvisada, aluno confuso, erro técnico repetido e pouca evolução. Este manual foi criado para transformar conhecimento solto em método aplicável."
+            kicker="Os manuais"
+            title="Escolha o seu — ou leve os dois"
+            sub="Dois e-books, um único objetivo: dar a você método, autoridade e clareza para ensinar boxe."
           />
-          <div className="grid sm:grid-cols-3 gap-5 max-w-5xl mx-auto">
-            {painCards.map((p) => (
-              <div key={p.title} className="gradient-card border border-border rounded-2xl p-6 hover:border-primary/50 transition-smooth">
-                <div className="size-12 rounded-xl gradient-blood flex items-center justify-center mb-4 shadow-blood">
-                  <p.icon className="size-6 text-primary-foreground" />
-                </div>
-                <h3 className="font-display text-lg font-bold uppercase leading-tight mb-2">{p.title}</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">{p.desc}</p>
-              </div>
-            ))}
+
+          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            <ProductCard
+              cover={regrasCover}
+              badge="E-book 1 · Regras & Didática"
+              title="Guia do Professor de Boxe: Da Aula Improvisada ao Aluno que Evolui"
+              desc="Domine as regras oficiais, a função do árbitro e os critérios de pontuação — e use isso para estruturar aulas que fazem o aluno evoluir de verdade."
+              bullets={[
+                "Regras oficiais e arbitragem aplicadas ao ensino",
+                "Estrutura didática para sair do improviso",
+                "Pontuação, faltas e áreas válidas ilustradas",
+              ]}
+              price={PRICE_GUIA}
+              oldPrice={OLD_PRICE_GUIA}
+              href={LINK_GUIA}
+            />
+
+            <ProductCard
+              cover={caminhoCover}
+              badge="E-book 2 · Fundamentos Técnicos"
+              title="O Caminho do Boxeador — Manual Completo do Professor"
+              desc="O passo a passo dos fundamentos técnicos: postura, golpes, defesa, deslocamentos e progressão pedagógica para iniciantes e avançados."
+              bullets={[
+                "Jab, direto, cruzado, gancho e uppercut detalhados",
+                "Defesa, distância e controle do ringue",
+                "Manopla pedagógica e planejamento de aulas",
+              ]}
+              price={PRICE_CAMINHO}
+              oldPrice={OLD_PRICE_CAMINHO}
+              href={LINK_CAMINHO}
+            />
           </div>
         </div>
       </section>
 
-      {/* SOLUÇÃO */}
-      <section className="py-20 sm:py-28">
-        <div className="container max-w-4xl text-center">
-          <SectionTitle
-            kicker="A solução"
-            title="O Caminho do Boxeador organiza o ensino do boxe — do fundamento à aplicação."
-            sub="Você terá uma estrutura visual e prática para planejar aulas, corrigir postura, ensinar golpes, trabalhar defesa, controlar progressão e conduzir o aluno com mais segurança."
-          />
-          <CtaButton />
-        </div>
-      </section>
-
-      {/* O QUE VOCÊ VAI ENCONTRAR */}
-      <section className="py-20 sm:py-28 bg-navy-deep">
-        <div className="container">
-          <SectionTitle
-            kicker="Conteúdo"
-            title="O que você vai encontrar"
-            sub="Tudo o que sustenta uma aula de boxe bem dada — do fundamento básico à condução pedagógica."
-          />
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto mb-12">
-            {content.map((c) => (
-              <div key={c.t} className="gradient-card border border-border rounded-2xl p-6 flex items-center gap-4 hover:border-accent/50 transition-smooth">
-                <div className="size-12 rounded-xl gradient-gold flex items-center justify-center shrink-0 shadow-gold">
-                  <c.icon className="size-6 text-accent-foreground" />
-                </div>
-                <span className="font-display text-base sm:text-lg font-bold uppercase leading-tight">{c.t}</span>
-              </div>
-            ))}
+      {/* COMBO */}
+      <section className="py-20 sm:py-28 bg-[#1A1A1A] relative overflow-hidden">
+        <div
+          className="absolute inset-0 opacity-[0.05]"
+          style={{
+            backgroundImage:
+              "repeating-linear-gradient(-45deg, hsl(40 53% 54%) 0 2px, transparent 2px 20px)",
+          }}
+        />
+        <div className="container relative z-10 max-w-4xl">
+          <div className="text-center mb-10">
+            <span className="inline-block font-display font-bold tracking-[0.3em] text-xs sm:text-sm uppercase mb-3 text-[#D32F2F]">
+              Oferta combo
+            </span>
+            <h2 className="font-display text-3xl sm:text-5xl md:text-6xl font-bold uppercase leading-[1.05] mb-4">
+              🔥 Leve os dois e <span className="text-gold-gradient">economize 27%</span>
+            </h2>
+            <p className="text-muted-foreground text-base sm:text-lg max-w-2xl mx-auto">
+              O método completo do professor de boxe: regras + fundamentos técnicos em um único pacote.
+            </p>
           </div>
-          <div className="text-center"><CtaButton /></div>
-        </div>
-      </section>
 
-      {/* PARA QUEM É */}
-      <section className="py-20 sm:py-28">
-        <div className="container">
-          <SectionTitle kicker="Público" title="Esse material é para você se…" />
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto">
-            {audience.map((a) => (
-              <div key={a.t} className="gradient-card border border-border rounded-2xl p-6 flex items-start gap-4 hover:border-accent/50 transition-smooth">
-                <div className="size-11 rounded-xl bg-secondary border border-border flex items-center justify-center shrink-0">
-                  <a.icon className="size-5 text-accent" />
-                </div>
-                <span className="font-body text-base leading-snug">{a.t}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+          <div className="rounded-3xl border-2 border-[#FFD700]/50 bg-gradient-to-br from-[#0D0D0D] to-[#1a1a1a] p-8 sm:p-12 text-center shadow-gold">
+            <div className="flex items-end justify-center gap-4 sm:gap-8 mb-8">
+              <img src={regrasCover} alt="" className="h-32 sm:h-48 w-auto rounded-lg drop-shadow-2xl rotate-[-4deg]" loading="lazy" />
+              <img src={caminhoCover} alt="" className="h-32 sm:h-48 w-auto rounded-lg drop-shadow-2xl rotate-[4deg]" loading="lazy" />
+            </div>
 
-      {/* BENEFÍCIOS */}
-      <section className="py-20 sm:py-28 bg-navy-deep">
-        <div className="container">
-          <SectionTitle
-            kicker="Benefícios"
-            title="Você não compra só um PDF. Você compra direção."
-          />
-          <div className="grid sm:grid-cols-2 gap-4 max-w-3xl mx-auto mb-12">
-            {benefits.map((b) => (
-              <div key={b} className="flex items-start gap-3 bg-card border border-border rounded-xl px-5 py-4">
-                <CheckCircle2 className="size-6 text-accent shrink-0" />
-                <span className="font-display text-base sm:text-lg uppercase font-semibold">{b}</span>
-              </div>
-            ))}
-          </div>
-          <div className="text-center"><CtaButton /></div>
-        </div>
-      </section>
-
-      {/* PROVA VISUAL — PÁGINAS REAIS */}
-      <section className="py-20 sm:py-28">
-        <div className="container">
-          <SectionTitle
-            kicker="Veja por dentro"
-            title="Páginas reais do e-book"
-            sub="Conteúdo 100% visual, ilustrado e diagramado — exatamente como você vai receber em PDF."
-          />
-          <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-            {[
-              { src: pageDireto, tag: "Pág. 63", title: "Direto de trás: potência com controle", desc: "Cadeia mecânica, onde entrar, erros comuns e checklist técnico para gerar força sem perder base." },
-              { src: pageDefesas, tag: "Pág. 65", title: "Defesas básicas integradas", desc: "Bloqueio, aparo, slip, esquiva e passo atrás — quando usar cada uma e como combinar com resposta." },
-              { src: pageCombinacoes, tag: "Pág. 67", title: "Combinações fundamentais para ensino", desc: "Sequências simples que educam ritmo, distância e decisão — com critérios de qualidade." },
-              { src: pageManopla, tag: "Pág. 71", title: "Manopla pedagógica: ritmo, precisão e comunicação", desc: "Como usar a manopla para ensinar técnica, timing, defesa e leitura — sem virar treino aleatório." },
-            ].map((p) => (
-              <article key={p.title} className="group rounded-2xl overflow-hidden border border-border bg-card shadow-deep hover:border-accent/60 transition-smooth">
-                <div className="relative overflow-hidden bg-secondary">
-                  <img src={p.src} alt={`Página real do e-book — ${p.title}`} className="w-full h-auto group-hover:scale-[1.02] transition-smooth" loading="lazy" />
-                  <div className="absolute top-4 left-4 gradient-gold text-accent-foreground font-display text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-md shadow-gold">
-                    {p.tag}
-                  </div>
-                </div>
-                <div className="p-6">
-                  <h3 className="font-display text-xl sm:text-2xl font-bold uppercase mb-2 leading-tight">{p.title}</h3>
-                  <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">{p.desc}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-          <div className="text-center mt-14"><CtaButton /></div>
-        </div>
-      </section>
-
-      {/* INVESTIMENTO */}
-      <section className="py-20 sm:py-28 bg-[#1A1A1A]">
-        <div className="container max-w-3xl">
-          <SectionTitle kicker="Investimento" title="Acesso completo ao manual" />
-          <div className="rounded-3xl border-2 border-accent/40 bg-card p-8 sm:p-12 text-center shadow-gold">
-            <p className="text-muted-foreground text-base sm:text-lg mb-6 leading-relaxed">
-              Menos que uma aula particular. Um guia para consultar, estudar e aplicar no treino — para sempre.
+            <div className="flex items-baseline justify-center gap-4 mb-2">
+              <span className="text-xl sm:text-2xl text-muted-foreground line-through">{OLD_PRICE_COMBO}</span>
+              <span className="font-display font-bold text-[#FFD700]" style={{ fontSize: "56px", lineHeight: 1 }}>
+                {PRICE_COMBO}
+              </span>
+            </div>
+            <p className="text-sm text-muted-foreground mb-8 uppercase tracking-widest">
+              Pagamento único · Acesso vitalício aos 2 e-books
             </p>
 
-            <div className="flex items-baseline justify-center gap-4 mb-3">
-              <span className="text-2xl text-muted-foreground line-through">{OLD_PRICE}</span>
-              <span className="font-display font-bold text-[#FFD700]" style={{ fontSize: '48px', lineHeight: 1 }}>{PRICE}</span>
-            </div>
-            <p className="text-sm text-muted-foreground mb-8 uppercase tracking-widest">Pagamento único · Acesso vitalício</p>
+            <GoldCta href={LINK_COMBO}>Aproveitar o combo completo</GoldCta>
 
-            <div className="flex flex-wrap justify-center items-center gap-4 mb-8 text-muted-foreground">
-              <span className="inline-flex items-center gap-2 text-sm"><QrCode className="size-5 text-accent" /> PIX</span>
-              <span className="inline-flex items-center gap-2 text-sm"><CreditCard className="size-5 text-accent" /> Cartão até 12x</span>
-              <span className="inline-flex items-center gap-2 text-sm"><Receipt className="size-5 text-accent" /> Boleto</span>
-              <span className="inline-flex items-center gap-2 text-sm"><Wallet className="size-5 text-accent" /> PayPal</span>
-            </div>
-
-            <CtaButton>COMPRAR AGORA</CtaButton>
-
-            <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 text-xs text-muted-foreground">
-              <span className="inline-flex items-center gap-2"><Lock className="size-4 text-accent" /> Pagamento 100% seguro via Hotmart</span>
-              <span className="inline-flex items-center gap-2"><ShieldCheck className="size-4 text-accent" /> Garantia de 7 dias</span>
-            </div>
+            <p className="text-xs text-muted-foreground mt-5 inline-flex items-center gap-2">
+              <ShieldCheck className="size-4 text-[#FFD700]" /> Garantia de 7 dias · Risco zero
+            </p>
           </div>
         </div>
       </section>
@@ -403,19 +367,16 @@ const Index = () => {
       {/* DEPOIMENTOS */}
       <section className="py-20 sm:py-28 bg-[#F5F5F5] text-[#0D0D0D]">
         <div className="container">
-          <div className="text-center max-w-3xl mx-auto mb-12">
-            <span className="inline-block text-[#B33939] font-display font-bold tracking-[0.3em] text-xs sm:text-sm uppercase mb-3">Prova social</span>
-            <h2 className="font-display text-3xl sm:text-5xl font-bold uppercase leading-tight mb-3">O que dizem os professores</h2>
-          </div>
+          <SectionTitle light kicker="Prova social" title="O que dizem os professores" />
           <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {[
-              { name: "Carlos Mendes", role: "Professor · Academia Punch", text: "Material extremamente didático. Minhas aulas ficaram muito mais organizadas." },
-              { name: "Rafael Souza", role: "Treinador · Projeto Social", text: "Finalmente um material que ensina boxe com método e segurança." },
-              { name: "André Lima", role: "Instrutor · Equipe de Competição", text: "As pranchas visuais facilitam demais a correção dos alunos." },
+              { name: "Carlos Mendes", role: "Professor · São Paulo/SP", text: "Material que todo professor de boxe deveria ter. Organizou minhas aulas completamente." },
+              { name: "Rafael Souza", role: "Treinador · Rio de Janeiro/RJ", text: "Finalmente um material que ensina boxe com método, segurança e didática real." },
+              { name: "André Lima", role: "Personal · Belo Horizonte/MG", text: "As pranchas visuais facilitam demais a correção dos meus alunos iniciantes." },
             ].map((d) => (
               <div key={d.name} className="bg-white border border-black/10 rounded-2xl p-6 shadow-sm">
                 <Quote className="size-7 text-[#D32F2F] mb-3" />
-                <p className="text-[15px] leading-relaxed mb-5">“{d.text}”</p>
+                <p className="text-[15px] leading-relaxed mb-5">"{d.text}"</p>
                 <div className="flex items-center gap-3">
                   <div className="size-12 rounded-full bg-gradient-to-br from-[#D32F2F] to-[#0D0D0D] flex items-center justify-center text-white font-display font-bold">
                     {d.name.charAt(0)}
@@ -431,143 +392,17 @@ const Index = () => {
         </div>
       </section>
 
-      {/* GARANTIA — RISCO ZERO */}
+      {/* GARANTIA */}
       <section className="py-20 sm:py-24 bg-[#FFF8E1] text-[#0D0D0D]">
         <div className="container max-w-3xl text-center">
-          <ShieldCheck className="size-20 mx-auto text-[#D32F2F] mb-4" strokeWidth={2.2} />
-          <h2 className="font-display text-3xl sm:text-5xl font-bold uppercase mb-4">Risco zero para você</h2>
+          <ShieldCheck className="size-24 mx-auto text-[#D32F2F] mb-4" strokeWidth={2.2} />
+          <h2 className="font-display text-3xl sm:text-5xl font-bold uppercase mb-4">
+            Risco zero — 7 dias de garantia incondicional
+          </h2>
           <p className="text-base sm:text-lg leading-relaxed mb-8 max-w-2xl mx-auto">
-            Você tem <strong>7 dias</strong> para acessar o material completo. Se por qualquer motivo não gostar, devolvo <strong>100% do seu dinheiro</strong>. Basta enviar um e-mail.
+            Se não gostar por qualquer motivo, devolvo <strong>100% do seu dinheiro</strong>. Sem perguntas.
           </p>
-          <CtaButton>COMPRAR COM GARANTIA</CtaButton>
-        </div>
-      </section>
-
-      {/* COMPLETE SUA BIBLIOTECA — E-BOOK REGRAS DO BOXE */}
-      <section className="py-20 sm:py-28 relative overflow-hidden">
-        <div className="absolute inset-0 gradient-hero opacity-60" />
-        <div className="container relative z-10">
-          <SectionTitle
-            kicker="Complete sua biblioteca"
-            title="Conheça também: Regras do Boxe na Mão"
-            sub="O guia visual definitivo para entender as regras oficiais do boxe — perfeito para complementar os fundamentos técnicos e treinar com domínio completo do esporte."
-          />
-
-          <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-10 items-center">
-            <div className="relative flex justify-center">
-              <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full" />
-              <img
-                src={regrasCover}
-                alt="E-book Regras do Boxe na Mão — Boxe de Cria"
-                className="relative w-full max-w-sm drop-shadow-2xl rounded-2xl border border-accent/30"
-                loading="lazy"
-              />
-            </div>
-
-            <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/15 border border-primary/40 mb-5">
-                <Trophy className="size-4 text-primary" />
-                <span className="text-xs font-display font-semibold tracking-widest uppercase">2º E-book Boxe de Cria</span>
-              </div>
-
-              <h3 className="font-display text-3xl sm:text-4xl font-bold uppercase leading-tight mb-4">
-                Domine as <span className="text-gold-gradient">regras oficiais</span> do boxe de forma visual e prática.
-              </h3>
-
-              <p className="text-muted-foreground text-base sm:text-lg mb-6 leading-relaxed">
-                Áreas válidas de golpe, faltas, função do árbitro e dos juízes, critérios de pontuação no sistema 10-Point Must e muito mais — tudo ilustrado para consulta rápida.
-              </p>
-
-              <ul className="space-y-3 mb-8">
-                {[
-                  "Áreas válidas e proibidas de golpe",
-                  "Faltas e penalidades explicadas",
-                  "Funções do árbitro e dos juízes",
-                  "Como um round é pontuado (10-Point Must)",
-                ].map((item) => (
-                  <li key={item} className="flex items-start gap-3">
-                    <CheckCircle2 className="size-5 text-accent shrink-0 mt-0.5" />
-                    <span className="font-body text-base">{item}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <div className="flex items-baseline gap-3 mb-6">
-                <span className="text-xs uppercase tracking-widest text-muted-foreground">Por apenas</span>
-                <span className="font-display text-5xl font-bold text-gold-gradient">{PRICE_REGRAS}</span>
-              </div>
-
-              <a
-                href={PAYMENT_LINK_REGRAS}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => {
-                  // @ts-ignore
-                  if (typeof window !== "undefined" && (window as any).fbq) (window as any).fbq("track", "InitiateCheckout");
-                }}
-              >
-                <Button
-                  size="lg"
-                  className="gradient-blood text-primary-foreground font-display font-bold text-base sm:text-lg uppercase tracking-wider px-6 sm:px-8 py-7 rounded-2xl shadow-blood hover:scale-[1.03] transition-smooth border-2 border-primary/60"
-                >
-                  <BookOpenCheck className="!size-5" />
-                  Quero o E-book Regras por {PRICE_REGRAS}
-                </Button>
-              </a>
-            </div>
-          </div>
-
-          <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto">
-            {[
-              { src: regrasAreas, tag: "Áreas válidas" },
-              { src: regrasFaltas, tag: "Faltas" },
-              { src: regrasArbitro, tag: "Árbitro & Juízes" },
-              { src: regrasJuizRound, tag: "Pontuação" },
-            ].map((p) => (
-              <div key={p.tag} className="rounded-xl overflow-hidden border border-border bg-card hover:border-accent/60 transition-smooth group">
-                <div className="relative">
-                  <img src={p.src} alt={`Página real — ${p.tag}`} className="w-full h-auto group-hover:scale-[1.03] transition-smooth" loading="lazy" />
-                  <div className="absolute bottom-2 left-2 bg-background/90 backdrop-blur text-foreground font-display text-[10px] sm:text-xs font-bold uppercase tracking-widest px-2 py-1 rounded">
-                    {p.tag}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* BÔNUS */}
-      <section className="py-20 sm:py-28">
-        <div className="container">
-          <SectionTitle kicker="Brindes" title="Bônus de lançamento" />
-          <div className="grid md:grid-cols-3 gap-5 max-w-5xl mx-auto">
-            {bonuses.map((b) => (
-              <div key={b.title} className="gradient-card border border-accent/30 rounded-2xl p-6 hover:border-accent transition-smooth">
-                <div className="size-12 rounded-xl gradient-gold flex items-center justify-center mb-4 shadow-gold">
-                  <b.icon className="size-6 text-accent-foreground" />
-                </div>
-                <h3 className="font-display text-lg font-bold uppercase leading-tight mb-2">{b.title}</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">{b.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* SUPORTE WHATSAPP */}
-      <section className="py-16 bg-navy-deep">
-        <div className="container max-w-2xl text-center">
-          <h2 className="font-display text-2xl sm:text-3xl font-bold uppercase mb-3">Tem dúvida antes de comprar?</h2>
-          <p className="text-muted-foreground mb-5">Fale direto com o autor pelo WhatsApp.</p>
-          <a
-            href={LINK_WHATSAPP}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-accent/40 text-accent font-display font-semibold uppercase tracking-wider hover:bg-accent/10 transition-smooth"
-          >
-            <MessageCircle className="size-5" /> Falar no WhatsApp
-          </a>
+          <RedCta href={LINK_COMBO}>Comprar com confiança</RedCta>
         </div>
       </section>
 
@@ -578,53 +413,65 @@ const Index = () => {
           <div className="space-y-3">
             {faqs.map((f) => <Faq key={f.q} {...f} />)}
           </div>
-          <div className="text-center mt-12"><CtaButton /></div>
         </div>
       </section>
 
       {/* RODAPÉ */}
-      <footer className="py-14 border-t border-border bg-navy-deep">
-        <div className="container text-center space-y-3">
-          <div className="mb-6"><CtaButton>COMEÇAR AGORA MESMO</CtaButton></div>
+      <footer className="py-16 border-t border-border bg-[#0a0a0a]">
+        <div className="container text-center space-y-4">
+          <div className="mb-8">
+            <RedCta href={LINK_COMBO}>Estou pronto para ser um professor blindado</RedCta>
+          </div>
+
+          <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-3 text-xs font-display uppercase tracking-widest text-muted-foreground mb-6">
+            <span className="inline-flex items-center gap-2"><Lock className="size-4 text-[#FFD700]" /> Compra Segura</span>
+            <span className="inline-flex items-center gap-2"><ShieldCheck className="size-4 text-[#FFD700]" /> Garantia 7 Dias</span>
+            <span className="inline-flex items-center gap-2"><BookOpen className="size-4 text-[#FFD700]" /> Acesso Vitalício</span>
+            <span className="inline-flex items-center gap-2"><Headphones className="size-4 text-[#FFD700]" /> Suporte com o Autor</span>
+          </div>
+
           <div className="font-display text-2xl font-bold uppercase tracking-wider text-gold-gradient">Boxe de Cria</div>
-          <div className="font-display uppercase tracking-[0.3em] text-sm text-accent">De Cria pra Cria</div>
+          <div className="font-display uppercase tracking-[0.3em] text-sm text-[#FFD700]">De Cria pra Cria</div>
           <p className="text-muted-foreground text-sm">Satoshi Nishiuchi · Autor</p>
-          <a
-            href={LINK_WHATSAPP}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-foreground/80 hover:text-accent transition-smooth text-sm"
-          >
-            <MessageCircle className="size-4" /> Contato / WhatsApp
-          </a>
+
+          <div className="flex justify-center gap-4 pt-3">
+            <a
+              href="https://instagram.com/boxedecria_"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="size-11 rounded-full border border-border flex items-center justify-center hover:border-[#FFD700] hover:text-[#FFD700] transition-smooth"
+              aria-label="Instagram @boxedecria_"
+            >
+              <Instagram className="size-5" />
+            </a>
+            <a
+              href="https://youtube.com/@criacombat"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="size-11 rounded-full border border-border flex items-center justify-center hover:border-[#FFD700] hover:text-[#FFD700] transition-smooth"
+              aria-label="YouTube @criacombat"
+            >
+              <Youtube className="size-5" />
+            </a>
+          </div>
+
           <p className="text-xs text-muted-foreground max-w-2xl mx-auto pt-6 leading-relaxed">
-            Este material é educativo e não substitui avaliação médica, fisioterapêutica ou regras oficiais de competição.
+            Material educativo. Não substitui regulamentos oficiais, orientação profissional individual nem avaliação médica.
           </p>
-          <p className="text-xs text-muted-foreground/70 pt-4">
+          <p className="text-xs text-muted-foreground/70 pt-2">
             © {new Date().getFullYear()} Boxe de Cria · Todos os direitos reservados.
           </p>
         </div>
       </footer>
 
       {/* Botão flutuante mobile */}
-      <div className="fixed bottom-0 inset-x-0 z-50 lg:hidden p-3 bg-background/95 backdrop-blur border-t border-[#D32F2F]/40">
-        <a href={PAYMENT_LINK} target="_blank" rel="noopener noreferrer" className="block">
+      <div className="fixed bottom-0 inset-x-0 z-50 lg:hidden p-3 bg-[#0D0D0D]/95 backdrop-blur border-t border-[#D32F2F]/40">
+        <a href={LINK_COMBO} target="_blank" rel="noopener noreferrer" onClick={trackCheckout} className="block">
           <Button className="w-full bg-[#D32F2F] hover:bg-[#B71C1C] text-white font-display font-bold text-base uppercase tracking-wider py-6 rounded-xl">
-            <Flame className="!size-5" /> Comprar agora · {PRICE}
+            <Flame className="!size-5" /> Combo · {PRICE_COMBO}
           </Button>
         </a>
       </div>
-
-      {/* WhatsApp flutuante */}
-      <a
-        href={LINK_WHATSAPP}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="hidden lg:flex fixed bottom-6 right-6 z-50 size-14 rounded-full bg-[#25D366] items-center justify-center shadow-2xl hover:scale-110 transition-smooth"
-        aria-label="Falar no WhatsApp"
-      >
-        <MessageCircle className="size-7 text-white" />
-      </a>
     </div>
   );
 };
