@@ -585,6 +585,7 @@ const Index = () => {
       {/* RODAPÉ */}
       <footer className="py-14 border-t border-border bg-navy-deep">
         <div className="container text-center space-y-3">
+          <div className="mb-6"><CtaButton>COMEÇAR AGORA MESMO</CtaButton></div>
           <div className="font-display text-2xl font-bold uppercase tracking-wider text-gold-gradient">Boxe de Cria</div>
           <div className="font-display uppercase tracking-[0.3em] text-sm text-accent">De Cria pra Cria</div>
           <p className="text-muted-foreground text-sm">Satoshi Nishiuchi · Autor</p>
