@@ -28,6 +28,12 @@ import {
   Activity,
   Compass,
   Hand,
+  CreditCard,
+  QrCode,
+  Receipt,
+  Wallet,
+  Headphones,
+  Quote,
 } from "lucide-react";
 import { useState } from "react";
 import promo from "@/assets/caminho-promo.png";
@@ -42,16 +48,16 @@ import regrasFaltas from "@/assets/page-faltas.png";
 import regrasJuizRound from "@/assets/page-juiz-round.png";
 
 // 🔧 Edite aqui o link de pagamento e o WhatsApp
-const PAYMENT_LINK = "INSERIR_LINK_DE_PAGAMENTO_AQUI";
+const PAYMENT_LINK = "https://go.hotmart.com/D105758904F";
 const PAYMENT_LINK_REGRAS = "https://pay.cakto.com.br/3wz3cxj_768081";
 const LINK_WHATSAPP = "LINK_WHATSAPP";
 
-const PRICE = "R$ 49,90";
-const OLD_PRICE = "R$ 97,00";
+const PRICE = "R$ 67,00";
+const OLD_PRICE = "R$ 127,00";
 const PRICE_REGRAS = "R$ 39,90";
 
 const CtaButton = ({
-  children = "QUERO MEU E-BOOK POR R$49,90",
+  children = "GARANTIR MEU E-BOOK AGORA",
   className = "",
 }: {
   children?: React.ReactNode;
@@ -62,14 +68,13 @@ const CtaButton = ({
     target="_blank"
     rel="noopener noreferrer"
     onClick={() => {
-      // Meta Pixel — evento opcional pré-checkout
       // @ts-ignore
       if (typeof window !== "undefined" && (window as any).fbq) (window as any).fbq("track", "InitiateCheckout");
     }}
   >
     <Button
       size="lg"
-      className={`gradient-gold text-accent-foreground font-display font-bold text-base sm:text-xl uppercase tracking-wider px-6 sm:px-10 py-7 rounded-2xl shadow-gold hover:scale-[1.03] transition-smooth border-2 border-accent/60 animate-pulse-glow ${className}`}
+      className={`bg-[#D32F2F] hover:bg-[#B71C1C] text-white font-display font-bold text-base sm:text-xl uppercase tracking-wider px-6 sm:px-10 py-7 rounded-xl shadow-blood hover:scale-[1.02] transition-all duration-300 border-2 border-[#D32F2F] ${className}`}
     >
       <Flame className="!size-6" />
       {children}
@@ -206,10 +211,10 @@ const Index = () => {
               </div>
             </div>
 
-            <CtaButton />
+            <CtaButton>QUERO O MANUAL COMPLETO</CtaButton>
 
             <p className="text-sm text-muted-foreground mt-4 inline-flex items-center gap-2">
-              <Lock className="size-4 text-accent" /> Acesso digital imediato após o pagamento.
+              <Lock className="size-4 text-accent" /> Garantia de 7 dias · Acesso imediato · Pagamento seguro
             </p>
           </div>
 
@@ -227,7 +232,18 @@ const Index = () => {
         </div>
       </header>
 
-      {/* DOR */}
+      {/* TRUST BANNER */}
+      <section className="border-y border-accent/20 bg-navy-deep/80 py-5">
+        <div className="container">
+          <div className="flex flex-wrap justify-center items-center gap-x-8 gap-y-3 text-xs sm:text-sm font-display uppercase tracking-wider">
+            <span className="inline-flex items-center gap-2"><Lock className="size-4 text-accent" /> Compra Segura Hotmart</span>
+            <span className="inline-flex items-center gap-2"><ShieldCheck className="size-4 text-accent" /> Garantia de 7 Dias</span>
+            <span className="inline-flex items-center gap-2"><Zap className="size-4 text-accent" /> Acesso Imediato</span>
+            <span className="inline-flex items-center gap-2"><Headphones className="size-4 text-accent" /> Suporte com o Autor</span>
+          </div>
+        </div>
+      </section>
+
       <section className="py-20 sm:py-28 bg-navy-deep relative">
         <div className="container">
           <SectionTitle
@@ -352,29 +368,78 @@ const Index = () => {
         </div>
       </section>
 
-      {/* OFERTA */}
-      <section className="py-20 sm:py-28 bg-navy-deep">
+      {/* INVESTIMENTO */}
+      <section className="py-20 sm:py-28 bg-[#1A1A1A]">
         <div className="container max-w-3xl">
+          <SectionTitle kicker="Investimento" title="Acesso completo ao manual" />
           <div className="rounded-3xl border-2 border-accent/40 bg-card p-8 sm:p-12 text-center shadow-gold">
-            <span className="inline-block text-accent font-display font-bold tracking-[0.3em] text-xs uppercase mb-3">A oferta</span>
-            <h2 className="font-display text-3xl sm:text-5xl font-bold uppercase mb-4 leading-tight">
-              Leve agora por apenas <span className="text-gold-gradient">{PRICE}</span>
-            </h2>
-            <p className="text-muted-foreground text-base sm:text-lg mb-8 leading-relaxed">
-              Menos que uma aula particular. Mais que um simples material. Um guia para consultar, estudar e aplicar no treino.
+            <p className="text-muted-foreground text-base sm:text-lg mb-6 leading-relaxed">
+              Menos que uma aula particular. Um guia para consultar, estudar e aplicar no treino — para sempre.
             </p>
 
-            <div className="flex items-baseline justify-center gap-4 mb-8">
+            <div className="flex items-baseline justify-center gap-4 mb-3">
               <span className="text-2xl text-muted-foreground line-through">{OLD_PRICE}</span>
-              <span className="font-display text-6xl sm:text-7xl font-bold text-gold-gradient">{PRICE}</span>
+              <span className="font-display font-bold text-[#FFD700]" style={{ fontSize: '48px', lineHeight: 1 }}>{PRICE}</span>
+            </div>
+            <p className="text-sm text-muted-foreground mb-8 uppercase tracking-widest">Pagamento único · Acesso vitalício</p>
+
+            <div className="flex flex-wrap justify-center items-center gap-4 mb-8 text-muted-foreground">
+              <span className="inline-flex items-center gap-2 text-sm"><QrCode className="size-5 text-accent" /> PIX</span>
+              <span className="inline-flex items-center gap-2 text-sm"><CreditCard className="size-5 text-accent" /> Cartão até 12x</span>
+              <span className="inline-flex items-center gap-2 text-sm"><Receipt className="size-5 text-accent" /> Boleto</span>
+              <span className="inline-flex items-center gap-2 text-sm"><Wallet className="size-5 text-accent" /> PayPal</span>
             </div>
 
             <CtaButton>COMPRAR AGORA</CtaButton>
 
-            <p className="text-xs text-muted-foreground mt-4">
-              Link de pagamento: <code className="text-accent">{PAYMENT_LINK}</code>
-            </p>
+            <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 text-xs text-muted-foreground">
+              <span className="inline-flex items-center gap-2"><Lock className="size-4 text-accent" /> Pagamento 100% seguro via Hotmart</span>
+              <span className="inline-flex items-center gap-2"><ShieldCheck className="size-4 text-accent" /> Garantia de 7 dias</span>
+            </div>
           </div>
+        </div>
+      </section>
+
+      {/* DEPOIMENTOS */}
+      <section className="py-20 sm:py-28 bg-[#F5F5F5] text-[#0D0D0D]">
+        <div className="container">
+          <div className="text-center max-w-3xl mx-auto mb-12">
+            <span className="inline-block text-[#B33939] font-display font-bold tracking-[0.3em] text-xs sm:text-sm uppercase mb-3">Prova social</span>
+            <h2 className="font-display text-3xl sm:text-5xl font-bold uppercase leading-tight mb-3">O que dizem os professores</h2>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            {[
+              { name: "Carlos Mendes", role: "Professor · Academia Punch", text: "Material extremamente didático. Minhas aulas ficaram muito mais organizadas." },
+              { name: "Rafael Souza", role: "Treinador · Projeto Social", text: "Finalmente um material que ensina boxe com método e segurança." },
+              { name: "André Lima", role: "Instrutor · Equipe de Competição", text: "As pranchas visuais facilitam demais a correção dos alunos." },
+            ].map((d) => (
+              <div key={d.name} className="bg-white border border-black/10 rounded-2xl p-6 shadow-sm">
+                <Quote className="size-7 text-[#D32F2F] mb-3" />
+                <p className="text-[15px] leading-relaxed mb-5">“{d.text}”</p>
+                <div className="flex items-center gap-3">
+                  <div className="size-12 rounded-full bg-gradient-to-br from-[#D32F2F] to-[#0D0D0D] flex items-center justify-center text-white font-display font-bold">
+                    {d.name.charAt(0)}
+                  </div>
+                  <div>
+                    <div className="font-display font-bold uppercase text-sm">{d.name}</div>
+                    <div className="text-xs text-black/60">{d.role}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* GARANTIA — RISCO ZERO */}
+      <section className="py-20 sm:py-24 bg-[#FFF8E1] text-[#0D0D0D]">
+        <div className="container max-w-3xl text-center">
+          <ShieldCheck className="size-20 mx-auto text-[#D32F2F] mb-4" strokeWidth={2.2} />
+          <h2 className="font-display text-3xl sm:text-5xl font-bold uppercase mb-4">Risco zero para você</h2>
+          <p className="text-base sm:text-lg leading-relaxed mb-8 max-w-2xl mx-auto">
+            Você tem <strong>7 dias</strong> para acessar o material completo. Se por qualquer motivo não gostar, devolvo <strong>100% do seu dinheiro</strong>. Basta enviar um e-mail.
+          </p>
+          <CtaButton>COMPRAR COM GARANTIA</CtaButton>
         </div>
       </section>
 
@@ -490,24 +555,19 @@ const Index = () => {
         </div>
       </section>
 
-      {/* GARANTIA */}
-      <section className="py-20 sm:py-24 bg-navy-deep">
-        <div className="container max-w-3xl">
-          <div className="rounded-3xl border border-border bg-card p-8 sm:p-10 text-center">
-            <ShieldCheck className="size-14 mx-auto text-accent mb-4" />
-            <h2 className="font-display text-3xl sm:text-4xl font-bold uppercase mb-3">Compra segura</h2>
-            <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">
-              Você receberá acesso digital ao material após o pagamento. Caso tenha problema no acesso, entre em contato pelo WhatsApp da marca.
-            </p>
-            <a
-              href={LINK_WHATSAPP}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 mt-6 text-accent font-display font-semibold uppercase tracking-wider hover:underline"
-            >
-              <MessageCircle className="size-5" /> Falar no WhatsApp
-            </a>
-          </div>
+      {/* SUPORTE WHATSAPP */}
+      <section className="py-16 bg-navy-deep">
+        <div className="container max-w-2xl text-center">
+          <h2 className="font-display text-2xl sm:text-3xl font-bold uppercase mb-3">Tem dúvida antes de comprar?</h2>
+          <p className="text-muted-foreground mb-5">Fale direto com o autor pelo WhatsApp.</p>
+          <a
+            href={LINK_WHATSAPP}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-accent/40 text-accent font-display font-semibold uppercase tracking-wider hover:bg-accent/10 transition-smooth"
+          >
+            <MessageCircle className="size-5" /> Falar no WhatsApp
+          </a>
         </div>
       </section>
 
@@ -525,6 +585,7 @@ const Index = () => {
       {/* RODAPÉ */}
       <footer className="py-14 border-t border-border bg-navy-deep">
         <div className="container text-center space-y-3">
+          <div className="mb-6"><CtaButton>COMEÇAR AGORA MESMO</CtaButton></div>
           <div className="font-display text-2xl font-bold uppercase tracking-wider text-gold-gradient">Boxe de Cria</div>
           <div className="font-display uppercase tracking-[0.3em] text-sm text-accent">De Cria pra Cria</div>
           <p className="text-muted-foreground text-sm">Satoshi Nishiuchi · Autor</p>
@@ -546,9 +607,9 @@ const Index = () => {
       </footer>
 
       {/* Botão flutuante mobile */}
-      <div className="fixed bottom-0 inset-x-0 z-50 lg:hidden p-3 bg-background/95 backdrop-blur border-t border-accent/30">
+      <div className="fixed bottom-0 inset-x-0 z-50 lg:hidden p-3 bg-background/95 backdrop-blur border-t border-[#D32F2F]/40">
         <a href={PAYMENT_LINK} target="_blank" rel="noopener noreferrer" className="block">
-          <Button className="w-full gradient-gold text-accent-foreground font-display font-bold text-base uppercase tracking-wider py-6 rounded-xl shadow-gold">
+          <Button className="w-full bg-[#D32F2F] hover:bg-[#B71C1C] text-white font-display font-bold text-base uppercase tracking-wider py-6 rounded-xl">
             <Flame className="!size-5" /> Comprar agora · {PRICE}
           </Button>
         </a>
