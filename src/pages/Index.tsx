@@ -368,29 +368,78 @@ const Index = () => {
         </div>
       </section>
 
-      {/* OFERTA */}
-      <section className="py-20 sm:py-28 bg-navy-deep">
+      {/* INVESTIMENTO */}
+      <section className="py-20 sm:py-28 bg-[#1A1A1A]">
         <div className="container max-w-3xl">
+          <SectionTitle kicker="Investimento" title="Acesso completo ao manual" />
           <div className="rounded-3xl border-2 border-accent/40 bg-card p-8 sm:p-12 text-center shadow-gold">
-            <span className="inline-block text-accent font-display font-bold tracking-[0.3em] text-xs uppercase mb-3">A oferta</span>
-            <h2 className="font-display text-3xl sm:text-5xl font-bold uppercase mb-4 leading-tight">
-              Leve agora por apenas <span className="text-gold-gradient">{PRICE}</span>
-            </h2>
-            <p className="text-muted-foreground text-base sm:text-lg mb-8 leading-relaxed">
-              Menos que uma aula particular. Mais que um simples material. Um guia para consultar, estudar e aplicar no treino.
+            <p className="text-muted-foreground text-base sm:text-lg mb-6 leading-relaxed">
+              Menos que uma aula particular. Um guia para consultar, estudar e aplicar no treino — para sempre.
             </p>
 
-            <div className="flex items-baseline justify-center gap-4 mb-8">
+            <div className="flex items-baseline justify-center gap-4 mb-3">
               <span className="text-2xl text-muted-foreground line-through">{OLD_PRICE}</span>
-              <span className="font-display text-6xl sm:text-7xl font-bold text-gold-gradient">{PRICE}</span>
+              <span className="font-display font-bold text-[#FFD700]" style={{ fontSize: '48px', lineHeight: 1 }}>{PRICE}</span>
+            </div>
+            <p className="text-sm text-muted-foreground mb-8 uppercase tracking-widest">Pagamento único · Acesso vitalício</p>
+
+            <div className="flex flex-wrap justify-center items-center gap-4 mb-8 text-muted-foreground">
+              <span className="inline-flex items-center gap-2 text-sm"><QrCode className="size-5 text-accent" /> PIX</span>
+              <span className="inline-flex items-center gap-2 text-sm"><CreditCard className="size-5 text-accent" /> Cartão até 12x</span>
+              <span className="inline-flex items-center gap-2 text-sm"><Receipt className="size-5 text-accent" /> Boleto</span>
+              <span className="inline-flex items-center gap-2 text-sm"><Wallet className="size-5 text-accent" /> PayPal</span>
             </div>
 
             <CtaButton>COMPRAR AGORA</CtaButton>
 
-            <p className="text-xs text-muted-foreground mt-4">
-              Link de pagamento: <code className="text-accent">{PAYMENT_LINK}</code>
-            </p>
+            <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 text-xs text-muted-foreground">
+              <span className="inline-flex items-center gap-2"><Lock className="size-4 text-accent" /> Pagamento 100% seguro via Hotmart</span>
+              <span className="inline-flex items-center gap-2"><ShieldCheck className="size-4 text-accent" /> Garantia de 7 dias</span>
+            </div>
           </div>
+        </div>
+      </section>
+
+      {/* DEPOIMENTOS */}
+      <section className="py-20 sm:py-28 bg-[#F5F5F5] text-[#0D0D0D]">
+        <div className="container">
+          <div className="text-center max-w-3xl mx-auto mb-12">
+            <span className="inline-block text-[#B33939] font-display font-bold tracking-[0.3em] text-xs sm:text-sm uppercase mb-3">Prova social</span>
+            <h2 className="font-display text-3xl sm:text-5xl font-bold uppercase leading-tight mb-3">O que dizem os professores</h2>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            {[
+              { name: "Carlos Mendes", role: "Professor · Academia Punch", text: "Material extremamente didático. Minhas aulas ficaram muito mais organizadas." },
+              { name: "Rafael Souza", role: "Treinador · Projeto Social", text: "Finalmente um material que ensina boxe com método e segurança." },
+              { name: "André Lima", role: "Instrutor · Equipe de Competição", text: "As pranchas visuais facilitam demais a correção dos alunos." },
+            ].map((d) => (
+              <div key={d.name} className="bg-white border border-black/10 rounded-2xl p-6 shadow-sm">
+                <Quote className="size-7 text-[#D32F2F] mb-3" />
+                <p className="text-[15px] leading-relaxed mb-5">“{d.text}”</p>
+                <div className="flex items-center gap-3">
+                  <div className="size-12 rounded-full bg-gradient-to-br from-[#D32F2F] to-[#0D0D0D] flex items-center justify-center text-white font-display font-bold">
+                    {d.name.charAt(0)}
+                  </div>
+                  <div>
+                    <div className="font-display font-bold uppercase text-sm">{d.name}</div>
+                    <div className="text-xs text-black/60">{d.role}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* GARANTIA — RISCO ZERO */}
+      <section className="py-20 sm:py-24 bg-[#FFF8E1] text-[#0D0D0D]">
+        <div className="container max-w-3xl text-center">
+          <ShieldCheck className="size-20 mx-auto text-[#D32F2F] mb-4" strokeWidth={2.2} />
+          <h2 className="font-display text-3xl sm:text-5xl font-bold uppercase mb-4">Risco zero para você</h2>
+          <p className="text-base sm:text-lg leading-relaxed mb-8 max-w-2xl mx-auto">
+            Você tem <strong>7 dias</strong> para acessar o material completo. Se por qualquer motivo não gostar, devolvo <strong>100% do seu dinheiro</strong>. Basta enviar um e-mail.
+          </p>
+          <CtaButton>COMPRAR COM GARANTIA</CtaButton>
         </div>
       </section>
 
