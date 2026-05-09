@@ -607,9 +607,9 @@ const Index = () => {
       </footer>
 
       {/* Botão flutuante mobile */}
-      <div className="fixed bottom-0 inset-x-0 z-50 lg:hidden p-3 bg-background/95 backdrop-blur border-t border-accent/30">
+      <div className="fixed bottom-0 inset-x-0 z-50 lg:hidden p-3 bg-background/95 backdrop-blur border-t border-[#D32F2F]/40">
         <a href={PAYMENT_LINK} target="_blank" rel="noopener noreferrer" className="block">
-          <Button className="w-full gradient-gold text-accent-foreground font-display font-bold text-base uppercase tracking-wider py-6 rounded-xl shadow-gold">
+          <Button className="w-full bg-[#D32F2F] hover:bg-[#B71C1C] text-white font-display font-bold text-base uppercase tracking-wider py-6 rounded-xl">
             <Flame className="!size-5" /> Comprar agora · {PRICE}
           </Button>
         </a>
