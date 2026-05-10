@@ -17,14 +17,63 @@
     <meta name="twitter:description" content="Manual prático para ensinar boxe com método, segurança e autoridade. Acesso digital imediato por R$49,90." />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 
-    <!-- Meta Pixel: cole seu código aqui -->
-    <!-- <script>
-      !function(f,b,e,v,n,t,s){...}('init', 'YOUR_PIXEL_ID');
+    <!-- Meta Pixel Code -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '2210258709785475');
       fbq('track', 'PageView');
-    </script> -->
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=2210258709785475&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+
+    <!-- HOTMART - Sales Funnel Widget -->
+    <div id="hotmart-sales-funnel" style="display:none;"></div>
+
+    <script src="https://checkout.hotmart.com/lib/hotmart-checkout-elements.js"></script>
+    <script>
+      checkoutElements.init('salesFunnel', {
+        productId: 'SEU_PRODUCT_ID_AQUI',
+        checkoutOptions: {
+          currency: 'BRL',
+          locale: 'pt-BR'
+        }
+      }).mount('#hotmart-sales-funnel');
+
+      document.addEventListener('DOMContentLoaded', function() {
+        var checkoutContainer = document.getElementById('hotmart-sales-funnel');
+        var ctaButtons = document.querySelectorAll('a[href*="hotmart.com"], button.comprar, .cta-button, [data-action="buy"]');
+
+        ctaButtons.forEach(function(button) {
+          button.addEventListener('click', function(e) {
+            e.preventDefault();
+            checkoutContainer.style.display = 'block';
+          });
+        });
+      });
+    </script>
+    <!-- HOTMART - Sales Funnel Widget -->
+
+    <!-- Hotmart Launcher -->
+    <script id="hotmart_launcher_script">
+      (function(l,a,u,n,c,h,e,r){l['HotmartLauncherObject']=c;l[c]=l[c]||function(){
+      (l[c].q=l[c].q||[]).push(arguments)},l[c].l=1*new Date();h=a.createElement(u),
+      e=a.getElementsByTagName(u)[0];h.async=1;h.src=n;e.parentNode.insertBefore(h,e)
+      })(window,document,'script','//launcher.hotmart.com/launcher.js','hot');
+
+      hot('account','fbad94f3-f9ce-370d-8fb2-cbc0656a2636');
+    </script>
   </body>
 </html>
