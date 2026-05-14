@@ -32,11 +32,18 @@ const OLD_PRICE_CAMINHO = "R$ 97,00";
 const PRICE_COMBO = "R$ 97,00";
 const OLD_PRICE_COMBO = "R$ 134,00";
 
-const trackCheckout = () => {
-  // @ts-ignore
-  if (typeof window !== "undefined" && (window as any).fbq)
-    // @ts-ignore
-    (window as any).fbq("track", "InitiateCheckout");
+const trackCheckout = (label?: string) => {
+  if (typeof window === "undefined") return;
+  const w = window as any;
+  if (w.fbq) w.fbq("track", "InitiateCheckout", { content_name: label });
+  if (w.gtag) w.gtag("event", "begin_checkout", { event_category: "ecommerce", event_label: label || "checkout" });
+};
+
+const trackEvent = (name: string, params: Record<string, any> = {}) => {
+  if (typeof window === "undefined") return;
+  const w = window as any;
+  if (w.gtag) w.gtag("event", name, params);
+  if (w.fbq) w.fbq("trackCustom", name, params);
 };
 
 const RedCta = ({
@@ -191,7 +198,11 @@ const Faq = ({ q, a }: { q: string; a: string }) => {
   return (
     <div className="border border-border rounded-2xl bg-card overflow-hidden transition-smooth hover:border-[#FFD700]/40">
       <button
-        onClick={() => setOpen(!open)}
+        onClick={() => {
+          const next = !open;
+          setOpen(next);
+          if (next) trackEvent("faq_open", { event_category: "engagement", event_label: q });
+        }}
         className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left"
         aria-expanded={open}
       >
