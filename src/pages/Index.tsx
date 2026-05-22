@@ -287,15 +287,24 @@ const Index = () => {
             <img
               src={regrasCover}
               alt="O Manual do Córner — Regras, Arbitragem & Preparação"
+              width="384"
+              height="512"
               className="relative h-56 sm:h-80 md:h-96 w-auto drop-shadow-2xl rounded-xl rotate-[-6deg] hover:rotate-0 transition-transform duration-500"
               loading="eager"
+              fetchPriority="high"
+              decoding="async"
             />
             <img
               src={caminhoCover}
               alt="O Caminho do Boxeador — Fundamentos Técnicos & Metodologia"
+              width="384"
+              height="512"
               className="relative h-56 sm:h-80 md:h-96 w-auto drop-shadow-2xl rounded-xl rotate-[6deg] hover:rotate-0 transition-transform duration-500"
               loading="eager"
+              fetchPriority="high"
+              decoding="async"
             />
+
           </div>
 
           <div className="flex flex-col items-center gap-3">
