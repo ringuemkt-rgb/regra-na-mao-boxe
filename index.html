@@ -53,11 +53,14 @@
     <script src="https://checkout.hotmart.com/lib/hotmart-checkout-elements.js"></script>
     <script>
       checkoutElements.init('salesFunnel', {
-        checkoutOptions: {
-          currency: 'BRL',
-          locale: 'pt-BR'
-        }
+        checkoutOptions: { currency: 'BRL', locale: 'pt-BR' }
       }).mount('#hotmart-sales-funnel');
+
+      function trackBoxe(name, params) {
+        params = params || {};
+        try { if (window.fbq) window.fbq('trackCustom', name, params); } catch(e){}
+        try { if (window.gtag) window.gtag('event', name, params); } catch(e){}
+      }
 
       document.addEventListener('DOMContentLoaded', function() {
         var checkoutContainer = document.getElementById('hotmart-sales-funnel');
@@ -66,8 +69,32 @@
         ctaButtons.forEach(function(button) {
           button.addEventListener('click', function(e) {
             e.preventDefault();
+            var href = button.getAttribute('href') || '';
+            var label = button.getAttribute('data-label') || (button.innerText || '').trim().slice(0, 60);
+
+            try { if (window.fbq) window.fbq('track', 'InitiateCheckout', { content_name: label, source: 'cta_button' }); } catch(err){}
+            try { if (window.gtag) window.gtag('event', 'begin_checkout', { event_category: 'ecommerce', event_label: label, checkout_url: href }); } catch(err){}
+            trackBoxe('cta_click', { label: label, href: href });
+
             checkoutContainer.style.display = 'block';
+            trackBoxe('sales_funnel_open', { label: label, href: href });
+            try { if (window.gtag) window.gtag('event', 'view_checkout', { event_category: 'ecommerce', event_label: label }); } catch(err){}
+            try { if (window.fbq) window.fbq('trackCustom', 'SalesFunnelOpen', { content_name: label }); } catch(err){}
           });
+        });
+
+        // Evento de compra (Hotmart postMessage)
+        window.addEventListener('message', function(event) {
+          try {
+            var data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
+            if (!data) return;
+            var type = (data.event || data.type || '').toString().toLowerCase();
+            if (type.indexOf('purchase') !== -1 || type === 'order_completed' || type === 'checkout_completed') {
+              var value = data.value || data.amount || data.price || 0;
+              try { if (window.fbq) window.fbq('track', 'Purchase', { value: value, currency: 'BRL' }); } catch(err){}
+              try { if (window.gtag) window.gtag('event', 'purchase', { value: value, currency: 'BRL', transaction_id: data.transaction || data.order_id || '' }); } catch(err){}
+            }
+          } catch(e) {}
         });
       });
     </script>
