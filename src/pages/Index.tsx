@@ -22,7 +22,7 @@ import regrasCover from "@/assets/ebook-cover.png";
 // 🔧 Links oficiais Hotmart
 const LINK_REGRAS = "https://go.hotmart.com/D105758587D";
 const LINK_FUNDAMENTOS = "https://go.hotmart.com/D105758904F";
-const LINK_COMBO = "https://go.hotmart.com/E105828277Q";
+const LINK_COMBO = "https://pay.hotmart.com/E105828277Q?checkoutMode=0&bid=1779626342467";
 
 // 💰 Preços reais
 const PRICE_REGRAS = "R$ 49,90";
