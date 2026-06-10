@@ -178,16 +178,23 @@
         // Evento de compra (Hotmart postMessage)
         window.addEventListener('message', function(event) {
           try {
+            // Only accept messages from trusted Hotmart origins
+            var trustedOrigins = ['https://checkout.hotmart.com', 'https://pay.hotmart.com', 'https://hotmart.com'];
+            if (trustedOrigins.indexOf(event.origin) === -1) return;
+
             var data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
-            if (!data) return;
+            if (!data || typeof data !== 'object') return;
             var type = (data.event || data.type || '').toString().toLowerCase();
             if (type.indexOf('purchase') !== -1 || type === 'order_completed' || type === 'checkout_completed') {
-              var value = data.value || data.amount || data.price || 0;
+              var rawValue = data.value || data.amount || data.price || 0;
+              var value = typeof rawValue === 'number' ? rawValue : parseFloat(rawValue) || 0;
+              var txId = (data.transaction || data.order_id || '').toString().slice(0, 128);
               try { if (window.fbq) window.fbq('track', 'Purchase', { value: value, currency: 'BRL' }); } catch(err){}
-              try { if (window.gtag) window.gtag('event', 'purchase', { value: value, currency: 'BRL', transaction_id: data.transaction || data.order_id || '' }); } catch(err){}
+              try { if (window.gtag) window.gtag('event', 'purchase', { value: value, currency: 'BRL', transaction_id: txId }); } catch(err){}
             }
           } catch(e) {}
         });
+
       });
     </script>
     <!-- HOTMART - Sales Funnel Widget -->
