@@ -15,27 +15,21 @@ import {
   BookOpen,
   Award,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import caminhoCover from "@/assets/caminho-promo.png";
 import regrasCover from "@/assets/ebook-cover.png";
+import { handleCheckoutClick, HOTMART_CHECKOUT_URL } from "@/lib/checkout";
+import { appendTrackingParamsToUrl } from "@/lib/tracking";
+import { trackViewContent } from "@/lib/metaPixel";
 
-// 🔧 Links oficiais Hotmart
-const LINK_REGRAS = "https://go.hotmart.com/D105758587D";
-const LINK_FUNDAMENTOS = "https://go.hotmart.com/D105758904F";
-const LINK_COMBO = "https://pay.hotmart.com/E105828277Q?checkoutMode=0&bid=1779626342467";
+// 🔧 Todos os CTAs apontam para o MESMO checkout (combo)
+const LINK_COMBO = HOTMART_CHECKOUT_URL;
 
-// 💰 Preços reais
+// 💰 Preços
 const PRICE_REGRAS = "R$ 49,90";
 const PRICE_FUNDAMENTOS = "R$ 67,90";
 const PRICE_COMBO = "R$ 89,90";
 const OLD_PRICE_COMBO = "R$ 117,80";
-
-const trackCheckout = (label: string) => {
-  if (typeof window === "undefined") return;
-  const w = window as any;
-  if (w.fbq) w.fbq("track", "InitiateCheckout", { content_name: label });
-  if (w.gtag) w.gtag("event", "begin_checkout", { event_category: "ecommerce", event_label: label });
-};
 
 const trackEvent = (name: string, params: Record<string, any> = {}) => {
   if (typeof window === "undefined") return;
@@ -44,22 +38,24 @@ const trackEvent = (name: string, params: Record<string, any> = {}) => {
   if (w.fbq) w.fbq("trackCustom", name, params);
 };
 
+// CTA vermelho — chama handleCheckoutClick (InitiateCheckout + redirect)
 const RedCta = ({
-  href,
   label,
   children,
   className = "",
 }: {
-  href: string;
+  href?: string; // ignorado: todos vão p/ LINK_COMBO
   label: string;
   children: React.ReactNode;
   className?: string;
 }) => (
   <a
-    href={href}
-    target="_blank"
-    rel="noopener noreferrer"
-    onClick={() => trackCheckout(label)}
+    href={appendTrackingParamsToUrl(LINK_COMBO)}
+    onClick={(e) => {
+      e.preventDefault();
+      // [Meta Pixel] InitiateCheckout dispara aqui antes do redirect
+      handleCheckoutClick(label, 89.9);
+    }}
     className="inline-block w-full sm:w-auto cta-button"
   >
     <Button
@@ -73,21 +69,21 @@ const RedCta = ({
 );
 
 const GoldCta = ({
-  href,
   label,
   children,
   className = "",
 }: {
-  href: string;
+  href?: string;
   label: string;
   children: React.ReactNode;
   className?: string;
 }) => (
   <a
-    href={href}
-    target="_blank"
-    rel="noopener noreferrer"
-    onClick={() => trackCheckout(label)}
+    href={appendTrackingParamsToUrl(LINK_COMBO)}
+    onClick={(e) => {
+      e.preventDefault();
+      handleCheckoutClick(label, 89.9);
+    }}
     className="inline-block w-full sm:w-auto cta-button"
   >
     <Button
@@ -249,6 +245,11 @@ const Faq = ({ q, a }: { q: string; a: string }) => {
 };
 
 const Index = () => {
+  // [Meta Pixel] ViewContent — dispara ao carregar a landing do e-book
+  useEffect(() => {
+    trackViewContent(89.9);
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#0D0D0D] overflow-x-hidden">
       {/* HERO */}
@@ -347,7 +348,7 @@ const Index = () => {
                 "Leitura de súmula",
               ]}
               price={PRICE_REGRAS}
-              href={LINK_REGRAS}
+              href={LINK_COMBO}
               ctaLabel="Comprar agora"
               trackingLabel="Card · Manual do Córner"
             />
@@ -364,7 +365,7 @@ const Index = () => {
                 "Estrutura de aula",
               ]}
               price={PRICE_FUNDAMENTOS}
-              href={LINK_FUNDAMENTOS}
+              href={LINK_COMBO}
               ctaLabel="Comprar agora"
               trackingLabel="Card · Caminho do Boxeador"
             />
@@ -492,13 +493,14 @@ const Index = () => {
         </div>
       </footer>
 
-      {/* Botão flutuante mobile */}
-      <div className="fixed bottom-0 inset-x-0 z-50 lg:hidden p-3 bg-[#0D0D0D]/95 backdrop-blur border-t border-[#D32F2F]/40">
+      {/* Botão flutuante mobile — mesmo checkout único + InitiateCheckout */}
+      <div className="fixed bottom-0 inset-x-0 z-40 lg:hidden p-3 pb-[calc(env(safe-area-inset-bottom)+12px)] bg-[#0D0D0D]/95 backdrop-blur border-t border-[#D32F2F]/40">
         <a
-          href={LINK_COMBO}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={() => trackCheckout("Mobile · Combo")}
+          href={appendTrackingParamsToUrl(LINK_COMBO)}
+          onClick={(e) => {
+            e.preventDefault();
+            handleCheckoutClick("Mobile · Combo", 89.9);
+          }}
           className="block cta-button"
         >
           <Button className="w-full bg-[#D32F2F] hover:bg-[#B71C1C] text-white font-display font-bold text-base uppercase tracking-wider py-6 rounded-xl">
