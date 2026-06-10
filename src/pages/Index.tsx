@@ -245,6 +245,11 @@ const Faq = ({ q, a }: { q: string; a: string }) => {
 };
 
 const Index = () => {
+  // [Meta Pixel] ViewContent — dispara ao carregar a landing do e-book
+  useEffect(() => {
+    trackViewContent(89.9);
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#0D0D0D] overflow-x-hidden">
       {/* HERO */}
@@ -343,7 +348,7 @@ const Index = () => {
                 "Leitura de súmula",
               ]}
               price={PRICE_REGRAS}
-              href={LINK_REGRAS}
+              href={LINK_COMBO}
               ctaLabel="Comprar agora"
               trackingLabel="Card · Manual do Córner"
             />
@@ -360,7 +365,7 @@ const Index = () => {
                 "Estrutura de aula",
               ]}
               price={PRICE_FUNDAMENTOS}
-              href={LINK_FUNDAMENTOS}
+              href={LINK_COMBO}
               ctaLabel="Comprar agora"
               trackingLabel="Card · Caminho do Boxeador"
             />
@@ -488,13 +493,14 @@ const Index = () => {
         </div>
       </footer>
 
-      {/* Botão flutuante mobile */}
-      <div className="fixed bottom-0 inset-x-0 z-50 lg:hidden p-3 bg-[#0D0D0D]/95 backdrop-blur border-t border-[#D32F2F]/40">
+      {/* Botão flutuante mobile — mesmo checkout único + InitiateCheckout */}
+      <div className="fixed bottom-0 inset-x-0 z-40 lg:hidden p-3 pb-[calc(env(safe-area-inset-bottom)+12px)] bg-[#0D0D0D]/95 backdrop-blur border-t border-[#D32F2F]/40">
         <a
-          href={LINK_COMBO}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={() => trackCheckout("Mobile · Combo")}
+          href={appendTrackingParamsToUrl(LINK_COMBO)}
+          onClick={(e) => {
+            e.preventDefault();
+            handleCheckoutClick("Mobile · Combo", 89.9);
+          }}
           className="block cta-button"
         >
           <Button className="w-full bg-[#D32F2F] hover:bg-[#B71C1C] text-white font-display font-bold text-base uppercase tracking-wider py-6 rounded-xl">
