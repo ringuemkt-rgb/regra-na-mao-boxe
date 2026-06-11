@@ -396,6 +396,7 @@ const Index = () => {
               href={LINK_COMBO}
               ctaLabel="Levar os dois"
               trackingLabel="Card · Combo"
+              trackingValue={89.9}
               highlight
               badgeOff="24% OFF"
             />
