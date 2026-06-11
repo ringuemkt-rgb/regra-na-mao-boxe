@@ -41,11 +41,13 @@ const trackEvent = (name: string, params: Record<string, any> = {}) => {
 // CTA vermelho — chama handleCheckoutClick (InitiateCheckout + redirect)
 const RedCta = ({
   label,
+  value = 89.9,
   children,
   className = "",
 }: {
   href?: string; // ignorado: todos vão p/ LINK_COMBO
   label: string;
+  value?: number;
   children: React.ReactNode;
   className?: string;
 }) => (
@@ -53,8 +55,7 @@ const RedCta = ({
     href={appendTrackingParamsToUrl(LINK_COMBO)}
     onClick={(e) => {
       e.preventDefault();
-      // [Meta Pixel] InitiateCheckout dispara aqui antes do redirect
-      handleCheckoutClick(label, 89.9);
+      handleCheckoutClick(label, value);
     }}
     className="inline-block w-full sm:w-auto cta-button"
   >
@@ -70,11 +71,13 @@ const RedCta = ({
 
 const GoldCta = ({
   label,
+  value = 89.9,
   children,
   className = "",
 }: {
   href?: string;
   label: string;
+  value?: number;
   children: React.ReactNode;
   className?: string;
 }) => (
@@ -82,7 +85,7 @@ const GoldCta = ({
     href={appendTrackingParamsToUrl(LINK_COMBO)}
     onClick={(e) => {
       e.preventDefault();
-      handleCheckoutClick(label, 89.9);
+      handleCheckoutClick(label, value);
     }}
     className="inline-block w-full sm:w-auto cta-button"
   >
@@ -95,6 +98,7 @@ const GoldCta = ({
     </Button>
   </a>
 );
+
 
 const SectionTitle = ({
   kicker,
