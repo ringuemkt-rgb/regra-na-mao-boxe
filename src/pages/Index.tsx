@@ -41,11 +41,13 @@ const trackEvent = (name: string, params: Record<string, any> = {}) => {
 // CTA vermelho — chama handleCheckoutClick (InitiateCheckout + redirect)
 const RedCta = ({
   label,
+  value = 89.9,
   children,
   className = "",
 }: {
   href?: string; // ignorado: todos vão p/ LINK_COMBO
   label: string;
+  value?: number;
   children: React.ReactNode;
   className?: string;
 }) => (
@@ -53,8 +55,7 @@ const RedCta = ({
     href={appendTrackingParamsToUrl(LINK_COMBO)}
     onClick={(e) => {
       e.preventDefault();
-      // [Meta Pixel] InitiateCheckout dispara aqui antes do redirect
-      handleCheckoutClick(label, 89.9);
+      handleCheckoutClick(label, value);
     }}
     className="inline-block w-full sm:w-auto cta-button"
   >
@@ -70,11 +71,13 @@ const RedCta = ({
 
 const GoldCta = ({
   label,
+  value = 89.9,
   children,
   className = "",
 }: {
   href?: string;
   label: string;
+  value?: number;
   children: React.ReactNode;
   className?: string;
 }) => (
@@ -82,7 +85,7 @@ const GoldCta = ({
     href={appendTrackingParamsToUrl(LINK_COMBO)}
     onClick={(e) => {
       e.preventDefault();
-      handleCheckoutClick(label, 89.9);
+      handleCheckoutClick(label, value);
     }}
     className="inline-block w-full sm:w-auto cta-button"
   >
@@ -95,6 +98,7 @@ const GoldCta = ({
     </Button>
   </a>
 );
+
 
 const SectionTitle = ({
   kicker,
@@ -131,9 +135,11 @@ type CardProps = {
   href: string;
   ctaLabel: string;
   trackingLabel: string;
+  trackingValue: number;
   highlight?: boolean;
   badgeOff?: string;
 };
+
 
 const ProductCard = ({
   cover,
@@ -146,6 +152,7 @@ const ProductCard = ({
   href,
   ctaLabel,
   trackingLabel,
+  trackingValue,
   highlight = false,
   badgeOff,
 }: CardProps) => (
@@ -196,13 +203,14 @@ const ProductCard = ({
       </span>
     </div>
 
-    <RedCta href={href} label={trackingLabel}>{ctaLabel}</RedCta>
+    <RedCta href={href} label={trackingLabel} value={trackingValue}>{ctaLabel}</RedCta>
 
     <p className="text-xs text-muted-foreground mt-4 text-center inline-flex items-center justify-center gap-2">
       <ShieldCheck className="size-4 text-[#FFD700]" /> Garantia de 7 dias · Acesso imediato
     </p>
   </article>
 );
+
 
 const faqs = [
   {
@@ -351,6 +359,7 @@ const Index = () => {
               href={LINK_COMBO}
               ctaLabel="Comprar agora"
               trackingLabel="Card · Manual do Córner"
+              trackingValue={49.9}
             />
 
             <ProductCard
@@ -368,6 +377,7 @@ const Index = () => {
               href={LINK_COMBO}
               ctaLabel="Comprar agora"
               trackingLabel="Card · Caminho do Boxeador"
+              trackingValue={67.9}
             />
 
             <ProductCard
@@ -386,6 +396,7 @@ const Index = () => {
               href={LINK_COMBO}
               ctaLabel="Levar os dois"
               trackingLabel="Card · Combo"
+              trackingValue={89.9}
               highlight
               badgeOff="24% OFF"
             />

@@ -1,5 +1,5 @@
 // =============================================================
-// Tracking utilities — UTMs, fbclid, gclid persistence
+// Tracking utilities — UTMs, fbclid, gclid, src, sck persistence
 // Captura parâmetros da URL na primeira visita e mantém no
 // localStorage para reaproveitar em todos os CTAs do site.
 // =============================================================
@@ -7,6 +7,7 @@
 const STORAGE_KEY = "bdc_tracking_params";
 const CONSENT_KEY = "bdc_cookie_consent"; // "granted" | "denied"
 
+// Chaves preservadas entre site → Hotmart
 const TRACKING_KEYS = [
   "utm_source",
   "utm_medium",
@@ -15,6 +16,8 @@ const TRACKING_KEYS = [
   "utm_content",
   "fbclid",
   "gclid",
+  "src",
+  "sck",
 ] as const;
 
 type TrackingParams = Partial<Record<(typeof TRACKING_KEYS)[number], string>>;
@@ -53,22 +56,23 @@ export function getStoredTrackingParams(): TrackingParams {
 }
 
 /**
- * Anexa src=site_boxe_de_cria + UTMs/fbclid/gclid salvos ao link
- * de checkout da Hotmart, preservando parâmetros já existentes.
+ * Anexa src=site_boxe_de_cria (default) + UTMs/fbclid/gclid/sck salvos
+ * ao link de checkout da Hotmart, preservando parâmetros já existentes.
  */
 export function appendTrackingParamsToUrl(url: string): string {
   try {
     const u = new URL(url);
     const params = getStoredTrackingParams();
 
-    // src fixo identificando origem
+    for (const [k, v] of Object.entries(params)) {
+      if (v && !u.searchParams.has(k)) u.searchParams.set(k, v);
+    }
+
+    // src fixo identificando origem (se nada foi capturado nem já estiver no link)
     if (!u.searchParams.has("src")) {
       u.searchParams.set("src", "site_boxe_de_cria");
     }
 
-    for (const [k, v] of Object.entries(params)) {
-      if (v && !u.searchParams.has(k)) u.searchParams.set(k, v);
-    }
     return u.toString();
   } catch {
     return url;
