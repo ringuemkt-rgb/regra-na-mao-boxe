@@ -135,9 +135,11 @@ type CardProps = {
   href: string;
   ctaLabel: string;
   trackingLabel: string;
+  trackingValue: number;
   highlight?: boolean;
   badgeOff?: string;
 };
+
 
 const ProductCard = ({
   cover,
