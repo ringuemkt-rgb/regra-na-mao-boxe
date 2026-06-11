@@ -1,10 +1,20 @@
 // =============================================================
 // Meta Pixel — carregado APENAS após o consentimento LGPD.
-// ID via VITE_META_PIXEL_ID (publishable, ok em código cliente).
+//
+// 🔧 Como trocar o Pixel ID:
+//   altere VITE_META_PIXEL_ID em .env e republique.
+//
+// Eventos disparados pelo SITE:
+//   - PageView        → toda mudança de rota (RouteTracker)
+//   - ViewContent     → mount da landing do e-book
+//   - InitiateCheckout→ clique em qualquer CTA antes do redirect
+//
+// Purchase NÃO é disparado aqui — fica a cargo da Hotmart.
 // =============================================================
 
 const META_PIXEL_ID = import.meta.env.VITE_META_PIXEL_ID as string | undefined;
 
+// Parâmetros padrão de conteúdo (alteráveis se mudar o catálogo)
 const DEFAULT_CONTENT = {
   content_name: "Boxe de Cria Ebook",
   content_category: "Ebook / Boxe / Artes Marciais",
@@ -25,7 +35,6 @@ export function loadMetaPixel() {
   }
   if (typeof window === "undefined") return;
   if ((window as any).fbq) {
-    // Já carregado — apenas dispara PageView novamente
     trackPageView();
     return;
   }
@@ -55,12 +64,11 @@ export function loadMetaPixel() {
   /* eslint-enable */
 
   (window as any).fbq("init", META_PIXEL_ID);
-  // [Meta Pixel] PageView — dispara em toda carga inicial
   (window as any).fbq("track", "PageView");
   console.log("[MetaPixel] loaded + PageView", META_PIXEL_ID);
 }
 
-/** Dispara PageView (útil em mudanças de rota SPA). */
+/** PageView — disparado em todas as mudanças de rota SPA. */
 export function trackPageView() {
   const f = fbq();
   if (!f) return;
@@ -68,16 +76,16 @@ export function trackPageView() {
   console.log("[MetaPixel] PageView");
 }
 
-/** Dispara ViewContent — usar ao carregar a landing do e-book. */
-export function trackViewContent(value = 89.9) {
+/** ViewContent — mount da landing. `value` deve ser o preço do produto exibido. */
+export function trackViewContent(value: number) {
   const f = fbq();
   if (!f) return;
   f("track", "ViewContent", { ...DEFAULT_CONTENT, value });
   console.log("[MetaPixel] ViewContent", value);
 }
 
-/** Dispara InitiateCheckout — usar antes de redirecionar p/ Hotmart. */
-export function trackInitiateCheckout(value = 89.9, label?: string) {
+/** InitiateCheckout — antes de redirecionar p/ Hotmart. `value` é obrigatório. */
+export function trackInitiateCheckout(value: number, label?: string) {
   const f = fbq();
   if (!f) return;
   f("track", "InitiateCheckout", {
