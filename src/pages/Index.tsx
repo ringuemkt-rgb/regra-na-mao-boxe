@@ -377,6 +377,7 @@ const Index = () => {
               href={LINK_COMBO}
               ctaLabel="Comprar agora"
               trackingLabel="Card · Caminho do Boxeador"
+              trackingValue={67.9}
             />
 
             <ProductCard
