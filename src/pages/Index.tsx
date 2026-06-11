@@ -359,6 +359,7 @@ const Index = () => {
               href={LINK_COMBO}
               ctaLabel="Comprar agora"
               trackingLabel="Card · Manual do Córner"
+              trackingValue={49.9}
             />
 
             <ProductCard
