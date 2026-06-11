@@ -152,6 +152,7 @@ const ProductCard = ({
   href,
   ctaLabel,
   trackingLabel,
+  trackingValue,
   highlight = false,
   badgeOff,
 }: CardProps) => (
@@ -202,13 +203,14 @@ const ProductCard = ({
       </span>
     </div>
 
-    <RedCta href={href} label={trackingLabel}>{ctaLabel}</RedCta>
+    <RedCta href={href} label={trackingLabel} value={trackingValue}>{ctaLabel}</RedCta>
 
     <p className="text-xs text-muted-foreground mt-4 text-center inline-flex items-center justify-center gap-2">
       <ShieldCheck className="size-4 text-[#FFD700]" /> Garantia de 7 dias · Acesso imediato
     </p>
   </article>
 );
+
 
 const faqs = [
   {
