@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import Trust from "./pages/Trust.tsx";
 import CookieConsent from "@/components/CookieConsent";
 import { captureTrackingParams } from "@/lib/tracking";
 import { trackPageView } from "@/lib/metaPixel";
@@ -32,6 +33,7 @@ const App = () => (
         <RouteTracker />
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/confianca" element={<Trust />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
