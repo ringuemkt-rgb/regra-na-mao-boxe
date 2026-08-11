@@ -58,7 +58,7 @@ namespace BoxeDeCria.Scout
                     b = mb.value,
                     delta = ma.value - mb.value,
                     confidence = Math.Min(NormalizeConfidence(ma.confidence), NormalizeConfidence(mb.confidence)),
-                    limitation = MergeLimitations(ma.limitation, mb.limitation)
+                    limitation = MergeLimitations(ma.limitations, mb.limitations)
                 };
                 result.Dimensions.Add(d);
                 var tolerance = Math.Max(0.01f, Math.Max(Math.Abs(d.a), Math.Abs(d.b)) * 0.03f);
@@ -75,11 +75,12 @@ namespace BoxeDeCria.Scout
         private static bool IsComparableMetric(ScoutMetricDto m) => m != null && !string.IsNullOrWhiteSpace(m.key) && !string.IsNullOrWhiteSpace(m.unit) && !float.IsNaN(m.value) && !float.IsInfinity(m.value);
         private static string Key(ScoutMetricDto m) => (m.key + "::" + m.unit).ToLowerInvariant();
         private static float NormalizeConfidence(float c) => c <= 0 ? 0.5f : Math.Clamp(c, 0f, 1f);
-        private static string MergeLimitations(string a, string b)
+        private static string MergeLimitations(List<string> a, List<string> b)
         {
-            if (string.IsNullOrWhiteSpace(a)) return b;
-            if (string.IsNullOrWhiteSpace(b) || a == b) return a;
-            return a + " · " + b;
+            var items = new List<string>();
+            if (a != null) items.AddRange(a.Where(v => !string.IsNullOrWhiteSpace(v)));
+            if (b != null) items.AddRange(b.Where(v => !string.IsNullOrWhiteSpace(v)));
+            return string.Join(" · ", items.Distinct());
         }
     }
 }
