@@ -8,24 +8,28 @@ namespace BoxeDeCria.Scout
 {
     public sealed class ScoutApiClient
     {
-        [Serializable] private sealed class DossierRow { public ScoutDossierDto payload; }
+        [Serializable] private sealed class DossierRow { public string status; public ScoutDossierDto payload; }
         [Serializable] private sealed class DossierRows { public List<DossierRow> items = new(); }
 
         private readonly ScoutClientConfig _config;
-
         public ScoutApiClient(ScoutClientConfig config) => _config = config;
 
         public IEnumerator GetApprovedDossiers(Action<List<ScoutDossierDto>> ok, Action<string> fail)
         {
-            var url = BaseRest() + "/scout_dossiers?status=eq.approved&select=payload&order=updated_at.desc";
+            var url = BaseRest() + "/scout_dossiers?status=eq.approved&select=status,payload&order=updated_at.desc";
             yield return Send(url, raw =>
             {
                 var rows = JsonUtility.FromJson<DossierRows>(WrapArray(raw));
                 var result = new List<ScoutDossierDto>();
                 if (rows?.items != null)
+                {
                     foreach (var row in rows.items)
-                        if (row?.payload != null && (!_config.requireApprovedStatus || row.payload.status == "approved"))
-                            result.Add(row.payload);
+                    {
+                        if (row?.payload == null) continue;
+                        row.payload.status = row.status;
+                        if (!_config.requireApprovedStatus || row.status == "approved") result.Add(row.payload);
+                    }
+                }
                 ok?.Invoke(result);
             }, fail);
         }
@@ -33,12 +37,18 @@ namespace BoxeDeCria.Scout
         public IEnumerator GetApprovedDossier(string slug, Action<ScoutDossierDto> ok, Action<string> fail)
         {
             var encoded = UnityWebRequest.EscapeURL(slug ?? string.Empty);
-            var url = BaseRest() + $"/scout_dossiers?slug=eq.{encoded}&status=eq.approved&select=payload&limit=1";
+            var url = BaseRest() + $"/scout_dossiers?slug=eq.{encoded}&status=eq.approved&select=status,payload&limit=1";
             yield return Send(url, raw =>
             {
                 var rows = JsonUtility.FromJson<DossierRows>(WrapArray(raw));
-                var dto = rows?.items != null && rows.items.Count > 0 ? rows.items[0].payload : null;
-                if (dto == null) fail?.Invoke("Dossiê aprovado não encontrado."); else ok?.Invoke(dto);
+                if (rows?.items == null || rows.items.Count == 0 || rows.items[0].payload == null)
+                {
+                    fail?.Invoke("Dossiê aprovado não encontrado.");
+                    return;
+                }
+                var row = rows.items[0];
+                row.payload.status = row.status;
+                ok?.Invoke(row.payload);
             }, fail);
         }
 
@@ -52,7 +62,6 @@ namespace BoxeDeCria.Scout
                 request.SetRequestHeader("apikey", _config.publicAnonKey);
                 request.SetRequestHeader("Authorization", "Bearer " + _config.publicAnonKey);
             }
-
             yield return request.SendWebRequest();
             if (request.result != UnityWebRequest.Result.Success)
             {
