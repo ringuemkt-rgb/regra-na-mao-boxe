@@ -1,3 +1,5 @@
+import type { ScoutDossier } from "./types";
+
 export type CombatStyle = "striker" | "wrestler" | "grappler" | "all-rounder" | "unknown";
 
 export interface StyleStats {
@@ -73,7 +75,7 @@ export function classifyStyle(stats: StyleStats): StyleClassification {
 
   return {
     style,
-    secondary: allRounder ? second[0] : second[0],
+    secondary: second[0],
     confidence,
     sampleMinutes,
     scores,
@@ -85,4 +87,31 @@ export function classifyStyle(stats: StyleStats): StyleClassification {
       "O classificador deve ser recalibrado quando a distribuição da base de dados mudar.",
     ],
   };
+}
+
+const metric = (dossier: ScoutDossier, key: string) => dossier.metrics.find((item) => item.key === key)?.value;
+
+export function classifyDossierStyle(dossier: ScoutDossier): StyleClassification {
+  if (dossier.sport !== "MMA") {
+    return {
+      style: "unknown",
+      confidence: 0,
+      sampleMinutes: metric(dossier, "sample_minutes") || 0,
+      scores: { striker: 0, wrestler: 0, grappler: 0 },
+      rationale: ["O classificador atual está calibrado apenas para MMA."],
+      limitations: ["Boxe e Jiu-Jitsu precisam de taxonomias próprias; não reutilizar pesos de MMA."],
+    };
+  }
+
+  return classifyStyle({
+    significantStrikesLandedPer15: metric(dossier, "sig_strikes_landed_per15"),
+    knockdownsPer15: metric(dossier, "knockdowns_per15"),
+    takedownsLandedPer15: metric(dossier, "takedowns_landed_per15"),
+    takedownAccuracyPct: metric(dossier, "takedown_accuracy_pct"),
+    takedownDefensePct: metric(dossier, "takedown_defense_pct"),
+    submissionAttemptsPer15: metric(dossier, "submission_attempts_per15"),
+    submissionWinsPct: metric(dossier, "submission_wins_pct"),
+    controlTimePct: metric(dossier, "control_time_pct"),
+    sampleMinutes: metric(dossier, "sample_minutes"),
+  });
 }
