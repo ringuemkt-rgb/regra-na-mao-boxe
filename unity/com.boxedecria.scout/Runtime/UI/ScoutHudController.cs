@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -18,7 +17,6 @@ namespace BoxeDeCria.Scout
         private ScoutApiClient _api;
         private readonly List<ScoutDossierDto> _catalog = new();
         private DateTime _lastRefreshUtc = DateTime.MinValue;
-
         private TextField _search;
         private ScrollView _results;
         private VisualElement _dossierPanel;
@@ -38,7 +36,6 @@ namespace BoxeDeCria.Scout
             }
             if (styleSheet != null && !_document.rootVisualElement.styleSheets.Contains(styleSheet))
                 _document.rootVisualElement.styleSheets.Add(styleSheet);
-
             _api = new ScoutApiClient(config);
             BindUi();
         }
@@ -56,7 +53,6 @@ namespace BoxeDeCria.Scout
             _athleteB = root.Q<DropdownField>("athleteBField");
             _faceOff = root.Q<ScrollView>("faceOffContainer");
             _faceSummary = root.Q<Label>("faceOffSummary");
-
             root.Q<Button>("refreshButton").clicked += () => RefreshCatalog(true);
             root.Q<Button>("compareButton").clicked += RenderFaceOff;
             _search.RegisterValueChangedCallback(_ => RenderSearchResults());
@@ -107,8 +103,7 @@ namespace BoxeDeCria.Scout
                 title.AddToClassList("result-name");
                 var meta = new Label(string.Join(" · ", new[] { d.sport, d.category, d.identity?.nationality }.Where(v => !string.IsNullOrWhiteSpace(v))));
                 meta.AddToClassList("result-meta");
-                left.Add(title); left.Add(meta); row.Add(left);
-                row.Add(new Label("RAIO-X →"));
+                left.Add(title); left.Add(meta); row.Add(left); row.Add(new Label("RAIO-X →"));
                 _results.Add(row);
             }
         }
@@ -129,8 +124,7 @@ namespace BoxeDeCria.Scout
 
             var metrics = root.Q<ScrollView>("metricsContainer");
             metrics.Clear();
-            foreach (var metric in (d.metrics ?? new()).OrderByDescending(m => m.confidence))
-                metrics.Add(BuildMetric(metric));
+            foreach (var metric in (d.metrics ?? new()).OrderByDescending(m => m.confidence)) metrics.Add(BuildMetric(metric));
         }
 
         private VisualElement BuildMetric(ScoutMetricDto m)
@@ -140,14 +134,15 @@ namespace BoxeDeCria.Scout
             var label = new Label(string.IsNullOrWhiteSpace(m.label) ? m.key : m.label); label.AddToClassList("metric-label");
             var value = new Label($"{m.value:0.##} {m.unit}"); value.AddToClassList("metric-value");
             head.Add(label); head.Add(value); row.Add(head);
-            var note = new Label($"Confiança {(m.confidence <= 0 ? 0.5f : m.confidence):P0} · n={m.sample_size} · {m.derivation}{(string.IsNullOrWhiteSpace(m.limitation) ? "" : " · Limitação: " + m.limitation)}");
+            var limitation = m.limitations == null || m.limitations.Count == 0 ? string.Empty : " · Limitações: " + string.Join(" · ", m.limitations);
+            var note = new Label($"Confiança {(m.confidence <= 0 ? 0.5f : m.confidence):P0} · n={m.sampleSize} · {m.derivation}{limitation}");
             note.AddToClassList("metric-note"); row.Add(note);
             return row;
         }
 
         private void UpdateChoices()
         {
-            var choices = _catalog.Select(d => DisplayName(d)).ToList();
+            var choices = _catalog.Select(DisplayName).ToList();
             _athleteA.choices = choices;
             _athleteB.choices = choices;
         }
