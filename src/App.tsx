@@ -8,6 +8,8 @@ import Index from "./pages/Index.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import Trust from "./pages/Trust.tsx";
 import CookieConsent from "@/components/CookieConsent";
+import AdSenseScript from "@/components/ads/AdSenseScript";
+import "@/components/ads/adsense.css";
 import { captureTrackingParams } from "@/lib/tracking";
 import { trackPageView } from "@/lib/metaPixel";
 
@@ -31,6 +33,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <RouteTracker />
+        <AdSenseScript />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/confianca" element={<Trust />} />
