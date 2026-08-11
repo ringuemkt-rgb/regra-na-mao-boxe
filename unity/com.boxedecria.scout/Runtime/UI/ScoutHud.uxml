@@ -1,0 +1,50 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+  <ui:VisualElement name="root" class="hud-root">
+    <ui:VisualElement class="topbar">
+      <ui:Label text="BOXE DE CRIA" class="brand" />
+      <ui:Label text="SCOUT DE CRIA · EVIDENCE FIRST" class="eyebrow" />
+      <ui:Label name="statusLabel" text="OFFLINE" class="status" />
+    </ui:VisualElement>
+
+    <ui:ScrollView class="content">
+      <ui:VisualElement class="hero">
+        <ui:Label text="RAIO-X SUPREMO" class="eyebrow red" />
+        <ui:Label text="INTELIGÊNCIA DE COMBATE\nSEM DADO INVENTADO." class="hero-title" />
+        <ui:Label text="Cliente Unity conectado somente a dossiês aprovados pelo gate de evidência." class="muted" />
+      </ui:VisualElement>
+
+      <ui:VisualElement class="panel">
+        <ui:Label text="SEARCH COMMAND CENTER" class="panel-title" />
+        <ui:TextField name="searchField" label="Atleta" class="search" />
+        <ui:Button name="refreshButton" text="ATUALIZAR CATÁLOGO" class="button" />
+        <ui:ScrollView name="resultsContainer" class="results" />
+      </ui:VisualElement>
+
+      <ui:VisualElement name="dossierPanel" class="panel hidden">
+        <ui:Label name="dossierEyebrow" text="DOSSIÊ" class="eyebrow red" />
+        <ui:Label name="dossierName" text="—" class="dossier-title" />
+        <ui:Label name="dossierMeta" text="—" class="muted" />
+        <ui:VisualElement class="kpi-grid">
+          <ui:VisualElement class="kpi"><ui:Label text="VITÓRIAS" class="kpi-label"/><ui:Label name="winsValue" text="—" class="kpi-value green"/></ui:VisualElement>
+          <ui:VisualElement class="kpi"><ui:Label text="DERROTAS" class="kpi-label"/><ui:Label name="lossesValue" text="—" class="kpi-value red"/></ui:VisualElement>
+          <ui:VisualElement class="kpi"><ui:Label text="COBERTURA" class="kpi-label"/><ui:Label name="coverageValue" text="—" class="kpi-value gold"/></ui:VisualElement>
+          <ui:VisualElement class="kpi"><ui:Label text="CLAIMS SUPORTADOS" class="kpi-label"/><ui:Label name="supportedValue" text="—" class="kpi-value"/></ui:VisualElement>
+        </ui:VisualElement>
+        <ui:Label name="auditLabel" text="—" class="audit" />
+        <ui:ScrollView name="metricsContainer" class="metrics" />
+      </ui:VisualElement>
+
+      <ui:VisualElement class="panel">
+        <ui:Label text="FACE-OFF EVIDENCE" class="panel-title" />
+        <ui:Label text="Compara somente métricas compatíveis da mesma modalidade; não gera probabilidade de vitória." class="muted" />
+        <ui:VisualElement class="face-selects">
+          <ui:DropdownField name="athleteAField" label="Atleta A" />
+          <ui:DropdownField name="athleteBField" label="Atleta B" />
+        </ui:VisualElement>
+        <ui:Button name="compareButton" text="COMPARAR" class="button gold-button" />
+        <ui:Label name="faceOffSummary" text="Selecione dois atletas aprovados." class="audit" />
+        <ui:ScrollView name="faceOffContainer" class="metrics" />
+      </ui:VisualElement>
+    </ui:ScrollView>
+  </ui:VisualElement>
+</ui:UXML>

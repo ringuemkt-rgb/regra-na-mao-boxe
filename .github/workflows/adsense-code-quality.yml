@@ -1,16 +1,19 @@
-name: Blog + AdSense Code Quality
+name: Blog + Scout + AdSense Code Quality
 
 on:
   push:
     branches:
       - feat/blog-monetization-os
       - feat/scout-de-cria
+      - feat/scout-unity-client
     paths:
       - "index.html"
       - "src/**"
       - "public/**"
+      - "unity/**"
       - "supabase/migrations/**"
       - "scripts/adsense-*.mjs"
+      - "scripts/unity-scout-audit.mjs"
       - ".github/workflows/adsense-*.yml"
       - "package*.json"
   pull_request:
@@ -18,8 +21,10 @@ on:
       - "index.html"
       - "src/**"
       - "public/**"
+      - "unity/**"
       - "supabase/migrations/**"
       - "scripts/adsense-*.mjs"
+      - "scripts/unity-scout-audit.mjs"
       - ".github/workflows/adsense-*.yml"
       - "package*.json"
 
@@ -47,8 +52,11 @@ jobs:
       - name: AdSense readiness audit
         run: npm run ads:audit
 
-      - name: Build
+      - name: Scout Unity static audit
+        run: node scripts/unity-scout-audit.mjs
+
+      - name: Build web portal
         run: npm run build
 
-      - name: Test
+      - name: Test web + Scout engines
         run: npm test

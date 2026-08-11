@@ -1,0 +1,10 @@
+{
+  "name": "com.boxedecria.scout",
+  "version": "0.1.0",
+  "displayName": "BOXE DE CRIA · Scout HUD",
+  "description": "Unity client for SCOUT DE CRIA evidence-first dossiers and Face-Off visualization.",
+  "unity": "6000.0",
+  "author": {
+    "name": "BOXE DE CRIA"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "BoxeDeCria.Scout.Tests",
+  "rootNamespace": "BoxeDeCria.Scout.Tests",
+  "references": ["BoxeDeCria.Scout.Runtime"],
+  "includePlatforms": ["Editor"],
+  "optionalUnityReferences": ["TestAssemblies"],
+  "autoReferenced": false,
+  "noEngineReferences": false
+}
