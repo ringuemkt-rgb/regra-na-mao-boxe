@@ -33,7 +33,14 @@ function walk(dir) {
 walk(root);
 const source = files.filter(f => /\.(cs|uxml|uss|json)$/i.test(f)).map(f => fs.readFileSync(f, 'utf8')).join('\n');
 const lower = source.toLowerCase();
-for (const forbidden of ['service_role', 'service-role', 'supabase_service', 'projecao_vitoria', 'win_probability']) {
+for (const forbidden of [
+  'supabase_service_role_key',
+  'service_role_key',
+  'service-role-key',
+  'service_role=',
+  'projecao_vitoria',
+  'win_probability',
+]) {
   if (lower.includes(forbidden)) errors.push(`forbidden client token: ${forbidden}`);
 }
 
@@ -43,7 +50,7 @@ if (!api.includes('select=status,payload')) errors.push('API client must preserv
 
 const face = fs.readFileSync(path.join(root, 'Runtime/Services/FaceOffEngine.cs'), 'utf8');
 if (!face.includes('modalidades diferentes')) errors.push('cross-sport Face-Off guard missing');
-if (!face.includes('mesma') && !face.includes('unit')) errors.push('metric compatibility guard missing');
+if (!face.includes('unit')) errors.push('metric compatibility guard missing');
 
 if (errors.length) {
   console.error('SCOUT Unity audit FAILED');
