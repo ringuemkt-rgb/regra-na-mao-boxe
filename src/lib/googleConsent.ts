@@ -1,3 +1,5 @@
+import { adsenseConfig } from "@/config/adsense";
+
 export type GoogleConsentStatus = "granted" | "denied";
 
 declare global {
@@ -19,8 +21,16 @@ function ensureGtag() {
 }
 
 /**
- * Sincroniza o banner LGPD do site com o Google Consent Mode v2.
- * O estado default é definido no <head>, antes de GA/GTM.
+ * Synchronizes the local cookie choice with Google Consent Mode.
+ *
+ * google-cmp:
+ *   The local banner controls analytics only. Advertising consent stays denied
+ *   until Google's certified CMP / Privacy & messaging flow handles it.
+ *
+ * site-consent:
+ *   The local banner also updates advertising consent. This remains an
+ *   additional local gate and must NOT be treated as a substitute for Google's
+ *   certified CMP/TCF requirement where that requirement applies.
  */
 export function updateGoogleConsent(status: GoogleConsentStatus) {
   const gtag = ensureGtag();
@@ -28,12 +38,19 @@ export function updateGoogleConsent(status: GoogleConsentStatus) {
 
   const value = status === "granted" ? "granted" : "denied";
 
+  if (adsenseConfig.consentStrategy === "site-consent") {
+    gtag("consent", "update", {
+      ad_storage: value,
+      ad_user_data: value,
+      ad_personalization: value,
+      analytics_storage: value,
+    });
+    gtag("set", "ads_data_redaction", status !== "granted");
+    return;
+  }
+
+  // Google CMP owns ad-related consent. The local banner only controls analytics.
   gtag("consent", "update", {
-    ad_storage: value,
-    ad_user_data: value,
-    ad_personalization: value,
     analytics_storage: value,
   });
-
-  gtag("set", "ads_data_redaction", status !== "granted");
 }
