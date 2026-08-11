@@ -1,0 +1,73 @@
+name: BOXE DE CRIA Daily Blog Audit
+
+on:
+  schedule:
+    - cron: '0 12 * * *' # 09:00 America/Bahia (UTC-3)
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Run editorial + policy audit
+        id: audit
+        continue-on-error: true
+        run: node scripts/daily-content-audit.mjs
+
+      - name: Publish job summary
+        if: always()
+        run: |
+          if [ -f reports/daily-content-audit.md ]; then
+            cat reports/daily-content-audit.md >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "# BOXE DE CRIA — audit failed before report generation" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload audit artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: boxe-blog-daily-audit
+          path: reports/
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Update persistent audit issue
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TITLE="BOXE Blog Daily Audit"
+          BODY_FILE="reports/daily-content-audit.md"
+
+          if [ ! -f "$BODY_FILE" ]; then
+            printf '# BOXE DE CRIA — Daily Blog Audit\n\nO workflow falhou antes de gerar o relatório. Verifique a execução do GitHub Actions.\n' > "$BODY_FILE"
+          fi
+
+          ISSUE_NUMBER=$(gh issue list --state open --search "\"$TITLE\" in:title" --json number,title --jq '.[] | select(.title == "BOXE Blog Daily Audit") | .number' | head -n 1)
+
+          if [ -n "$ISSUE_NUMBER" ]; then
+            gh issue edit "$ISSUE_NUMBER" --body-file "$BODY_FILE"
+          else
+            gh issue create --title "$TITLE" --body-file "$BODY_FILE"
+          fi
+
+      - name: Enforce quality blockers
+        if: steps.audit.outcome == 'failure'
+        run: |
+          echo "Editorial quality blockers were detected. See the report artifact / issue."
+          exit 1
