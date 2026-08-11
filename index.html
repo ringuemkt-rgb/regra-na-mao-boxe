@@ -11,15 +11,19 @@
       (function(){
         var stored = 'unknown';
         try { stored = localStorage.getItem('bdc_cookie_consent') || 'unknown'; } catch (e) {}
-        var consent = stored === 'granted' ? 'granted' : 'denied';
+        var analyticsConsent = stored === 'granted' ? 'granted' : 'denied';
+
+        // Advertising signals stay denied by default. In google-cmp mode they
+        // remain under the certified Google CMP. In site-consent mode the React
+        // app updates them only after an explicit local consent choice.
         gtag('consent', 'default', {
-          'ad_storage': consent,
-          'ad_user_data': consent,
-          'ad_personalization': consent,
-          'analytics_storage': consent,
+          'ad_storage': 'denied',
+          'ad_user_data': 'denied',
+          'ad_personalization': 'denied',
+          'analytics_storage': analyticsConsent,
           'wait_for_update': 500
         });
-        gtag('set', 'ads_data_redaction', consent !== 'granted');
+        gtag('set', 'ads_data_redaction', true);
       })();
     </script>
 
