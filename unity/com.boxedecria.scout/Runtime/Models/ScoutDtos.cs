@@ -14,25 +14,29 @@ namespace BoxeDeCria.Scout
         public string nickname;
         public string category;
         public string team;
-        public string photo_url;
+        public string photoUrl;
         public IdentityDto identity = new();
         public RecordDto record = new();
+        public List<ScoutTimelineItemDto> timeline = new();
         public List<ScoutFightDto> fights = new();
         public List<ScoutMetricDto> metrics = new();
+        public List<ScoutTechnicalSectionDto> technicalSections = new();
+        public List<ScoutMediaContextDto> mediaContext = new();
         public List<ScoutClaimDto> claims = new();
         public List<ScoutSourceDto> sources = new();
-        public string last_updated_at;
+        public string verdict;
+        public string lastUpdatedAt;
     }
 
     [Serializable] public sealed class IdentityDto
     {
-        public string birth_date;
+        public string birthDate;
         public int age;
-        public string birth_place;
+        public string birthPlace;
         public string nationality;
         public string stance;
-        public float height_cm;
-        public float reach_cm;
+        public float heightCm;
+        public float reachCm;
         public string coach;
     }
 
@@ -41,20 +45,35 @@ namespace BoxeDeCria.Scout
         public int wins;
         public int losses;
         public int draws;
-        public int no_contests;
+        public int noContests;
     }
 
     [Serializable] public sealed class ScoutFightDto
     {
         public string id;
         public string date;
-        public string event_name;
+        public string @event;
         public string opponent;
         public string result;
         public string method;
         public int round;
         public string time;
-        public List<string> source_ids = new();
+        public List<string> sourceIds = new();
+        public string opponentStyle;
+        public bool titleFight;
+        public int knockdownsSuffered;
+        public int takedownsAttemptedAgainst;
+        public int takedownsDefended;
+        public string round1Result;
+    }
+
+    [Serializable] public sealed class ScoutTimelineItemDto
+    {
+        public int year;
+        public string date;
+        public string title;
+        public string description;
+        public List<string> claimIds = new();
     }
 
     [Serializable] public sealed class ScoutMetricDto
@@ -64,10 +83,27 @@ namespace BoxeDeCria.Scout
         public float value;
         public string unit;
         public string derivation;
-        public List<string> source_ids = new();
+        public List<string> sourceIds = new();
         public float confidence;
-        public int sample_size;
-        public string limitation;
+        public int sampleSize;
+        public List<string> limitations = new();
+    }
+
+    [Serializable] public sealed class ScoutTechnicalSectionDto
+    {
+        public string key;
+        public string title;
+        public string summary;
+        public List<string> claimIds = new();
+    }
+
+    [Serializable] public sealed class ScoutMediaContextDto
+    {
+        public string title;
+        public string publisher;
+        public string date;
+        public string url;
+        public string sourceId;
     }
 
     [Serializable] public sealed class ScoutClaimDto
@@ -81,10 +117,10 @@ namespace BoxeDeCria.Scout
 
     [Serializable] public sealed class ScoutEvidenceDto
     {
-        public string source_id;
+        public string sourceId;
         public string field;
         public string excerpt;
-        public float timestamp_seconds;
+        public float timestampSeconds;
     }
 
     [Serializable] public sealed class ScoutSourceDto
@@ -94,7 +130,7 @@ namespace BoxeDeCria.Scout
         public string title;
         public string publisher;
         public string url;
-        public string retrieved_at;
+        public string retrievedAt;
         public float reliability;
     }
 
