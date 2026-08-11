@@ -1,0 +1,8 @@
+{
+  "name": "BoxeDeCria.Scout.Editor",
+  "rootNamespace": "BoxeDeCria.Scout.Editor",
+  "references": ["BoxeDeCria.Scout.Runtime"],
+  "includePlatforms": ["Editor"],
+  "autoReferenced": true,
+  "noEngineReferences": false
+}
