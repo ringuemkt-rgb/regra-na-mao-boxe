@@ -1,0 +1,8 @@
+/* Google sets data-ad-status after an ad request. Hide units that were not filled. */
+.bdc-ad-slot:has(.adsbygoogle[data-ad-status="unfilled"]) {
+  display: none;
+}
+
+.bdc-ad-slot .adsbygoogle[data-ad-status="unfilled"] {
+  min-height: 0 !important;
+}
