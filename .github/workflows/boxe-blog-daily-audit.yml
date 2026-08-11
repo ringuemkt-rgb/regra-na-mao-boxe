@@ -1,6 +1,16 @@
-name: BOXE DE CRIA Daily Blog + Ads Audit
+name: BOXE DE CRIA Blog + Ads Quality Gate
 
 on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'scripts/**'
+      - 'content/**'
+      - 'docs/**'
+      - 'index.html'
+      - 'package.json'
+      - '.github/workflows/boxe-blog-daily-audit.yml'
   schedule:
     - cron: '0 12 * * *' # 09:00 America/Bahia (UTC-3)
   workflow_dispatch:
@@ -12,7 +22,7 @@ permissions:
 jobs:
   audit:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 12
 
     steps:
       - name: Checkout
@@ -22,6 +32,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
 
       - name: Run editorial + Google policy audit
         id: editorial
@@ -31,7 +45,12 @@ jobs:
       - name: Run AdSense readiness audit
         id: adsense
         continue-on-error: true
-        run: node scripts/adsense-readiness-audit.mjs
+        run: npm run ads:audit
+
+      - name: Build production bundle
+        id: build
+        continue-on-error: true
+        run: npm run build
 
       - name: Publish job summary
         if: always()
@@ -51,6 +70,11 @@ jobs:
           else
             echo "# BOXE DE CRIA — AdSense audit failed before report generation" >> "$GITHUB_STEP_SUMMARY"
           fi
+
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "---" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Build outcome: ${{ steps.build.outcome }}" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload audit artifact
         if: always()
@@ -80,8 +104,10 @@ jobs:
             printf '# BOXE DE CRIA — AdSense Audit\n\nFalhou antes de gerar relatório.\n' >> reports/combined-daily-audit.md
           fi
 
+          printf '\n\n---\n\nBuild outcome: ${{ steps.build.outcome }}\n' >> reports/combined-daily-audit.md
+
       - name: Update persistent audit issue
-        if: always()
+        if: always() && github.event_name != 'pull_request'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -97,7 +123,7 @@ jobs:
           fi
 
       - name: Enforce quality blockers
-        if: steps.editorial.outcome == 'failure' || steps.adsense.outcome == 'failure'
+        if: steps.editorial.outcome == 'failure' || steps.adsense.outcome == 'failure' || steps.build.outcome == 'failure'
         run: |
-          echo "Editorial or AdSense policy blockers were detected. See the report artifact / issue."
+          echo "Editorial, AdSense policy, or build blockers were detected. See the job summary/artifact."
           exit 1
