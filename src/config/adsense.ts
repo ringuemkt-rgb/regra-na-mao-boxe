@@ -17,14 +17,22 @@ const clean = (value: string | undefined) => (value || "").trim();
  * - current route is editorial/monetizable
  * - consent strategy requirements are satisfied
  *
- * Keep Auto ads disabled during the first rollout. Manual slots give us
- * tighter control over UX, Core Web Vitals and accidental-click risk.
+ * Brazil-first rollout defaults to site-consent, so the AdSense script is not
+ * loaded until the visitor accepts optional cookies in the BOXE DE CRIA banner.
+ *
+ * For EEA/UK/Switzerland personalized ads, site-consent does NOT replace the
+ * requirement for a Google-certified CMP integrated with IAB TCF. Configure
+ * Google's CMP in AdSense Privacy & messaging and switch the strategy to
+ * google-cmp when that account-side setup is ready.
+ *
+ * Keep Auto ads disabled during the first rollout. Manual slots give tighter
+ * control over UX, Core Web Vitals and accidental-click risk.
  */
 export const adsenseConfig = {
   enabled: asBool(env.VITE_ADSENSE_ENABLED, false),
   publisherId: clean(env.VITE_ADSENSE_PUBLISHER_ID),
   consentStrategy: (clean(env.VITE_ADSENSE_CONSENT_STRATEGY) ||
-    "google-cmp") as AdSenseConsentStrategy,
+    "site-consent") as AdSenseConsentStrategy,
   autoAdsEnabled: asBool(env.VITE_ADSENSE_AUTO_ADS, false),
   allowHome: asBool(env.VITE_ADSENSE_ALLOW_HOME, false),
   debug: asBool(env.VITE_ADSENSE_DEBUG, false),
