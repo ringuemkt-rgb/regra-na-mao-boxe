@@ -12,6 +12,7 @@ import { captureTrackingParams } from "@/lib/tracking";
 import { trackPageView } from "@/lib/metaPixel";
 import { ArticlePage, ArticlesPage, CategoryPage, HomePage, ProductsPage } from "@/pages/Portal";
 import { AboutPage, AffiliatesPage, ContactPage, EditorialPolicyPage, PrivacyPage, Simple404, TermsPage } from "@/pages/Institutional";
+import { ScoutDossierPage, ScoutHomePage } from "@/features/scout/pages";
 
 const queryClient = new QueryClient();
 
@@ -54,6 +55,8 @@ const App = () => (
           <Route path="/termos" element={<TermsPage />} />
           <Route path="/contato" element={<ContactPage />} />
           <Route path="/confianca" element={<Trust />} />
+          <Route path="/scout" element={<ScoutHomePage />} />
+          <Route path="/scout/atleta/:slug" element={<ScoutDossierPage />} />
           <Route path="*" element={<Simple404 />} />
         </Routes>
         <CookieConsent />
