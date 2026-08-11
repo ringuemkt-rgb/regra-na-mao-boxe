@@ -42,8 +42,11 @@ jobs:
           node-version: 22
           cache: npm
 
+      # The existing Lovable project has dependency constraints that make
+      # strict npm ci fail before compilation. Install with legacy peer
+      # resolution so CI can validate the actual application build/tests.
       - name: Install
-        run: npm ci
+        run: npm install --legacy-peer-deps --no-audit --no-fund
 
       - name: Build
         run: npm run build
