@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - feat/blog-monetization-os
+      - feat/scout-de-cria
     paths:
       - "index.html"
       - "src/**"
