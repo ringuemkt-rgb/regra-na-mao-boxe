@@ -5,12 +5,15 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "prebuild": "node scripts/generate-ads-txt.mjs",
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "ads:generate": "node scripts/generate-ads-txt.mjs",
+    "ads:audit": "node scripts/adsense-readiness-audit.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
