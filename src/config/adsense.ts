@@ -1,38 +1,13 @@
 export type AdSenseConsentStrategy = "google-cmp" | "site-consent";
 
 const env = import.meta.env;
-
-const asBool = (value: string | undefined, fallback = false) => {
-  if (value == null || value === "") return fallback;
-  return value.toLowerCase() === "true";
-};
-
+const asBool = (value: string | undefined, fallback = false) => value == null || value === "" ? fallback : value.toLowerCase() === "true";
 const clean = (value: string | undefined) => (value || "").trim();
 
-/**
- * AdSense is intentionally OFF by default.
- * Production ads only become eligible when ALL of these are true:
- * - VITE_ADSENSE_ENABLED=true
- * - valid publisher id (ca-pub-...)
- * - current route is editorial/monetizable
- * - consent strategy requirements are satisfied
- *
- * Brazil-first rollout defaults to site-consent, so the AdSense script is not
- * loaded until the visitor accepts optional cookies in the BOXE DE CRIA banner.
- *
- * For EEA/UK/Switzerland personalized ads, site-consent does NOT replace the
- * requirement for a Google-certified CMP integrated with IAB TCF. Configure
- * Google's CMP in AdSense Privacy & messaging and switch the strategy to
- * google-cmp when that account-side setup is ready.
- *
- * Keep Auto ads disabled during the first rollout. Manual slots give tighter
- * control over UX, Core Web Vitals and accidental-click risk.
- */
 export const adsenseConfig = {
   enabled: asBool(env.VITE_ADSENSE_ENABLED, false),
   publisherId: clean(env.VITE_ADSENSE_PUBLISHER_ID),
-  consentStrategy: (clean(env.VITE_ADSENSE_CONSENT_STRATEGY) ||
-    "site-consent") as AdSenseConsentStrategy,
+  consentStrategy: (clean(env.VITE_ADSENSE_CONSENT_STRATEGY) || "site-consent") as AdSenseConsentStrategy,
   autoAdsEnabled: asBool(env.VITE_ADSENSE_AUTO_ADS, false),
   allowHome: asBool(env.VITE_ADSENSE_ALLOW_HOME, false),
   debug: asBool(env.VITE_ADSENSE_DEBUG, false),
@@ -44,38 +19,27 @@ export const adsenseConfig = {
   },
 } as const;
 
-export const isValidPublisherId = (value = adsenseConfig.publisherId) =>
-  /^ca-pub-\d{10,}$/.test(value);
+/** Alias semântico usado pelo layout editorial; mantém uma única fonte de configuração. */
+export const ADSENSE_CONFIG = {
+  ...adsenseConfig,
+  slots: {
+    afterIntro: adsenseConfig.slots.articleAfterIntro,
+    midArticle: adsenseConfig.slots.articleMid,
+    endArticle: adsenseConfig.slots.articleEnd,
+    sidebar: adsenseConfig.slots.desktopSidebar,
+  },
+} as const;
 
+export const isValidPublisherId = (value = adsenseConfig.publisherId) => /^ca-pub-\d{10,}$/.test(value);
 export const isValidAdSlot = (value?: string) => /^\d+$/.test(value || "");
 
-const ALWAYS_BLOCKED_PREFIXES = [
-  "/confianca",
-  "/produtos",
-  "/checkout",
-  "/privacidade",
-  "/termos",
-  "/contato",
-  "/afiliados",
-  "/politica-editorial",
-  "/sobre",
-];
-
+const ALWAYS_BLOCKED_PREFIXES = ["/confianca", "/produtos", "/checkout", "/privacidade", "/termos", "/contato", "/afiliados", "/politica-editorial", "/sobre"];
 const EDITORIAL_PREFIXES = ["/artigos", "/categoria"];
 
-/**
- * Route-level monetization guard.
- * Ads are allowed only on editorial pages by default.
- */
 export function isAdRouteEligible(pathname: string): boolean {
   if (!adsenseConfig.enabled || !isValidPublisherId()) return false;
-
-  if (ALWAYS_BLOCKED_PREFIXES.some((prefix) => pathname.startsWith(prefix))) {
-    return false;
-  }
-
+  if (ALWAYS_BLOCKED_PREFIXES.some((prefix) => pathname.startsWith(prefix))) return false;
   if (pathname === "/") return adsenseConfig.allowHome;
-
   return EDITORIAL_PREFIXES.some((prefix) => pathname.startsWith(prefix));
 }
 
@@ -86,8 +50,6 @@ export function adsenseDiagnostics(pathname: string) {
     routeEligible: isAdRouteEligible(pathname),
     autoAdsEnabled: adsenseConfig.autoAdsEnabled,
     consentStrategy: adsenseConfig.consentStrategy,
-    configuredSlots: Object.entries(adsenseConfig.slots)
-      .filter(([, value]) => isValidAdSlot(value))
-      .map(([key]) => key),
+    configuredSlots: Object.entries(adsenseConfig.slots).filter(([, value]) => isValidAdSlot(value)).map(([key]) => key),
   };
 }
