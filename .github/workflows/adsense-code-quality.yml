@@ -1,4 +1,4 @@
-name: AdSense Code Quality
+name: Blog + AdSense Code Quality
 
 on:
   push:
@@ -6,26 +6,18 @@ on:
       - feat/blog-monetization-os
     paths:
       - "index.html"
-      - "src/config/adsense.ts"
-      - "src/lib/adsense.ts"
-      - "src/lib/googleConsent.ts"
-      - "src/components/CookieConsent.tsx"
-      - "src/components/ads/**"
-      - "src/App.tsx"
-      - "src/vite-env.d.ts"
+      - "src/**"
+      - "public/**"
+      - "supabase/migrations/**"
       - "scripts/adsense-*.mjs"
       - ".github/workflows/adsense-*.yml"
       - "package*.json"
   pull_request:
     paths:
       - "index.html"
-      - "src/config/adsense.ts"
-      - "src/lib/adsense.ts"
-      - "src/lib/googleConsent.ts"
-      - "src/components/CookieConsent.tsx"
-      - "src/components/ads/**"
-      - "src/App.tsx"
-      - "src/vite-env.d.ts"
+      - "src/**"
+      - "public/**"
+      - "supabase/migrations/**"
       - "scripts/adsense-*.mjs"
       - ".github/workflows/adsense-*.yml"
       - "package*.json"
@@ -48,9 +40,6 @@ jobs:
           node-version: 22
           cache: npm
 
-      # The existing Lovable project has dependency constraints that make
-      # strict npm ci fail before compilation. Install with legacy peer
-      # resolution so CI can validate the actual application build/tests.
       - name: Install
         run: npm install --legacy-peer-deps --no-audit --no-fund
 
