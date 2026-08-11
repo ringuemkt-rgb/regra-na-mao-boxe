@@ -42,7 +42,7 @@ export default function AdSlot({ slot, placement = "article-mid", label = "Publi
   if (!eligible) return null;
 
   return (
-    <aside className={`bdc-ad-slot my-8 w-full overflow-hidden ${className}`} data-ad-placement={placement} aria-label={label}>
+    <aside className={`bdc-ad-slot my-8 w-full overflow-hidden ${className}`} data-ad-placement={placement} aria-label="Publicidade">
       <div className="mb-2 text-center text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70">{label}</div>
       <ins className="adsbygoogle block w-full" style={{ display: "block", minHeight }} data-ad-client={adsenseConfig.publisherId} data-ad-slot={slot} data-ad-format={format} data-full-width-responsive="true" />
     </aside>
