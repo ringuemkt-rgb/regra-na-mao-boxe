@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap');
+
+.scout-hud {
+  --hud-bg: #09090b;
+  --hud-surface: #101013;
+  --hud-line: #26262b;
+  --hud-red: #dc2626;
+  --hud-amber: #f59e0b;
+  --hud-green: #22c55e;
+  --hud-muted: #71717a;
+  background: var(--hud-bg);
+  color: #f4f4f5;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+}
+
+.scout-hud .font-display { font-family: Oswald, Impact, sans-serif; letter-spacing: .02em; }
+.scout-hud .font-data { font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace; }
+.scout-hud .hud-grid-bg {
+  background-image:
+    linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+.scout-hud .scanline {
+  position: absolute; left: 0; right: 0; height: 60px;
+  background: linear-gradient(180deg, transparent, rgba(220,38,38,.24), transparent);
+  animation: scout-scan 3.2s linear infinite; pointer-events: none;
+}
+.scout-hud .led { width: 8px; height: 8px; border-radius: 9999px; animation: scout-pulse 1.6s infinite; }
+.scout-hud .hud-noise {
+  background-image: radial-gradient(rgba(255,255,255,.035) 1px, transparent 1px);
+  background-size: 6px 6px;
+}
+@keyframes scout-scan { from { top: -60px; } to { top: 100%; } }
+@keyframes scout-pulse { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
+@media (prefers-reduced-motion: reduce) {
+  .scout-hud .scanline, .scout-hud .led { animation: none; }
+}
