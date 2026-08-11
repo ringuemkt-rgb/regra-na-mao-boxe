@@ -1,0 +1,25 @@
+.scout-hud .glass {
+  background: rgba(255,255,255,.04);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,.08);
+}
+.scout-hud .glow-red { box-shadow: 0 0 44px rgba(220,38,38,.16); }
+.scout-hud .glow-gold { box-shadow: 0 0 44px rgba(245,158,11,.14); }
+.scout-hud .text-gold {
+  background: linear-gradient(135deg,#fbbf24,#f59e0b,#b45309);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.scout-hud .text-blood {
+  background: linear-gradient(135deg,#f87171,#dc2626,#7f1d1d);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.scout-hud .premium-mesh {
+  background:
+    radial-gradient(circle at 15% 10%, rgba(220,38,38,.08), transparent 34%),
+    radial-gradient(circle at 85% 0%, rgba(245,158,11,.06), transparent 28%),
+    linear-gradient(135deg,#09090b 0%,#000 48%,#09090b 100%);
+}
