@@ -37,6 +37,12 @@ export interface ScoutFight {
   round?: number;
   time?: string;
   sourceIds: string[];
+  opponentStyle?: "striker" | "grappler" | "wrestler" | "mixed" | "unknown";
+  titleFight?: boolean;
+  knockdownsSuffered?: number;
+  takedownsAttemptedAgainst?: number;
+  takedownsDefended?: number;
+  round1Result?: "won" | "lost" | "draw" | "unknown";
 }
 
 export interface ScoutTimelineItem {
@@ -54,6 +60,9 @@ export interface ScoutMetric {
   unit?: string;
   derivation: string;
   sourceIds: string[];
+  confidence?: number;
+  sampleSize?: number;
+  limitations?: string[];
 }
 
 export interface ScoutDossier {
