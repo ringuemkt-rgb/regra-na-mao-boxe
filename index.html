@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Google Consent Mode v2: default MUST run before GA/GTM/ads. -->
+    <!-- Google Consent Mode v2 defaults before GA/GTM/ads. -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -12,10 +12,6 @@
         var stored = 'unknown';
         try { stored = localStorage.getItem('bdc_cookie_consent') || 'unknown'; } catch (e) {}
         var analyticsConsent = stored === 'granted' ? 'granted' : 'denied';
-
-        // Advertising signals stay denied by default. In google-cmp mode they
-        // remain under the certified Google CMP. In site-consent mode the React
-        // app updates them only after an explicit local consent choice.
         gtag('consent', 'default', {
           'ad_storage': 'denied',
           'ad_user_data': 'denied',
@@ -27,25 +23,24 @@
       })();
     </script>
 
-    <title>Boxe de Cria — Materiais Oficiais para Professores de Boxe</title>
-    <meta name="description" content="Manuais visuais completos para professores de boxe. Fundamentos técnicos, regras oficiais e didática de ensino. Por Satoshi Nishiuchi." />
+    <title>BOXE DE CRIA — Ciência, técnica e cultura da luta</title>
+    <meta name="description" content="VISÃO DE CRIA: artigos, guias e materiais sobre técnica, treino, saúde do atleta, equipamentos, história e formação no boxe." />
     <meta name="author" content="Satoshi Nishiuchi — Boxe de Cria" />
-    <meta name="theme-color" content="#0B0B0B" />
+    <meta name="theme-color" content="#050505" />
     <meta name="google-site-verification" content="0OR7fCg4eGBfWOeE4F9IxuRpV6gM0kibT8n-voXIRG0" />
 
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="pt_BR" />
-    <meta property="og:title" content="O Caminho do Boxeador — Fundamentos Técnicos | Boxe de Cria" />
-    <meta property="og:description" content="Manual prático para ensinar boxe com método, segurança e autoridade. Acesso digital imediato por R$49,90." />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="O Caminho do Boxeador — Fundamentos Técnicos | Boxe de Cria" />
-    <meta name="twitter:description" content="Manual prático para ensinar boxe com método, segurança e autoridade. Acesso digital imediato por R$49,90." />
-    <link rel="icon" type="image/png" href="/favicon.png" />
-    <link rel="canonical" href="https://regra-na-mao-boxe.lovable.app/" />
+    <meta property="og:title" content="BOXE DE CRIA — Ciência, técnica e cultura da luta" />
+    <meta property="og:description" content="VISÃO DE CRIA: conteúdo para quem treina, ensina e vive o boxe." />
     <meta property="og:url" content="https://regra-na-mao-boxe.lovable.app/" />
     <meta property="og:site_name" content="Boxe de Cria" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="BOXE DE CRIA — Ciência, técnica e cultura da luta" />
+    <meta name="twitter:description" content="VISÃO DE CRIA: conteúdo para quem treina, ensina e vive o boxe." />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="canonical" href="https://regra-na-mao-boxe.lovable.app/" />
 
-    <!-- Structured Data: Organization + WebSite -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -55,113 +50,34 @@
           "@id": "https://regra-na-mao-boxe.lovable.app/#organization",
           "name": "Boxe de Cria",
           "url": "https://regra-na-mao-boxe.lovable.app/",
-          "founder": { "@type": "Person", "name": "Satoshi Nishiuchi" }
+          "founder": { "@type": "Person", "name": "Satoshi Nishiuchi" },
+          "sameAs": [
+            "https://instagram.com/boxedecria_",
+            "https://youtube.com/@criacombat"
+          ]
         },
         {
           "@type": "WebSite",
           "@id": "https://regra-na-mao-boxe.lovable.app/#website",
           "url": "https://regra-na-mao-boxe.lovable.app/",
-          "name": "Boxe de Cria",
+          "name": "BOXE DE CRIA — VISÃO DE CRIA",
           "inLanguage": "pt-BR",
           "publisher": { "@id": "https://regra-na-mao-boxe.lovable.app/#organization" }
-        },
-        {
-          "@type": "Product",
-          "name": "O Manual do Córner — Regras, Arbitragem & Preparação",
-          "description": "Manual visual completo sobre regras, arbitragem e preparação no córner de boxe.",
-          "brand": { "@type": "Brand", "name": "Boxe de Cria" },
-          "offers": {
-            "@type": "Offer",
-            "price": "49.90",
-            "priceCurrency": "BRL",
-            "availability": "https://schema.org/InStock",
-            "url": "https://go.hotmart.com/D105758587D"
-          }
-        },
-        {
-          "@type": "Product",
-          "name": "O Caminho do Boxeador — Fundamentos Técnicos & Metodologia",
-          "description": "Manual visual completo de fundamentos técnicos e metodologia para ensinar boxe.",
-          "brand": { "@type": "Brand", "name": "Boxe de Cria" },
-          "offers": {
-            "@type": "Offer",
-            "price": "67.90",
-            "priceCurrency": "BRL",
-            "availability": "https://schema.org/InStock",
-            "url": "https://go.hotmart.com/D105758904F"
-          }
-        },
-        {
-          "@type": "Product",
-          "name": "Combo Completo — Manual do Córner + Caminho do Boxeador",
-          "description": "Combo com os dois e-books oficiais da Boxe de Cria. 24% de desconto.",
-          "brand": { "@type": "Brand", "name": "Boxe de Cria" },
-          "offers": {
-            "@type": "Offer",
-            "price": "89.90",
-            "priceCurrency": "BRL",
-            "availability": "https://schema.org/InStock",
-            "url": "https://pay.hotmart.com/E105828277Q?checkoutMode=0&bid=1779626342467"
-          }
-        },
-        {
-          "@type": "FAQPage",
-          "mainEntity": [
-            {
-              "@type": "Question",
-              "name": "Como recebo o material?",
-              "acceptedAnswer": { "@type": "Answer", "text": "Por e-mail, em PDF, logo após a confirmação do pagamento via Hotmart. Acesso vitalício no celular, tablet ou computador." }
-            },
-            {
-              "@type": "Question",
-              "name": "Qual a diferença entre os dois e-books?",
-              "acceptedAnswer": { "@type": "Answer", "text": "O Manual do Córner foca em regras, arbitragem e preparação para o canto. O Caminho do Boxeador foca em fundamentos técnicos e metodologia de aula. Juntos formam o método completo do professor." }
-            },
-            {
-              "@type": "Question",
-              "name": "Vale mais a pena comprar o combo?",
-              "acceptedAnswer": { "@type": "Answer", "text": "Sim. O combo sai por R$ 89,90 — você economiza R$ 27,90 em relação a comprar os dois separadamente, com 24% de desconto." }
-            },
-            {
-              "@type": "Question",
-              "name": "E se eu não gostar?",
-              "acceptedAnswer": { "@type": "Answer", "text": "Você tem 7 dias para pedir reembolso. 100% do seu dinheiro de volta, sem perguntas. Risco zero." }
-            }
-          ]
         }
       ]
     }
     </script>
 
-    <!-- Google tag (gtag.js) - GA4 -->
+    <!-- One Google tag loader; SPA page_view is sent from React RouteTracker. -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=GT-T5P2XLG7"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'GT-T5P2XLG7');
+      gtag('config', 'GT-T5P2XLG7', { send_page_view: false });
+      gtag('config', 'G-D168GCSVL8', { send_page_view: false });
+      gtag('config', 'G-R6CBL4MGP3', { send_page_view: false });
     </script>
-    <!-- End Google tag -->
-
-    <!-- Google tag (gtag.js) - GA4 Property 2 -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-D168GCSVL8"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-D168GCSVL8');
-    </script>
-    <!-- End Google tag -->
-
-    <!-- Google tag (gtag.js) - GA4 Property 3 -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R6CBL4MGP3"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-R6CBL4MGP3');
-    </script>
-    <!-- End Google tag -->
 
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -169,20 +85,15 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-MC7BNL97');</script>
-    <!-- End Google Tag Manager -->
 
-    <!-- Meta Pixel: carregado dinamicamente em src/lib/metaPixel.ts APÓS o aceite LGPD -->
+    <!-- Meta Pixel is loaded dynamically after consent in src/lib/metaPixel.ts. -->
   </head>
   <body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MC7BNL97"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager -->
-
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MC7BNL97" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
 
-    <!-- HOTMART - Sales Funnel Widget (não intercepta CTAs; tracking é feito no React) -->
+    <!-- Hotmart Sales Funnel widget kept for commerce compatibility. -->
     <div id="hotmart-sales-funnel" style="display:none;"></div>
     <script src="https://checkout.hotmart.com/lib/hotmart-checkout-elements.js"></script>
     <script>
@@ -192,16 +103,12 @@
         }).mount('#hotmart-sales-funnel');
       } catch(e) {}
     </script>
-    <!-- Purchase NÃO é disparado na landing — somente na página de obrigado da Hotmart -->
-    <!-- End Hotmart Sales Funnel -->
 
-    <!-- Hotmart Launcher -->
     <script id="hotmart_launcher_script">
       (function(l,a,u,n,c,h,e,r){l['HotmartLauncherObject']=c;l[c]=l[c]||function(){
       (l[c].q=l[c].q||[]).push(arguments)},l[c].l=1*new Date();h=a.createElement(u),
       e=a.getElementsByTagName(u)[0];h.async=1;h.src=n;e.parentNode.insertBefore(h,e)
       })(window,document,'script','//launcher.hotmart.com/launcher.js','hot');
-
       hot('account','fbad94f3-f9ce-370d-8fb2-cbc0656a2636');
     </script>
   </body>
