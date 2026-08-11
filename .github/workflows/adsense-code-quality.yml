@@ -5,22 +5,28 @@ on:
     branches:
       - feat/blog-monetization-os
     paths:
+      - "index.html"
       - "src/config/adsense.ts"
       - "src/lib/adsense.ts"
+      - "src/lib/googleConsent.ts"
+      - "src/components/CookieConsent.tsx"
       - "src/components/ads/**"
       - "src/App.tsx"
       - "src/vite-env.d.ts"
-      - "scripts/adsense-daily-report.mjs"
+      - "scripts/adsense-*.mjs"
       - ".github/workflows/adsense-*.yml"
       - "package*.json"
   pull_request:
     paths:
+      - "index.html"
       - "src/config/adsense.ts"
       - "src/lib/adsense.ts"
+      - "src/lib/googleConsent.ts"
+      - "src/components/CookieConsent.tsx"
       - "src/components/ads/**"
       - "src/App.tsx"
       - "src/vite-env.d.ts"
-      - "scripts/adsense-daily-report.mjs"
+      - "scripts/adsense-*.mjs"
       - ".github/workflows/adsense-*.yml"
       - "package*.json"
 
@@ -47,6 +53,9 @@ jobs:
       # resolution so CI can validate the actual application build/tests.
       - name: Install
         run: npm install --legacy-peer-deps --no-audit --no-fund
+
+      - name: AdSense readiness audit
+        run: npm run ads:audit
 
       - name: Build
         run: npm run build
