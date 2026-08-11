@@ -1,4 +1,4 @@
-name: BOXE DE CRIA Daily Blog Audit
+name: BOXE DE CRIA Daily Blog + Ads Audit
 
 on:
   schedule:
@@ -23,10 +23,15 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Run editorial + policy audit
-        id: audit
+      - name: Run editorial + Google policy audit
+        id: editorial
         continue-on-error: true
         run: node scripts/daily-content-audit.mjs
+
+      - name: Run AdSense readiness audit
+        id: adsense
+        continue-on-error: true
+        run: node scripts/adsense-readiness-audit.mjs
 
       - name: Publish job summary
         if: always()
@@ -34,7 +39,17 @@ jobs:
           if [ -f reports/daily-content-audit.md ]; then
             cat reports/daily-content-audit.md >> "$GITHUB_STEP_SUMMARY"
           else
-            echo "# BOXE DE CRIA — audit failed before report generation" >> "$GITHUB_STEP_SUMMARY"
+            echo "# BOXE DE CRIA — editorial audit failed before report generation" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "---" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+
+          if [ -f reports/adsense-readiness.md ]; then
+            cat reports/adsense-readiness.md >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "# BOXE DE CRIA — AdSense audit failed before report generation" >> "$GITHUB_STEP_SUMMARY"
           fi
 
       - name: Upload audit artifact
@@ -46,19 +61,34 @@ jobs:
           if-no-files-found: warn
           retention-days: 30
 
+      - name: Build combined audit report
+        if: always()
+        run: |
+          : > reports/combined-daily-audit.md
+
+          if [ -f reports/daily-content-audit.md ]; then
+            cat reports/daily-content-audit.md >> reports/combined-daily-audit.md
+          else
+            printf '# BOXE DE CRIA — Editorial Audit\n\nFalhou antes de gerar relatório.\n' >> reports/combined-daily-audit.md
+          fi
+
+          printf '\n\n---\n\n' >> reports/combined-daily-audit.md
+
+          if [ -f reports/adsense-readiness.md ]; then
+            cat reports/adsense-readiness.md >> reports/combined-daily-audit.md
+          else
+            printf '# BOXE DE CRIA — AdSense Audit\n\nFalhou antes de gerar relatório.\n' >> reports/combined-daily-audit.md
+          fi
+
       - name: Update persistent audit issue
         if: always()
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          TITLE="BOXE Blog Daily Audit"
-          BODY_FILE="reports/daily-content-audit.md"
+          TITLE="BOXE Blog + Google Ads Daily Audit"
+          BODY_FILE="reports/combined-daily-audit.md"
 
-          if [ ! -f "$BODY_FILE" ]; then
-            printf '# BOXE DE CRIA — Daily Blog Audit\n\nO workflow falhou antes de gerar o relatório. Verifique a execução do GitHub Actions.\n' > "$BODY_FILE"
-          fi
-
-          ISSUE_NUMBER=$(gh issue list --state open --search "\"$TITLE\" in:title" --json number,title --jq '.[] | select(.title == "BOXE Blog Daily Audit") | .number' | head -n 1)
+          ISSUE_NUMBER=$(gh issue list --state open --search "\"$TITLE\" in:title" --json number,title --jq '.[] | select(.title == "BOXE Blog + Google Ads Daily Audit") | .number' | head -n 1)
 
           if [ -n "$ISSUE_NUMBER" ]; then
             gh issue edit "$ISSUE_NUMBER" --body-file "$BODY_FILE"
@@ -67,7 +97,7 @@ jobs:
           fi
 
       - name: Enforce quality blockers
-        if: steps.audit.outcome == 'failure'
+        if: steps.editorial.outcome == 'failure' || steps.adsense.outcome == 'failure'
         run: |
-          echo "Editorial quality blockers were detected. See the report artifact / issue."
+          echo "Editorial or AdSense policy blockers were detected. See the report artifact / issue."
           exit 1
