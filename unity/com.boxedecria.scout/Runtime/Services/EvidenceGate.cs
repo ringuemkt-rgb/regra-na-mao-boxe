@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -32,7 +31,7 @@ namespace BoxeDeCria.Scout
             var uncertain = claims.Count(c => c != null && c.status == "uncertain");
             var unsupported = claims.Count(c => c != null && c.status == "unsupported");
             var conflicted = claims.Count(c => c != null && c.status == "conflicted");
-            var evidenceBacked = claims.Count(c => c != null && c.evidence != null && c.evidence.Count > 0 && c.evidence.All(e => e != null && sourceIds.Contains(e.source_id)));
+            var evidenceBacked = claims.Count(c => c != null && c.evidence != null && c.evidence.Count > 0 && c.evidence.All(e => e != null && sourceIds.Contains(e.sourceId)));
             var coverage = claims.Count == 0 ? 0f : (float)evidenceBacked / claims.Count;
             var reasons = new List<string>();
 
@@ -40,7 +39,7 @@ namespace BoxeDeCria.Scout
             if (unsupported > 0) reasons.Add($"{unsupported} claim(s) unsupported.");
             if (conflicted > 0) reasons.Add($"{conflicted} claim(s) conflicted.");
             if (coverage < minimumCoverage) reasons.Add($"Cobertura factual {coverage:P0} abaixo do mínimo {minimumCoverage:P0}.");
-            if ((d.fights ?? new()).Any(f => f == null || f.source_ids == null || f.source_ids.Count == 0 || f.source_ids.Any(id => !sourceIds.Contains(id))))
+            if ((d.fights ?? new()).Any(f => f == null || f.sourceIds == null || f.sourceIds.Count == 0 || f.sourceIds.Any(id => !sourceIds.Contains(id))))
                 reasons.Add("Existe luta sem fonte pública vinculada.");
 
             return new EvidenceAudit(reasons.Count == 0, coverage, supported, uncertain, unsupported, conflicted, reasons.ToArray());
