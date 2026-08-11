@@ -1,0 +1,53 @@
+name: Blog + AdSense Code Quality
+
+on:
+  push:
+    branches:
+      - feat/blog-monetization-os
+    paths:
+      - "index.html"
+      - "src/**"
+      - "public/**"
+      - "supabase/migrations/**"
+      - "scripts/adsense-*.mjs"
+      - ".github/workflows/adsense-*.yml"
+      - "package*.json"
+  pull_request:
+    paths:
+      - "index.html"
+      - "src/**"
+      - "public/**"
+      - "supabase/migrations/**"
+      - "scripts/adsense-*.mjs"
+      - ".github/workflows/adsense-*.yml"
+      - "package*.json"
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm install --legacy-peer-deps --no-audit --no-fund
+
+      - name: AdSense readiness audit
+        run: npm run ads:audit
+
+      - name: Build
+        run: npm run build
+
+      - name: Test
+        run: npm test

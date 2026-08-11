@@ -1,0 +1,135 @@
+name: BOXE DE CRIA Blog + Ads Quality Gate
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'scripts/**'
+      - 'content/**'
+      - 'docs/**'
+      - 'index.html'
+      - 'package.json'
+      - '.github/workflows/boxe-blog-daily-audit.yml'
+  schedule:
+    - cron: '0 12 * * *' # 09:00 America/Bahia (UTC-3)
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      # The current Lovable dependency graph has peer constraints that make
+      # strict npm ci fail before compilation. Match the repository's existing
+      # AdSense quality workflow so CI validates the application itself.
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps --no-audit --no-fund
+
+      - name: Run editorial + Google policy audit
+        id: editorial
+        continue-on-error: true
+        run: node scripts/daily-content-audit.mjs
+
+      - name: Run AdSense readiness audit
+        id: adsense
+        continue-on-error: true
+        run: npm run ads:audit
+
+      - name: Build production bundle
+        id: build
+        continue-on-error: true
+        run: npm run build
+
+      - name: Publish job summary
+        if: always()
+        run: |
+          mkdir -p reports
+
+          if [ -f reports/daily-content-audit.md ]; then
+            cat reports/daily-content-audit.md >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "# BOXE DE CRIA — editorial audit failed before report generation" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "---" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+
+          if [ -f reports/adsense-readiness.md ]; then
+            cat reports/adsense-readiness.md >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "# BOXE DE CRIA — AdSense audit failed before report generation" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "---" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Build outcome: ${{ steps.build.outcome }}" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload audit artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: boxe-blog-daily-audit
+          path: reports/
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Build combined audit report
+        if: always()
+        run: |
+          mkdir -p reports
+          : > reports/combined-daily-audit.md
+
+          if [ -f reports/daily-content-audit.md ]; then
+            cat reports/daily-content-audit.md >> reports/combined-daily-audit.md
+          else
+            printf '# BOXE DE CRIA — Editorial Audit\n\nFalhou antes de gerar relatório.\n' >> reports/combined-daily-audit.md
+          fi
+
+          printf '\n\n---\n\n' >> reports/combined-daily-audit.md
+
+          if [ -f reports/adsense-readiness.md ]; then
+            cat reports/adsense-readiness.md >> reports/combined-daily-audit.md
+          else
+            printf '# BOXE DE CRIA — AdSense Audit\n\nFalhou antes de gerar relatório.\n' >> reports/combined-daily-audit.md
+          fi
+
+          printf '\n\n---\n\nBuild outcome: ${{ steps.build.outcome }}\n' >> reports/combined-daily-audit.md
+
+      - name: Update persistent audit issue
+        if: always() && github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TITLE="BOXE Blog + Google Ads Daily Audit"
+          BODY_FILE="reports/combined-daily-audit.md"
+
+          ISSUE_NUMBER=$(gh issue list --state open --search "\"$TITLE\" in:title" --json number,title --jq '.[] | select(.title == "BOXE Blog + Google Ads Daily Audit") | .number' | head -n 1)
+
+          if [ -n "$ISSUE_NUMBER" ]; then
+            gh issue edit "$ISSUE_NUMBER" --body-file "$BODY_FILE"
+          else
+            gh issue create --title "$TITLE" --body-file "$BODY_FILE"
+          fi
+
+      - name: Enforce quality blockers
+        if: steps.editorial.outcome == 'failure' || steps.adsense.outcome == 'failure' || steps.build.outcome == 'failure'
+        run: |
+          echo "Editorial, AdSense policy, or build blockers were detected. See the job summary/artifact."
+          exit 1

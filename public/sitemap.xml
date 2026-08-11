@@ -1,8 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://regra-na-mao-boxe.lovable.app/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
+  <url><loc>https://regra-na-mao-boxe.lovable.app/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://regra-na-mao-boxe.lovable.app/artigos</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://regra-na-mao-boxe.lovable.app/artigos/boxe-para-iniciantes</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://regra-na-mao-boxe.lovable.app/artigos/como-escolher-luva-de-boxe</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://regra-na-mao-boxe.lovable.app/artigos/como-colocar-bandagem-de-boxe</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://regra-na-mao-boxe.lovable.app/artigos/guarda-e-base-no-boxe</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://regra-na-mao-boxe.lovable.app/artigos/como-fazer-jab-no-boxe</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://regra-na-mao-boxe.lovable.app/categoria/tecnica-e-treino</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://regra-na-mao-boxe.lovable.app/categoria/saude-do-atleta</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://regra-na-mao-boxe.lovable.app/categoria/equipamentos</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://regra-na-mao-boxe.lovable.app/categoria/historia-e-cultura</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://regra-na-mao-boxe.lovable.app/categoria/formacao-de-treinadores</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://regra-na-mao-boxe.lovable.app/produtos</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://regra-na-mao-boxe.lovable.app/sobre</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://regra-na-mao-boxe.lovable.app/politica-editorial</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://regra-na-mao-boxe.lovable.app/afiliados</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
+  <url><loc>https://regra-na-mao-boxe.lovable.app/privacidade</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://regra-na-mao-boxe.lovable.app/termos</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://regra-na-mao-boxe.lovable.app/contato</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
+  <url><loc>https://regra-na-mao-boxe.lovable.app/confianca</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
 </urlset>

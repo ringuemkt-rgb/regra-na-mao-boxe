@@ -4,22 +4,31 @@ import { useEffect } from "react";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import Index from "./pages/Index.tsx";
-import NotFound from "./pages/NotFound.tsx";
 import Trust from "./pages/Trust.tsx";
 import CookieConsent from "@/components/CookieConsent";
+import AdSenseScript from "@/components/ads/AdSenseScript";
+import "@/components/ads/adsense.css";
 import { captureTrackingParams } from "@/lib/tracking";
 import { trackPageView } from "@/lib/metaPixel";
+import { ArticlePage, ArticlesPage, CategoryPage, HomePage, ProductsPage } from "@/pages/Portal";
+import { AboutPage, AffiliatesPage, ContactPage, EditorialPolicyPage, PrivacyPage, Simple404, TermsPage } from "@/pages/Institutional";
 
 const queryClient = new QueryClient();
 
-// Captura UTMs/fbclid/gclid e dispara PageView em cada mudança de rota
 const RouteTracker = () => {
   const location = useLocation();
   useEffect(() => {
     captureTrackingParams();
-    // [Meta Pixel] PageView — disparado em TODAS as páginas (somente se já carregado pós-consent)
     trackPageView();
+    const w = window as any;
+    if (w.gtag) {
+      w.gtag("event", "page_view", {
+        page_path: `${location.pathname}${location.search}`,
+        page_location: window.location.href,
+        page_title: document.title,
+      });
+    }
+    window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
   }, [location.pathname, location.search]);
   return null;
 };
@@ -31,11 +40,21 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <RouteTracker />
+        <AdSenseScript />
         <Routes>
-          <Route path="/" element={<Index />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/artigos" element={<ArticlesPage />} />
+          <Route path="/artigos/:slug" element={<ArticlePage />} />
+          <Route path="/categoria/:slug" element={<CategoryPage />} />
+          <Route path="/produtos" element={<ProductsPage />} />
+          <Route path="/sobre" element={<AboutPage />} />
+          <Route path="/politica-editorial" element={<EditorialPolicyPage />} />
+          <Route path="/afiliados" element={<AffiliatesPage />} />
+          <Route path="/privacidade" element={<PrivacyPage />} />
+          <Route path="/termos" element={<TermsPage />} />
+          <Route path="/contato" element={<ContactPage />} />
           <Route path="/confianca" element={<Trust />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
+          <Route path="*" element={<Simple404 />} />
         </Routes>
         <CookieConsent />
       </BrowserRouter>

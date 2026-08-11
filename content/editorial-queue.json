@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "timezone": "America/Bahia",
+  "reviewPolicy": "AI-assisted drafts require editorial approval before publication",
+  "items": [
+    {
+      "slug": "boxe-para-iniciantes",
+      "title": "Boxe para iniciantes: guia completo para começar com segurança",
+      "category": "Técnica e Treino",
+      "intent": "informational",
+      "businessRole": "pillar",
+      "priority": 30,
+      "status": "brief_needed",
+      "requiresHealthReview": true,
+      "originalValuePlan": ["progressão prática do primeiro treino", "checklist autoral do iniciante"],
+      "sourceThemes": ["metodologia de ensino", "segurança", "fundamentos técnicos"]
+    },
+    {
+      "slug": "como-escolher-luva-de-boxe",
+      "title": "Como escolher luvas de boxe: tamanho, peso e uso correto",
+      "category": "Equipamentos",
+      "intent": "commercial_investigation",
+      "businessRole": "commercial_support",
+      "priority": 27,
+      "status": "brief_needed",
+      "requiresHealthReview": false,
+      "originalValuePlan": ["tabela de decisão por tipo de uso", "critérios explícitos de compra"],
+      "sourceThemes": ["proteção", "uso de luvas", "iniciação"]
+    },
+    {
+      "slug": "como-colocar-bandagem-de-boxe",
+      "title": "Como colocar bandagem de boxe e proteger mãos e punhos",
+      "category": "Saúde e Prevenção",
+      "intent": "informational",
+      "businessRole": "authority_and_product_support",
+      "priority": 29,
+      "status": "brief_needed",
+      "requiresHealthReview": true,
+      "originalValuePlan": ["sequência visual autoral", "erros de pressão e alinhamento"],
+      "sourceThemes": ["bandagem de mão", "anatomia da mão e punho", "lesões"]
+    },
+    {
+      "slug": "guarda-e-base-no-boxe",
+      "title": "Guarda e base no boxe: equilíbrio para atacar e defender",
+      "category": "Técnica e Treino",
+      "intent": "informational",
+      "businessRole": "cluster",
+      "priority": 26,
+      "status": "brief_needed",
+      "requiresHealthReview": false,
+      "originalValuePlan": ["diagrama 2.5D autoral", "drills progressivos"],
+      "sourceThemes": ["posição de guarda", "deslocamentos", "defesa"]
+    },
+    {
+      "slug": "como-fazer-jab-no-boxe",
+      "title": "Como fazer o jab no boxe: técnica, erros e exercícios",
+      "category": "Técnica e Treino",
+      "intent": "informational",
+      "businessRole": "cluster",
+      "priority": 28,
+      "status": "brief_needed",
+      "requiresHealthReview": false,
+      "originalValuePlan": ["progressão de drills", "erros filmáveis para autocorreção"],
+      "sourceThemes": ["golpes fundamentais", "reto com mão anterior", "metodologia do ensino"]
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+name: AdSense Daily Report
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 09:15 America/Bahia (UTC-3)
+    - cron: "15 12 * * *"
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  adsense-report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Generate AdSense report
+        env:
+          ADSENSE_CLIENT_ID: ${{ secrets.ADSENSE_CLIENT_ID }}
+          ADSENSE_CLIENT_SECRET: ${{ secrets.ADSENSE_CLIENT_SECRET }}
+          ADSENSE_REFRESH_TOKEN: ${{ secrets.ADSENSE_REFRESH_TOKEN }}
+          ADSENSE_ACCOUNT_ID: ${{ secrets.ADSENSE_ACCOUNT_ID }}
+        run: node scripts/adsense-daily-report.mjs
+
+      - name: Upload report artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: adsense-daily-report
+          path: reports/adsense/
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Update persistent AdSense issue
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const title = '[BOT] AdSense — relatório diário';
+            const reportPath = 'reports/adsense/latest.md';
+            const report = fs.existsSync(reportPath)
+              ? fs.readFileSync(reportPath, 'utf8')
+              : '# Google AdSense — relatório diário\n\n🔴 O workflow terminou sem gerar relatório.';
+
+            const { owner, repo } = context.repo;
+            const issues = await github.paginate(github.rest.issues.listForRepo, {
+              owner,
+              repo,
+              state: 'open',
+              per_page: 100,
+            });
+
+            const existing = issues.find((issue) => !issue.pull_request && issue.title === title);
+            const body = `${report}\n\n---\nAtualizado automaticamente pelo workflow \`AdSense Daily Report\`.`;
+
+            if (existing) {
+              await github.rest.issues.update({
+                owner,
+                repo,
+                issue_number: existing.number,
+                body,
+              });
+            } else {
+              await github.rest.issues.create({
+                owner,
+                repo,
+                title,
+                body,
+                labels: [],
+              });
+            }
