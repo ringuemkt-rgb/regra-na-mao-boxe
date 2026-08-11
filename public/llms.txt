@@ -1,15 +1,29 @@
-# Boxe de Cria
+# BOXE DE CRIA — VISÃO DE CRIA
 
-> Materiais oficiais para professores de boxe: manuais visuais de regras, arbitragem, fundamentos técnicos e metodologia de ensino, por Satoshi Nishiuchi.
+> Portal editorial em português brasileiro sobre ciência, técnica, equipamentos, saúde do atleta, história e formação no boxe. Direção editorial de Satoshi Nishiuchi.
 
-A Boxe de Cria publica e vende e-books em PDF para professores e treinadores de boxe. Os produtos são entregues digitalmente via Hotmart com acesso vitalício e garantia de 7 dias.
+O BOXE DE CRIA publica artigos educacionais e materiais digitais para praticantes e treinadores. Conteúdo de saúde tem finalidade informativa e não substitui avaliação individual. O projeto não inventa estudos, depoimentos, estatísticas ou credenciais.
 
-## Pages
+## Principais páginas
+- [Início](/): portal editorial e comercial.
+- [Artigos](/artigos): biblioteca pesquisável.
+- [Técnica e Treino](/categoria/tecnica-e-treino)
+- [Saúde do Atleta](/categoria/saude-do-atleta)
+- [Equipamentos](/categoria/equipamentos)
+- [História e Cultura](/categoria/historia-e-cultura)
+- [Formação de Treinadores](/categoria/formacao-de-treinadores)
+- [Produtos](/produtos)
+- [Sobre](/sobre)
+- [Política editorial](/politica-editorial)
 
-- [Página inicial](/): Apresentação dos manuais, combo promocional, depoimentos e FAQ.
+## Artigos iniciais
+- [Boxe para iniciantes](/artigos/boxe-para-iniciantes)
+- [Como escolher luvas de boxe](/artigos/como-escolher-luva-de-boxe)
+- [Como colocar bandagem de boxe](/artigos/como-colocar-bandagem-de-boxe)
+- [Guarda e base no boxe](/artigos/guarda-e-base-no-boxe)
+- [Como fazer o jab no boxe](/artigos/como-fazer-jab-no-boxe)
 
 ## Produtos
-
-- [O Manual do Córner — Regras, Arbitragem & Preparação](https://go.hotmart.com/D105758587D): E-book em PDF, R$ 49,90.
-- [O Caminho do Boxeador — Fundamentos Técnicos & Metodologia](https://go.hotmart.com/D105758904F): E-book em PDF, R$ 67,90.
-- [Combo Completo (os dois manuais)](https://pay.hotmart.com/E105828277Q?checkoutMode=0&bid=1779626342467): R$ 89,90 (24% OFF).
+- [O Manual do Córner](https://go.hotmart.com/D105758587D): R$ 49,90.
+- [O Caminho do Boxeador](https://go.hotmart.com/D105758904F): R$ 67,90.
+- [Combo Completo](https://pay.hotmart.com/E105828277Q?checkoutMode=0&bid=1779626342467): R$ 89,90.
