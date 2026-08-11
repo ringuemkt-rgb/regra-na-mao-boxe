@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import {
   adsenseConfig,
@@ -6,6 +6,7 @@ import {
   isValidAdSlot,
 } from "@/config/adsense";
 import { loadAdSense, requestAdFill } from "@/lib/adsense";
+import { getConsent } from "@/lib/tracking";
 
 export type AdPlacement =
   | "article-after-intro"
@@ -25,12 +26,14 @@ type Props = {
  * Manual, labeled AdSense unit.
  *
  * Design rules:
- * - reserves vertical space to reduce CLS;
+ * - reserves vertical space to reduce CLS only after the slot is eligible;
  * - never renders on blocked routes;
  * - never renders with missing/placeholder IDs;
+ * - respects the local consent gate when site-consent is selected;
  * - has a clear "Publicidade" label so the unit cannot be confused with
  *   editorial content or a CTA;
- * - requests each mounted slot only once.
+ * - requests each mounted slot only once;
+ * - never listens for ad clicks or inspects Google ad iframes.
  */
 export default function AdSlot({
   slot,
@@ -41,16 +44,34 @@ export default function AdSlot({
 }: Props) {
   const location = useLocation();
   const requested = useRef(false);
-
-  const eligible =
-    isAdRouteEligible(location.pathname) && isValidAdSlot(slot);
+  const [consent, setConsentState] = useState(() => getConsent());
 
   useEffect(() => {
-    if (!eligible || requested.current) return;
+    const onConsent = (event: Event) => {
+      const value = (event as CustomEvent<string>).detail;
+      if (value === "granted" || value === "denied") {
+        setConsentState(value);
+      }
+    };
+    window.addEventListener("bdc:consent", onConsent);
+    return () => window.removeEventListener("bdc:consent", onConsent);
+  }, []);
+
+  const consentEligible =
+    adsenseConfig.consentStrategy !== "site-consent" || consent === "granted";
+
+  const eligible =
+    isAdRouteEligible(location.pathname) &&
+    isValidAdSlot(slot) &&
+    consentEligible;
+
+  useEffect(() => {
+    requested.current = false;
+    if (!eligible) return;
 
     loadAdSense(location.pathname);
     requested.current = requestAdFill();
-  }, [eligible, location.pathname]);
+  }, [eligible, location.pathname, slot]);
 
   if (!eligible) return null;
 
