@@ -1,0 +1,11 @@
+{
+  "name": "BoxeDeCria.Scout.Runtime",
+  "rootNamespace": "BoxeDeCria.Scout",
+  "references": [],
+  "autoReferenced": true,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}
