@@ -1,0 +1,6 @@
+# DO NOT rename this file to ads.txt until AdSense gives you the exact publisher line.
+# After approval/configuration, copy the exact line shown by Google AdSense and publish
+# it at https://YOUR-DOMAIN/ads.txt.
+#
+# Typical Google format (placeholder only — DO NOT publish as-is):
+# google.com, pub-REPLACE_WITH_REAL_PUBLISHER_ID, DIRECT, f08c47fec0942fa0
