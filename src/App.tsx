@@ -20,6 +20,14 @@ const RouteTracker = () => {
   useEffect(() => {
     captureTrackingParams();
     trackPageView();
+    const w = window as any;
+    if (w.gtag) {
+      w.gtag("event", "page_view", {
+        page_path: `${location.pathname}${location.search}`,
+        page_location: window.location.href,
+        page_title: document.title,
+      });
+    }
     window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
   }, [location.pathname, location.search]);
   return null;
