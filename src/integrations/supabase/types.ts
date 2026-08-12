@@ -14,7 +14,219 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      article_views: {
+        Row: {
+          created_at: string
+          id: number
+          post_slug: string
+          session_id: string | null
+          source: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          post_slug: string
+          session_id?: string | null
+          source?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          post_slug?: string
+          session_id?: string | null
+          source?: string | null
+        }
+        Relationships: []
+      }
+      authors: {
+        Row: {
+          avatar_url: string | null
+          bio: string
+          created_at: string
+          id: string
+          name: string
+          role: string
+          slug: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string
+          created_at?: string
+          id?: string
+          name: string
+          role?: string
+          slug: string
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string
+          created_at?: string
+          id?: string
+          name?: string
+          role?: string
+          slug?: string
+        }
+        Relationships: []
+      }
+      categories: {
+        Row: {
+          created_at: string
+          description: string
+          id: string
+          name: string
+          slug: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string
+          id?: string
+          name: string
+          slug: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          id?: string
+          name?: string
+          slug?: string
+        }
+        Relationships: []
+      }
+      newsletter_leads: {
+        Row: {
+          consent: boolean
+          consent_at: string | null
+          created_at: string
+          email: string
+          id: string
+          name: string
+          source: string | null
+        }
+        Insert: {
+          consent?: boolean
+          consent_at?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          name: string
+          source?: string | null
+        }
+        Update: {
+          consent?: boolean
+          consent_at?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          name?: string
+          source?: string | null
+        }
+        Relationships: []
+      }
+      outbound_clicks: {
+        Row: {
+          created_at: string
+          id: number
+          label: string | null
+          post_slug: string | null
+          source: string | null
+          target_type: string
+          target_url: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          label?: string | null
+          post_slug?: string | null
+          source?: string | null
+          target_type: string
+          target_url: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          label?: string | null
+          post_slug?: string | null
+          source?: string | null
+          target_type?: string
+          target_url?: string
+        }
+        Relationships: []
+      }
+      posts: {
+        Row: {
+          author_id: string | null
+          body: Json
+          category_id: string | null
+          cover_image: string | null
+          excerpt: string
+          featured: boolean
+          id: string
+          last_reviewed_at: string | null
+          published_at: string | null
+          read_time: string | null
+          reviewer_name: string | null
+          seo_description: string | null
+          seo_title: string | null
+          slug: string
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          author_id?: string | null
+          body?: Json
+          category_id?: string | null
+          cover_image?: string | null
+          excerpt?: string
+          featured?: boolean
+          id?: string
+          last_reviewed_at?: string | null
+          published_at?: string | null
+          read_time?: string | null
+          reviewer_name?: string | null
+          seo_description?: string | null
+          seo_title?: string | null
+          slug: string
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          author_id?: string | null
+          body?: Json
+          category_id?: string | null
+          cover_image?: string | null
+          excerpt?: string
+          featured?: boolean
+          id?: string
+          last_reviewed_at?: string | null
+          published_at?: string | null
+          read_time?: string | null
+          reviewer_name?: string | null
+          seo_description?: string | null
+          seo_title?: string | null
+          slug?: string
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "posts_author_id_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "authors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "posts_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
