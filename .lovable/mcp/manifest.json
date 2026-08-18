@@ -1,0 +1,74 @@
+{
+  "version": 1,
+  "sdk_version": "0.26.2",
+  "path": "/functions/v1/mcp",
+  "auth": {
+    "type": "none"
+  },
+  "mcp": {
+    "server": {
+      "name": "boxe-de-cria-guia-essencial",
+      "version": "0.1.0",
+      "title": "Boxe de Cria: Guia Essencial"
+    },
+    "tools": [
+      {
+        "name": "list_products",
+        "title": "Listar produtos",
+        "description": "Lista os e-books e o combo do Boxe de Cria com preço em reais, número de páginas e link de checkout.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_product",
+        "title": "Detalhes de um produto",
+        "description": "Retorna os detalhes de um e-book do Boxe de Cria pelo seu id (manual-do-corner, caminho-do-boxeador, combo-completo).",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "Id do produto, como retornado por list_products."
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_faq",
+        "title": "Perguntas frequentes",
+        "description": "Lista as perguntas frequentes públicas do site Boxe de Cria (entrega, diferenças entre os e-books, combo e garantia).",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
