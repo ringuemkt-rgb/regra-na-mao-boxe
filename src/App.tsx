@@ -7,6 +7,9 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import Trust from "./pages/Trust.tsx";
+import Auth from "./pages/Auth.tsx";
+import OAuthConsent from "./pages/OAuthConsent.tsx";
+
 import CookieConsent from "@/components/CookieConsent";
 import { captureTrackingParams } from "@/lib/tracking";
 import { trackPageView } from "@/lib/metaPixel";
