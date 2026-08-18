@@ -3,7 +3,7 @@
 // supabase function: mcp
 // Bundled from src/lib/mcp/index.ts by @lovable.dev/mcp-js.
 // src/lib/mcp/index.ts
-import { defineMcp } from "npm:@lovable.dev/mcp-js@0.26.2";
+import { auth, defineMcp } from "npm:@lovable.dev/mcp-js@0.26.2";
 
 // src/lib/mcp/tools/list-products.ts
 import { defineTool } from "npm:@lovable.dev/mcp-js@0.26.2";
@@ -109,11 +109,16 @@ var list_faq_default = defineTool3({
 });
 
 // src/lib/mcp/index.ts
+var projectRef = "vmarxwfiizzkwvillsqm";
 var mcp_default = defineMcp({
   name: "boxe-de-cria-guia-essencial",
   title: "Boxe de Cria: Guia Essencial",
   version: "0.1.0",
-  instructions: "Ferramentas p\xFAblicas do Boxe de Cria. Use `list_products` para ver os e-books, pre\xE7os e links de checkout, `get_product` para detalhes de um item e `list_faq` para as d\xFAvidas frequentes. Todos os dados s\xE3o p\xFAblicos do site.",
+  instructions: "Ferramentas do Boxe de Cria (requer login). Use `list_products` para ver os e-books, pre\xE7os e links de checkout, `get_product` para detalhes de um item e `list_faq` para as d\xFAvidas frequentes.",
+  auth: auth.oauth.issuer({
+    issuer: `https://${projectRef}.supabase.co/auth/v1`,
+    acceptedAudiences: "authenticated"
+  }),
   tools: [list_products_default, get_product_default, list_faq_default]
 });
 
