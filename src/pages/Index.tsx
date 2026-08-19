@@ -237,7 +237,7 @@ const Faq = ({ q, a }: { q: string; a: string }) => {
 const Index = () => {
   // [Meta Pixel] ViewContent — dispara ao carregar a landing do e-book
   useEffect(() => {
-    trackViewContent(89.9);
+    trackViewContent(PRODUCT_VALUE);
   }, []);
 
   return (
@@ -299,9 +299,10 @@ const Index = () => {
           </div>
 
           <div className="flex flex-col items-center gap-3">
-            <RedCta href={LINK_COMBO} label="Hero · Combo" className="px-12 py-8 text-lg sm:text-xl">
-              Quero começar agora
+            <RedCta href={LINK_COMBO} label="Hero · Comprar agora" className="px-12 py-8 text-lg sm:text-xl">
+              Comprar agora com acesso imediato
             </RedCta>
+
             <p className="text-sm text-muted-foreground inline-flex items-center gap-2">
               <ArrowRight className="size-4 text-[#FFD700] animate-pulse" /> A partir de R$ 49,90 ou combo com 24% OFF
             </p>
@@ -424,7 +425,7 @@ const Index = () => {
           <p className="text-base sm:text-lg leading-relaxed mb-8 max-w-2xl mx-auto">
             Se não gostar por qualquer motivo, devolvo <strong>100% do seu dinheiro</strong>. Sem perguntas.
           </p>
-          <GoldCta href={LINK_COMBO} label="Garantia · Combo">Quero o combo completo</GoldCta>
+          <GoldCta href={LINK_COMBO} label="Garantia · Baixar e-book">Baixar o e-book agora</GoldCta>
         </div>
       </section>
 
@@ -442,7 +443,7 @@ const Index = () => {
       <footer className="py-16 border-t border-border bg-[#0a0a0a]">
         <div className="container text-center space-y-4">
           <div className="mb-8">
-            <RedCta href={LINK_COMBO} label="Footer · Combo">Garantir meu combo agora</RedCta>
+            <RedCta href={LINK_COMBO} label="Footer · Comprar agora">Comprar agora com acesso imediato</RedCta>
           </div>
 
           <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-3 text-xs font-display uppercase tracking-widest text-muted-foreground mb-6">
