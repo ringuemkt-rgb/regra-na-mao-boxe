@@ -70,7 +70,7 @@ export function appendTrackingParamsToUrl(url: string): string {
 
     // src fixo identificando origem (se nada foi capturado nem já estiver no link)
     if (!u.searchParams.has("src")) {
-      u.searchParams.set("src", "site_boxe_de_cria");
+      u.searchParams.set("src", "site_lovable");
     }
 
     return u.toString();
