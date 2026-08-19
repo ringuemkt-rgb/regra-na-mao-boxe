@@ -18,14 +18,14 @@ import {
 import { useEffect, useState } from "react";
 import caminhoCover from "@/assets/caminho-promo.png";
 import regrasCover from "@/assets/ebook-cover.png";
-import { handleCheckoutClick, HOTMART_CHECKOUT_URL } from "@/lib/checkout";
-import { appendTrackingParamsToUrl } from "@/lib/tracking";
+import HotmartCheckoutButton from "@/components/HotmartCheckoutButton";
+import { buildCheckoutUrl, handleCheckoutClick, PRODUCT_VALUE } from "@/lib/checkout";
 import { trackViewContent } from "@/lib/metaPixel";
 
-// 🔧 Todos os CTAs apontam para o MESMO checkout (combo)
-const LINK_COMBO = HOTMART_CHECKOUT_URL;
+// 🔧 Checkout, produto, valor, moeda e campanha ficam em src/lib/checkout.ts
+const LINK_COMBO = buildCheckoutUrl();
 
-// 💰 Preços
+// 💰 Preços exibidos na página
 const PRICE_REGRAS = "R$ 49,90";
 const PRICE_FUNDAMENTOS = "R$ 67,90";
 const PRICE_COMBO = "R$ 89,90";
@@ -38,40 +38,28 @@ const trackEvent = (name: string, params: Record<string, any> = {}) => {
   if (w.fbq) w.fbq("trackCustom", name, params);
 };
 
-// CTA vermelho — chama handleCheckoutClick (InitiateCheckout + redirect)
+// CTA vermelho — wrapper do componente único de checkout
 const RedCta = ({
   label,
-  value = 89.9,
+  value = PRODUCT_VALUE,
   children,
   className = "",
 }: {
-  href?: string; // ignorado: todos vão p/ LINK_COMBO
+  href?: string; // ignorado: todos usam o mesmo checkout
   label: string;
   value?: number;
   children: React.ReactNode;
   className?: string;
 }) => (
-  <a
-    href={appendTrackingParamsToUrl(LINK_COMBO)}
-    onClick={(e) => {
-      e.preventDefault();
-      handleCheckoutClick(label, value);
-    }}
-    className="inline-block w-full sm:w-auto cta-button"
-  >
-    <Button
-      size="lg"
-      className={`w-full sm:w-auto bg-[#D32F2F] hover:bg-[#B71C1C] text-white font-display font-bold text-base sm:text-lg uppercase tracking-wider px-6 sm:px-10 py-7 rounded-xl shadow-blood transition-all duration-300 border-2 border-[#D32F2F] hover:brightness-90 ${className}`}
-    >
-      <Flame className="!size-5" />
-      {children}
-    </Button>
-  </a>
+  <HotmartCheckoutButton label={label} value={value} variant="primary" icon="flame" className={className}>
+    {children}
+  </HotmartCheckoutButton>
 );
 
+// CTA dourado — mesmo checkout, variação visual
 const GoldCta = ({
   label,
-  value = 89.9,
+  value = PRODUCT_VALUE,
   children,
   className = "",
 }: {
@@ -81,23 +69,17 @@ const GoldCta = ({
   children: React.ReactNode;
   className?: string;
 }) => (
-  <a
-    href={appendTrackingParamsToUrl(LINK_COMBO)}
-    onClick={(e) => {
-      e.preventDefault();
-      handleCheckoutClick(label, value);
-    }}
-    className="inline-block w-full sm:w-auto cta-button"
+  <HotmartCheckoutButton
+    label={label}
+    value={value}
+    variant="gold"
+    icon="sparkles"
+    className={`sm:text-xl px-6 sm:px-12 py-8 ${className}`}
   >
-    <Button
-      size="lg"
-      className={`w-full sm:w-auto gradient-gold text-[#0D0D0D] font-display font-bold text-base sm:text-xl uppercase tracking-wider px-6 sm:px-12 py-8 rounded-xl shadow-gold transition-all duration-300 border-2 border-[#FFD700] hover:brightness-95 ${className}`}
-    >
-      <Sparkles className="!size-6" />
-      {children}
-    </Button>
-  </a>
+    {children}
+  </HotmartCheckoutButton>
 );
+
 
 
 const SectionTitle = ({
