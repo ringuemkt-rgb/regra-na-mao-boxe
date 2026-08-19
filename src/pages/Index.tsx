@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+
 import {
   ShieldCheck,
   CheckCircle2,
@@ -18,14 +18,14 @@ import {
 import { useEffect, useState } from "react";
 import caminhoCover from "@/assets/caminho-promo.png";
 import regrasCover from "@/assets/ebook-cover.png";
-import { handleCheckoutClick, HOTMART_CHECKOUT_URL } from "@/lib/checkout";
-import { appendTrackingParamsToUrl } from "@/lib/tracking";
+import HotmartCheckoutButton from "@/components/HotmartCheckoutButton";
+import { buildCheckoutUrl, PRODUCT_VALUE } from "@/lib/checkout";
 import { trackViewContent } from "@/lib/metaPixel";
 
-// 🔧 Todos os CTAs apontam para o MESMO checkout (combo)
-const LINK_COMBO = HOTMART_CHECKOUT_URL;
+// 🔧 Checkout, produto, valor, moeda e campanha ficam em src/lib/checkout.ts
+const LINK_COMBO = buildCheckoutUrl();
 
-// 💰 Preços
+// 💰 Preços exibidos na página
 const PRICE_REGRAS = "R$ 49,90";
 const PRICE_FUNDAMENTOS = "R$ 67,90";
 const PRICE_COMBO = "R$ 89,90";
@@ -38,40 +38,28 @@ const trackEvent = (name: string, params: Record<string, any> = {}) => {
   if (w.fbq) w.fbq("trackCustom", name, params);
 };
 
-// CTA vermelho — chama handleCheckoutClick (InitiateCheckout + redirect)
+// CTA vermelho — wrapper do componente único de checkout
 const RedCta = ({
   label,
-  value = 89.9,
+  value = PRODUCT_VALUE,
   children,
   className = "",
 }: {
-  href?: string; // ignorado: todos vão p/ LINK_COMBO
+  href?: string; // ignorado: todos usam o mesmo checkout
   label: string;
   value?: number;
   children: React.ReactNode;
   className?: string;
 }) => (
-  <a
-    href={appendTrackingParamsToUrl(LINK_COMBO)}
-    onClick={(e) => {
-      e.preventDefault();
-      handleCheckoutClick(label, value);
-    }}
-    className="inline-block w-full sm:w-auto cta-button"
-  >
-    <Button
-      size="lg"
-      className={`w-full sm:w-auto bg-[#D32F2F] hover:bg-[#B71C1C] text-white font-display font-bold text-base sm:text-lg uppercase tracking-wider px-6 sm:px-10 py-7 rounded-xl shadow-blood transition-all duration-300 border-2 border-[#D32F2F] hover:brightness-90 ${className}`}
-    >
-      <Flame className="!size-5" />
-      {children}
-    </Button>
-  </a>
+  <HotmartCheckoutButton label={label} value={value} variant="primary" icon="flame" className={className}>
+    {children}
+  </HotmartCheckoutButton>
 );
 
+// CTA dourado — mesmo checkout, variação visual
 const GoldCta = ({
   label,
-  value = 89.9,
+  value = PRODUCT_VALUE,
   children,
   className = "",
 }: {
@@ -81,23 +69,17 @@ const GoldCta = ({
   children: React.ReactNode;
   className?: string;
 }) => (
-  <a
-    href={appendTrackingParamsToUrl(LINK_COMBO)}
-    onClick={(e) => {
-      e.preventDefault();
-      handleCheckoutClick(label, value);
-    }}
-    className="inline-block w-full sm:w-auto cta-button"
+  <HotmartCheckoutButton
+    label={label}
+    value={value}
+    variant="gold"
+    icon="sparkles"
+    className={`sm:text-xl px-6 sm:px-12 py-8 ${className}`}
   >
-    <Button
-      size="lg"
-      className={`w-full sm:w-auto gradient-gold text-[#0D0D0D] font-display font-bold text-base sm:text-xl uppercase tracking-wider px-6 sm:px-12 py-8 rounded-xl shadow-gold transition-all duration-300 border-2 border-[#FFD700] hover:brightness-95 ${className}`}
-    >
-      <Sparkles className="!size-6" />
-      {children}
-    </Button>
-  </a>
+    {children}
+  </HotmartCheckoutButton>
 );
+
 
 
 const SectionTitle = ({
@@ -255,7 +237,7 @@ const Faq = ({ q, a }: { q: string; a: string }) => {
 const Index = () => {
   // [Meta Pixel] ViewContent — dispara ao carregar a landing do e-book
   useEffect(() => {
-    trackViewContent(89.9);
+    trackViewContent(PRODUCT_VALUE);
   }, []);
 
   return (
@@ -317,9 +299,10 @@ const Index = () => {
           </div>
 
           <div className="flex flex-col items-center gap-3">
-            <RedCta href={LINK_COMBO} label="Hero · Combo" className="px-12 py-8 text-lg sm:text-xl">
-              Quero começar agora
+            <RedCta href={LINK_COMBO} label="Hero · Comprar agora" className="px-12 py-8 text-lg sm:text-xl">
+              Comprar agora com acesso imediato
             </RedCta>
+
             <p className="text-sm text-muted-foreground inline-flex items-center gap-2">
               <ArrowRight className="size-4 text-[#FFD700] animate-pulse" /> A partir de R$ 49,90 ou combo com 24% OFF
             </p>
@@ -442,7 +425,7 @@ const Index = () => {
           <p className="text-base sm:text-lg leading-relaxed mb-8 max-w-2xl mx-auto">
             Se não gostar por qualquer motivo, devolvo <strong>100% do seu dinheiro</strong>. Sem perguntas.
           </p>
-          <GoldCta href={LINK_COMBO} label="Garantia · Combo">Quero o combo completo</GoldCta>
+          <GoldCta href={LINK_COMBO} label="Garantia · Baixar e-book">Baixar o e-book agora</GoldCta>
         </div>
       </section>
 
@@ -460,7 +443,7 @@ const Index = () => {
       <footer className="py-16 border-t border-border bg-[#0a0a0a]">
         <div className="container text-center space-y-4">
           <div className="mb-8">
-            <RedCta href={LINK_COMBO} label="Footer · Combo">Garantir meu combo agora</RedCta>
+            <RedCta href={LINK_COMBO} label="Footer · Comprar agora">Comprar agora com acesso imediato</RedCta>
           </div>
 
           <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-3 text-xs font-display uppercase tracking-widest text-muted-foreground mb-6">
@@ -504,21 +487,19 @@ const Index = () => {
         </div>
       </footer>
 
-      {/* Botão flutuante mobile — mesmo checkout único + InitiateCheckout */}
+      {/* Botão flutuante mobile — mesmo componente/checkout dos demais CTAs */}
       <div className="fixed bottom-0 inset-x-0 z-40 lg:hidden p-3 pb-[calc(env(safe-area-inset-bottom)+12px)] bg-[#0D0D0D]/95 backdrop-blur border-t border-[#D32F2F]/40">
-        <a
-          href={appendTrackingParamsToUrl(LINK_COMBO)}
-          onClick={(e) => {
-            e.preventDefault();
-            handleCheckoutClick("Mobile · Combo", 89.9);
-          }}
-          className="block cta-button"
+        <HotmartCheckoutButton
+          label="Mobile · Comprar agora"
+          variant="primary"
+          icon="flame"
+          ariaLabel="Comprar agora com acesso imediato"
+          className="py-6 text-sm"
         >
-          <Button className="w-full bg-[#D32F2F] hover:bg-[#B71C1C] text-white font-display font-bold text-base uppercase tracking-wider py-6 rounded-xl">
-            <Flame className="!size-5" /> Combo · {PRICE_COMBO}
-          </Button>
-        </a>
+          Comprar agora com acesso imediato
+        </HotmartCheckoutButton>
       </div>
+
     </div>
   );
 };

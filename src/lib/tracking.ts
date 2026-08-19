@@ -62,7 +62,9 @@ export function getStoredTrackingParams(): TrackingParams {
 export function appendTrackingParamsToUrl(url: string): string {
   try {
     const u = new URL(url);
-    const params = getStoredTrackingParams();
+    // captura (e persiste) os parâmetros da URL atual antes de montar o link
+    const params = captureTrackingParams();
+
 
     for (const [k, v] of Object.entries(params)) {
       if (v && !u.searchParams.has(k)) u.searchParams.set(k, v);
@@ -70,7 +72,7 @@ export function appendTrackingParamsToUrl(url: string): string {
 
     // src fixo identificando origem (se nada foi capturado nem já estiver no link)
     if (!u.searchParams.has("src")) {
-      u.searchParams.set("src", "site_boxe_de_cria");
+      u.searchParams.set("src", "site_lovable");
     }
 
     return u.toString();
