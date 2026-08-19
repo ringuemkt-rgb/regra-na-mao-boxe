@@ -487,21 +487,19 @@ const Index = () => {
         </div>
       </footer>
 
-      {/* Botão flutuante mobile — mesmo checkout único + InitiateCheckout */}
+      {/* Botão flutuante mobile — mesmo componente/checkout dos demais CTAs */}
       <div className="fixed bottom-0 inset-x-0 z-40 lg:hidden p-3 pb-[calc(env(safe-area-inset-bottom)+12px)] bg-[#0D0D0D]/95 backdrop-blur border-t border-[#D32F2F]/40">
-        <a
-          href={appendTrackingParamsToUrl(LINK_COMBO)}
-          onClick={(e) => {
-            e.preventDefault();
-            handleCheckoutClick("Mobile · Combo", 89.9);
-          }}
-          className="block cta-button"
+        <HotmartCheckoutButton
+          label="Mobile · Comprar agora"
+          variant="primary"
+          icon="flame"
+          ariaLabel="Comprar agora com acesso imediato"
+          className="py-6 text-sm"
         >
-          <Button className="w-full bg-[#D32F2F] hover:bg-[#B71C1C] text-white font-display font-bold text-base uppercase tracking-wider py-6 rounded-xl">
-            <Flame className="!size-5" /> Combo · {PRICE_COMBO}
-          </Button>
-        </a>
+          Comprar agora com acesso imediato
+        </HotmartCheckoutButton>
       </div>
+
     </div>
   );
 };
