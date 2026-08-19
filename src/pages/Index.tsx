@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+
 import {
   ShieldCheck,
   CheckCircle2,
@@ -19,7 +19,7 @@ import { useEffect, useState } from "react";
 import caminhoCover from "@/assets/caminho-promo.png";
 import regrasCover from "@/assets/ebook-cover.png";
 import HotmartCheckoutButton from "@/components/HotmartCheckoutButton";
-import { buildCheckoutUrl, handleCheckoutClick, PRODUCT_VALUE } from "@/lib/checkout";
+import { buildCheckoutUrl, PRODUCT_VALUE } from "@/lib/checkout";
 import { trackViewContent } from "@/lib/metaPixel";
 
 // 🔧 Checkout, produto, valor, moeda e campanha ficam em src/lib/checkout.ts
