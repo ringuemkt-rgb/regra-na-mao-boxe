@@ -1,25 +1,24 @@
 // =============================================================
 // Meta Pixel — carregado APENAS após o consentimento LGPD.
 //
-// 🔧 Como trocar o Pixel ID:
-//   altere VITE_META_PIXEL_ID em .env e republique.
+// 🔧 Como trocar o Pixel ID: VITE_META_PIXEL_ID em .env.
 //
 // Eventos disparados pelo SITE:
-//   - PageView        → toda mudança de rota (RouteTracker)
-//   - ViewContent     → mount da landing do e-book
-//   - InitiateCheckout→ clique em qualquer CTA antes do redirect
+//   - PageView         → toda mudança de rota
+//   - ViewContent      → páginas de produto/artigo
+//   - InitiateCheckout → clique em CTA de compra (por produto)
 //
 // Purchase NÃO é disparado aqui — fica a cargo da Hotmart.
 // =============================================================
 
 const META_PIXEL_ID = import.meta.env.VITE_META_PIXEL_ID as string | undefined;
 
-// Parâmetros padrão de conteúdo (alteráveis se mudar o catálogo)
-const DEFAULT_CONTENT = {
-  content_name: "Boxe de Cria Ebook",
-  content_category: "Ebook / Boxe / Artes Marciais",
-  content_type: "product",
-  currency: "BRL",
+type ContentParams = {
+  value?: number;
+  contentName?: string;
+  contentCategory?: string;
+  contentIds?: string[];
+  label?: string;
 };
 
 function fbq(): ((...args: any[]) => void) | null {
@@ -27,12 +26,21 @@ function fbq(): ((...args: any[]) => void) | null {
   return (window as any).fbq || null;
 }
 
+function payload(p: ContentParams) {
+  return {
+    content_type: "product",
+    currency: "BRL",
+    ...(p.contentName ? { content_name: p.contentName } : {}),
+    ...(p.contentCategory ? { content_category: p.contentCategory } : {}),
+    ...(p.contentIds ? { content_ids: p.contentIds } : {}),
+    ...(typeof p.value === "number" ? { value: p.value } : {}),
+    ...(p.label ? { content_label: p.label } : {}),
+  };
+}
+
 /** Carrega o snippet do Meta Pixel e dispara PageView inicial. */
 export function loadMetaPixel() {
-  if (!META_PIXEL_ID) {
-    console.warn("[MetaPixel] VITE_META_PIXEL_ID não configurado");
-    return;
-  }
+  if (!META_PIXEL_ID) return;
   if (typeof window === "undefined") return;
   if ((window as any).fbq) {
     trackPageView();
@@ -55,43 +63,24 @@ export function loadMetaPixel() {
     t.src = v;
     s = b.getElementsByTagName(e)[0];
     s.parentNode.insertBefore(t, s);
-  })(
-    window,
-    document,
-    "script",
-    "https://connect.facebook.net/en_US/fbevents.js",
-  );
+  })(window, document, "script", "https://connect.facebook.net/en_US/fbevents.js");
   /* eslint-enable */
 
   (window as any).fbq("init", META_PIXEL_ID);
   (window as any).fbq("track", "PageView");
-  console.log("[MetaPixel] loaded + PageView", META_PIXEL_ID);
 }
 
-/** PageView — disparado em todas as mudanças de rota SPA. */
+/** PageView — uma vez por rota. */
 export function trackPageView() {
-  const f = fbq();
-  if (!f) return;
-  f("track", "PageView");
-  console.log("[MetaPixel] PageView");
+  fbq()?.("track", "PageView");
 }
 
-/** ViewContent — mount da landing. `value` deve ser o preço do produto exibido. */
-export function trackViewContent(value: number) {
-  const f = fbq();
-  if (!f) return;
-  f("track", "ViewContent", { ...DEFAULT_CONTENT, value });
-  console.log("[MetaPixel] ViewContent", value);
+/** ViewContent — conteúdo/produto visualizado. */
+export function trackViewContent(p: ContentParams) {
+  fbq()?.("track", "ViewContent", payload(p));
 }
 
-/** InitiateCheckout — antes de redirecionar p/ Hotmart. `value` é obrigatório. */
-export function trackInitiateCheckout(value: number, label?: string) {
-  const f = fbq();
-  if (!f) return;
-  f("track", "InitiateCheckout", {
-    ...DEFAULT_CONTENT,
-    value,
-    ...(label ? { content_label: label } : {}),
-  });
-  console.log("[MetaPixel] InitiateCheckout", value, label);
+/** InitiateCheckout — antes de abrir/redirecionar o checkout Hotmart. */
+export function trackInitiateCheckout(p: ContentParams) {
+  fbq()?.("track", "InitiateCheckout", payload(p));
 }
