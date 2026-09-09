@@ -340,87 +340,66 @@ const Index = () => {
 
           <div className="grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
             <ProductCard
-              cover={regrasCover}
+              product="corner"
               badge="E-book 1 · Regras"
-              title="O Manual do Córner"
-              subtitle="Regras, Arbitragem & Preparação"
-              bullets={[
-                "44 páginas",
-                "Checklist pré-luta",
-                "Faltas ilustradas",
-                "Leitura de súmula",
-              ]}
-              price={PRICE_REGRAS}
-              href={LINK_COMBO}
               ctaLabel="Comprar agora"
               trackingLabel="Card · Manual do Córner"
-              product="corner"
             />
 
             <ProductCard
-              cover={caminhoCover}
+              product="caminho"
               badge="E-book 2 · Fundamentos"
-              title="O Caminho do Boxeador"
-              subtitle="Fundamentos Técnicos & Metodologia"
-              bullets={[
-                "85 páginas",
-                "Pranchas ilustradas",
-                "Biomecânica detalhada",
-                "Estrutura de aula",
-              ]}
-              price={PRICE_FUNDAMENTOS}
-              href={LINK_COMBO}
               ctaLabel="Comprar agora"
               trackingLabel="Card · Caminho do Boxeador"
-              product="caminho"
             />
 
             <ProductCard
-              cover={caminhoCover}
-              badge="Combo · Mais vendido"
-              title="Combo Completo"
-              subtitle="Os dois manuais juntos"
-              bullets={[
-                "129 páginas",
-                "Regras + Técnica",
-                "Preço com desconto",
-                "Método completo do professor",
-              ]}
-              price={PRICE_COMBO}
-              oldPrice={OLD_PRICE_COMBO}
-              href={LINK_COMBO}
+              product="combo"
+              badge="Combo · Os dois manuais"
               ctaLabel="Levar os dois"
               trackingLabel="Card · Combo"
-              product="combo"
               highlight
-              badgeOff="24% OFF"
             />
           </div>
         </div>
       </section>
 
-      {/* DEPOIMENTOS */}
+      {/* POR QUE CONFIAR — somente fatos verificáveis */}
       <section className="py-20 sm:py-28 bg-[#F5F5F5] text-[#0D0D0D]">
         <div className="container">
-          <SectionTitle light kicker="Prova social" title="Professores que já usam o método" />
-          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          <SectionTitle
+            light
+            kicker="Transparência"
+            title="Por que confiar"
+            sub="Sem promessas de resultado e sem depoimentos: só o que dá para conferir antes de comprar."
+          />
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
             {[
-              { name: "Carlos Mendes", role: "Professor · São Paulo/SP", text: "Material que todo professor de boxe deveria ter. Organizou minhas aulas completamente." },
-              { name: "Rafael Souza", role: "Treinador · Rio de Janeiro/RJ", text: "Finalmente um material que ensina boxe com método, segurança e didática real." },
-              { name: "André Lima", role: "Personal · Belo Horizonte/MG", text: "As pranchas visuais facilitam demais a correção dos meus alunos iniciantes." },
+              {
+                Icon: Award,
+                title: "Autoria identificada",
+                text: "Material assinado por Satoshi Nishiuchi, da Boxe de Cria, com canais públicos no Instagram e no YouTube.",
+              },
+              {
+                Icon: BookOpen,
+                title: "Material visual verificável",
+                text: `${PRODUCTS.corner.pages} e ${PRODUCTS.caminho.pages} de conteúdo ilustrado, com sumário e pranchas técnicas.`,
+              },
+              {
+                Icon: ShieldCheck,
+                title: "Base em regulamentos oficiais",
+                text: "O conteúdo de regras e arbitragem é organizado a partir de regulamentos oficiais vigentes; não substitui o texto original da entidade.",
+              },
+              {
+                Icon: Lock,
+                title: "Pagamento e garantia Hotmart",
+                text: "Compra processada pela Hotmart, com nota, suporte e prazo de arrependimento de 7 dias informado no checkout.",
+              },
             ].map((d) => (
-              <div key={d.name} className="bg-white border border-black/10 rounded-2xl p-6 shadow-sm">
-                <Quote className="size-7 text-[#D32F2F] mb-3" />
-                <p className="text-[15px] leading-relaxed mb-5">"{d.text}"</p>
-                <div className="flex items-center gap-3">
-                  <div className="size-12 rounded-full bg-gradient-to-br from-[#D32F2F] to-[#0D0D0D] flex items-center justify-center text-white font-display font-bold">
-                    {d.name.charAt(0)}
-                  </div>
-                  <div>
-                    <div className="font-display font-bold uppercase text-sm">{d.name}</div>
-                    <div className="text-xs text-black/60">{d.role}</div>
-                  </div>
-                </div>
+              <div key={d.title} className="bg-white border border-black/10 rounded-2xl p-6 shadow-sm">
+                <d.Icon className="size-7 text-[#D32F2F] mb-3" />
+                <h3 className="font-display font-bold uppercase text-sm mb-2">{d.title}</h3>
+                <p className="text-[15px] leading-relaxed text-black/75">{d.text}</p>
               </div>
             ))}
           </div>
