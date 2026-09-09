@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Cookie } from "lucide-react";
 import { getConsent, setConsent } from "@/lib/tracking";
 import { loadMetaPixel } from "@/lib/metaPixel";
+import { loadAnalytics, trackPageViewGa } from "@/lib/analytics";
 
 export default function CookieConsent() {
   const [visible, setVisible] = useState(false);
@@ -16,6 +17,7 @@ export default function CookieConsent() {
     if (status === "granted") {
       // Usuário já aceitou em sessão anterior → carrega pixel
       loadMetaPixel();
+      loadAnalytics();
     } else if (status === "unknown") {
       setVisible(true);
     }
@@ -24,6 +26,8 @@ export default function CookieConsent() {
   const accept = () => {
     setConsent("granted");
     loadMetaPixel();
+    loadAnalytics();
+    trackPageViewGa(window.location.pathname + window.location.search);
     setVisible(false);
   };
 
