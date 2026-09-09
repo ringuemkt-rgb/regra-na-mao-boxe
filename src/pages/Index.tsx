@@ -118,7 +118,7 @@ type CardProps = {
   href: string;
   ctaLabel: string;
   trackingLabel: string;
-  trackingValue: number;
+  product: ProductId;
   highlight?: boolean;
   badgeOff?: string;
 };
@@ -135,7 +135,7 @@ const ProductCard = ({
   href,
   ctaLabel,
   trackingLabel,
-  trackingValue,
+  product,
   highlight = false,
   badgeOff,
 }: CardProps) => (
@@ -186,7 +186,7 @@ const ProductCard = ({
       </span>
     </div>
 
-    <RedCta href={href} label={trackingLabel} value={trackingValue}>{ctaLabel}</RedCta>
+    <RedCta href={href} label={trackingLabel} product={product}>{ctaLabel}</RedCta>
 
     <p className="text-xs text-muted-foreground mt-4 text-center inline-flex items-center justify-center gap-2">
       <ShieldCheck className="size-4 text-[#FFD700]" /> Garantia de 7 dias · Acesso imediato
@@ -238,7 +238,12 @@ const Faq = ({ q, a }: { q: string; a: string }) => {
 const Index = () => {
   // [Meta Pixel] ViewContent — dispara ao carregar a landing do e-book
   useEffect(() => {
-    trackViewContent(PRODUCT_VALUE);
+    trackViewContent({
+      value: PRODUCTS.combo.price,
+      contentName: PRODUCTS.combo.name,
+      contentCategory: PRODUCTS.combo.category,
+      contentIds: [PRODUCTS.combo.id],
+    });
   }, []);
 
   return (
@@ -343,7 +348,7 @@ const Index = () => {
               href={LINK_COMBO}
               ctaLabel="Comprar agora"
               trackingLabel="Card · Manual do Córner"
-              trackingValue={49.9}
+              product="corner"
             />
 
             <ProductCard
@@ -361,7 +366,7 @@ const Index = () => {
               href={LINK_COMBO}
               ctaLabel="Comprar agora"
               trackingLabel="Card · Caminho do Boxeador"
-              trackingValue={67.9}
+              product="caminho"
             />
 
             <ProductCard
@@ -380,7 +385,7 @@ const Index = () => {
               href={LINK_COMBO}
               ctaLabel="Levar os dois"
               trackingLabel="Card · Combo"
-              trackingValue={89.9}
+              product="combo"
               highlight
               badgeOff="24% OFF"
             />
