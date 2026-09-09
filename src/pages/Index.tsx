@@ -7,7 +7,6 @@ import {
   Lock,
   Zap,
   Headphones,
-  Quote,
   Instagram,
   Youtube,
   Sparkles,
@@ -58,7 +57,6 @@ const RedCta = ({
   children,
   className = "",
 }: {
-  href?: string; // ignorado: cada CTA usa o checkout do seu produto
   label: string;
   product?: Product | ProductId;
   children: React.ReactNode;
@@ -76,7 +74,6 @@ const GoldCta = ({
   children,
   className = "",
 }: {
-  href?: string;
   label: string;
   product?: Product | ProductId;
   children: React.ReactNode;
@@ -416,7 +413,7 @@ const Index = () => {
           <p className="text-base sm:text-lg leading-relaxed mb-8 max-w-2xl mx-auto">
             Se não gostar por qualquer motivo, devolvo <strong>100% do seu dinheiro</strong>. Sem perguntas.
           </p>
-          <GoldCta href={LINK_COMBO} label="Garantia · Baixar e-book">Baixar o e-book agora</GoldCta>
+          <GoldCta label="Garantia · Baixar e-book" product="combo">Baixar o e-book agora</GoldCta>
         </div>
       </section>
 
@@ -434,7 +431,7 @@ const Index = () => {
       <footer className="py-16 border-t border-border bg-[#0a0a0a]">
         <div className="container text-center space-y-4">
           <div className="mb-8">
-            <RedCta href={LINK_COMBO} label="Footer · Comprar agora">Comprar agora com acesso imediato</RedCta>
+            <RedCta label="Footer · Comprar agora" product="combo">Comprar agora com acesso imediato</RedCta>
           </div>
 
           <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-3 text-xs font-display uppercase tracking-widest text-muted-foreground mb-6">
@@ -482,6 +479,7 @@ const Index = () => {
       <div className="fixed bottom-0 inset-x-0 z-40 lg:hidden p-3 pb-[calc(env(safe-area-inset-bottom)+12px)] bg-[#0D0D0D]/95 backdrop-blur border-t border-[#D32F2F]/40">
         <HotmartCheckoutButton
           label="Mobile · Comprar agora"
+          product="combo"
           variant="primary"
           icon="flame"
           ariaLabel="Comprar agora com acesso imediato"
