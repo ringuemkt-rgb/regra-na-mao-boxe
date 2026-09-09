@@ -19,11 +19,12 @@ import { useEffect, useState } from "react";
 import caminhoCover from "@/assets/caminho-promo.png";
 import regrasCover from "@/assets/ebook-cover.png";
 import HotmartCheckoutButton from "@/components/HotmartCheckoutButton";
-import { buildCheckoutUrl, PRODUCT_VALUE } from "@/lib/checkout";
+import { buildCheckoutUrl } from "@/lib/checkout";
+import { PRODUCTS, Product, ProductId } from "@/config/products";
 import { trackViewContent } from "@/lib/metaPixel";
 
-// 🔧 Checkout, produto, valor, moeda e campanha ficam em src/lib/checkout.ts
-const LINK_COMBO = buildCheckoutUrl();
+// 🔧 Links/preços dos produtos ficam em src/config/products.ts
+const LINK_COMBO = buildCheckoutUrl("combo");
 
 // 💰 Preços exibidos na página
 const PRICE_REGRAS = "R$ 49,90";
