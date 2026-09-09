@@ -19,11 +19,12 @@ import { useEffect, useState } from "react";
 import caminhoCover from "@/assets/caminho-promo.png";
 import regrasCover from "@/assets/ebook-cover.png";
 import HotmartCheckoutButton from "@/components/HotmartCheckoutButton";
-import { buildCheckoutUrl, PRODUCT_VALUE } from "@/lib/checkout";
+import { buildCheckoutUrl } from "@/lib/checkout";
+import { PRODUCTS, Product, ProductId } from "@/config/products";
 import { trackViewContent } from "@/lib/metaPixel";
 
-// 🔧 Checkout, produto, valor, moeda e campanha ficam em src/lib/checkout.ts
-const LINK_COMBO = buildCheckoutUrl();
+// 🔧 Links/preços dos produtos ficam em src/config/products.ts
+const LINK_COMBO = buildCheckoutUrl("combo");
 
 // 💰 Preços exibidos na página
 const PRICE_REGRAS = "R$ 49,90";
@@ -41,37 +42,37 @@ const trackEvent = (name: string, params: Record<string, any> = {}) => {
 // CTA vermelho — wrapper do componente único de checkout
 const RedCta = ({
   label,
-  value = PRODUCT_VALUE,
+  product = "combo",
   children,
   className = "",
 }: {
-  href?: string; // ignorado: todos usam o mesmo checkout
+  href?: string; // ignorado: cada CTA usa o checkout do seu produto
   label: string;
-  value?: number;
+  product?: Product | ProductId;
   children: React.ReactNode;
   className?: string;
 }) => (
-  <HotmartCheckoutButton label={label} value={value} variant="primary" icon="flame" className={className}>
+  <HotmartCheckoutButton label={label} product={product} variant="primary" icon="flame" className={className}>
     {children}
   </HotmartCheckoutButton>
 );
 
-// CTA dourado — mesmo checkout, variação visual
+// CTA dourado — variação visual
 const GoldCta = ({
   label,
-  value = PRODUCT_VALUE,
+  product = "combo",
   children,
   className = "",
 }: {
   href?: string;
   label: string;
-  value?: number;
+  product?: Product | ProductId;
   children: React.ReactNode;
   className?: string;
 }) => (
   <HotmartCheckoutButton
     label={label}
-    value={value}
+    product={product}
     variant="gold"
     icon="sparkles"
     className={`sm:text-xl px-6 sm:px-12 py-8 ${className}`}
@@ -117,7 +118,7 @@ type CardProps = {
   href: string;
   ctaLabel: string;
   trackingLabel: string;
-  trackingValue: number;
+  product: ProductId;
   highlight?: boolean;
   badgeOff?: string;
 };
@@ -134,7 +135,7 @@ const ProductCard = ({
   href,
   ctaLabel,
   trackingLabel,
-  trackingValue,
+  product,
   highlight = false,
   badgeOff,
 }: CardProps) => (
@@ -185,7 +186,7 @@ const ProductCard = ({
       </span>
     </div>
 
-    <RedCta href={href} label={trackingLabel} value={trackingValue}>{ctaLabel}</RedCta>
+    <RedCta href={href} label={trackingLabel} product={product}>{ctaLabel}</RedCta>
 
     <p className="text-xs text-muted-foreground mt-4 text-center inline-flex items-center justify-center gap-2">
       <ShieldCheck className="size-4 text-[#FFD700]" /> Garantia de 7 dias · Acesso imediato
@@ -237,7 +238,12 @@ const Faq = ({ q, a }: { q: string; a: string }) => {
 const Index = () => {
   // [Meta Pixel] ViewContent — dispara ao carregar a landing do e-book
   useEffect(() => {
-    trackViewContent(PRODUCT_VALUE);
+    trackViewContent({
+      value: PRODUCTS.combo.price,
+      contentName: PRODUCTS.combo.name,
+      contentCategory: PRODUCTS.combo.category,
+      contentIds: [PRODUCTS.combo.id],
+    });
   }, []);
 
   return (
@@ -342,7 +348,7 @@ const Index = () => {
               href={LINK_COMBO}
               ctaLabel="Comprar agora"
               trackingLabel="Card · Manual do Córner"
-              trackingValue={49.9}
+              product="corner"
             />
 
             <ProductCard
@@ -360,7 +366,7 @@ const Index = () => {
               href={LINK_COMBO}
               ctaLabel="Comprar agora"
               trackingLabel="Card · Caminho do Boxeador"
-              trackingValue={67.9}
+              product="caminho"
             />
 
             <ProductCard
@@ -379,7 +385,7 @@ const Index = () => {
               href={LINK_COMBO}
               ctaLabel="Levar os dois"
               trackingLabel="Card · Combo"
-              trackingValue={89.9}
+              product="combo"
               highlight
               badgeOff="24% OFF"
             />

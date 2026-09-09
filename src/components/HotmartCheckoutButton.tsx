@@ -13,7 +13,8 @@
 import { useEffect } from "react";
 import { Flame, Sparkles, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { buildCheckoutUrl, handleCheckoutClick, PRODUCT_VALUE } from "@/lib/checkout";
+import { buildCheckoutUrl, trackCheckoutIntent } from "@/lib/checkout";
+import { Product, ProductId } from "@/config/products";
 import { loadHotmartWidget } from "@/lib/hotmartWidget";
 
 type Variant = "primary" | "gold" | "outline";
@@ -39,8 +40,10 @@ export type HotmartCheckoutButtonProps = {
   children: React.ReactNode;
   /** Rótulo usado nos eventos de tracking (ex.: "Hero · Comprar agora") */
   label: string;
-  /** Valor reportado nos eventos (padrão: PRODUCT_VALUE em checkout.ts) */
-  value?: number;
+  /** Produto deste CTA (padrão: combo). Preços/links vêm de src/config/products.ts */
+  product?: Product | ProductId;
+  /** Slug do artigo, quando o CTA está dentro de um post */
+  postSlug?: string;
   variant?: Variant;
   icon?: keyof typeof ICONS;
   className?: string;
@@ -51,7 +54,8 @@ export type HotmartCheckoutButtonProps = {
 export default function HotmartCheckoutButton({
   children,
   label,
-  value = PRODUCT_VALUE,
+  product = "combo",
+  postSlug,
   variant = "primary",
   icon = "flame",
   className = "",
@@ -63,7 +67,7 @@ export default function HotmartCheckoutButton({
   }, []);
 
   const Icon = ICONS[icon];
-  const href = buildCheckoutUrl();
+  const href = buildCheckoutUrl(product);
 
   return (
     <a
@@ -74,7 +78,7 @@ export default function HotmartCheckoutButton({
       onClick={() => {
         // InitiateCheckout + begin_checkout; fallback de redirect se o overlay não abrir.
         // Purchase NUNCA é disparado aqui.
-        handleCheckoutClick(label, value);
+        trackCheckoutIntent(product, label, postSlug);
       }}
     >
       <Button
