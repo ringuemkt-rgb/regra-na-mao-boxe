@@ -16,28 +16,40 @@ import {
   Award,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import caminhoCover from "@/assets/caminho-promo.png";
-import regrasCover from "@/assets/ebook-cover.png";
 import HotmartCheckoutButton from "@/components/HotmartCheckoutButton";
-import { buildCheckoutUrl } from "@/lib/checkout";
-import { PRODUCTS, Product, ProductId } from "@/config/products";
+import { PRODUCTS, PRODUCT_LIST, Product, ProductId } from "@/config/products";
 import { trackViewContent } from "@/lib/metaPixel";
+import { trackEvent } from "@/lib/analytics";
+import cornerCoverAsset from "@/assets/manual-corner-site-v2.png.asset.json";
+import caminhoCoverAsset from "@/assets/caminho-boxeador-site-v2.png.asset.json";
+import comboCoverAsset from "@/assets/combo-completo-site-v2.png.asset.json";
 
-// 🔧 Links/preços dos produtos ficam em src/config/products.ts
-const LINK_COMBO = buildCheckoutUrl("combo");
-
-// 💰 Preços exibidos na página
-const PRICE_REGRAS = "R$ 49,90";
-const PRICE_FUNDAMENTOS = "R$ 67,90";
-const PRICE_COMBO = "R$ 89,90";
-const OLD_PRICE_COMBO = "R$ 117,80";
-
-const trackEvent = (name: string, params: Record<string, any> = {}) => {
-  if (typeof window === "undefined") return;
-  const w = window as any;
-  if (w.gtag) w.gtag("event", name, params);
-  if (w.fbq) w.fbq("trackCustom", name, params);
+// 🔧 Nome, preço, páginas, bullets e checkout: src/config/products.ts
+// Capas reais de cada produto (PNG com fundo transparente)
+const COVERS: Record<ProductId, { src: string; width: number; height: number; alt: string }> = {
+  corner: {
+    src: cornerCoverAsset.url,
+    width: 1024,
+    height: 1536,
+    alt: "Capa do e-book Regras do Boxe — O Manual do Córner, edição premium para treinadores",
+  },
+  caminho: {
+    src: caminhoCoverAsset.url,
+    width: 1024,
+    height: 1536,
+    alt: "Capa do e-book Domine os Fundamentos do Boxe — O Caminho do Boxeador",
+  },
+  combo: {
+    src: comboCoverAsset.url,
+    width: 1210,
+    height: 1280,
+    alt: "Combo Completo: os dois e-books Regras do Boxe e O Caminho do Boxeador lado a lado",
+  },
 };
+
+/** Menor preço vigente — usado em copy “a partir de”. */
+const LOWEST_PRICE_LABEL = PRODUCT_LIST.reduce((a, b) => (a.price <= b.price ? a : b)).priceLabel;
+const COMBO_SAVING_LABEL = "R$ 27,90";
 
 // CTA vermelho — wrapper do componente único de checkout
 const RedCta = ({
