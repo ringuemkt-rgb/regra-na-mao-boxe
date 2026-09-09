@@ -13,6 +13,7 @@ import OAuthConsent from "./pages/OAuthConsent.tsx";
 import CookieConsent from "@/components/CookieConsent";
 import { captureTrackingParams } from "@/lib/tracking";
 import { trackPageView } from "@/lib/metaPixel";
+import { loadAnalytics, trackPageViewGa } from "@/lib/analytics";
 
 const queryClient = new QueryClient();
 
