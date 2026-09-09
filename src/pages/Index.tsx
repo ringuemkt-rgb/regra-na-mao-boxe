@@ -187,8 +187,8 @@ const ProductCard = ({
     </ul>
 
     <div className="flex items-baseline gap-3 mb-5">
-      {oldPrice && <span className="text-base text-muted-foreground line-through">{oldPrice}</span>}
-      <span className={`font-display font-bold text-gold-gradient ${highlight ? "text-5xl sm:text-6xl" : "text-4xl sm:text-5xl"}`}>
+      {oldPrice && <span className="text-base text-muted-foreground line-through whitespace-nowrap">{oldPrice}</span>}
+      <span className={`font-display font-bold text-gold-gradient whitespace-nowrap ${highlight ? "text-4xl sm:text-5xl" : "text-4xl sm:text-5xl"}`}>
         {price}
       </span>
     </div>
