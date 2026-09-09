@@ -13,6 +13,7 @@ import OAuthConsent from "./pages/OAuthConsent.tsx";
 import CookieConsent from "@/components/CookieConsent";
 import { captureTrackingParams } from "@/lib/tracking";
 import { trackPageView } from "@/lib/metaPixel";
+import { loadAnalytics, trackPageViewGa } from "@/lib/analytics";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,9 @@ const RouteTracker = () => {
     captureTrackingParams();
     // [Meta Pixel] PageView — disparado em TODAS as páginas (somente se já carregado pós-consent)
     trackPageView();
+    // [GA4] um page_view por rota (somente pós-consentimento)
+    loadAnalytics();
+    trackPageViewGa(location.pathname + location.search);
   }, [location.pathname, location.search]);
   return null;
 };

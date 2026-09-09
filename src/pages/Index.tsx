@@ -7,7 +7,6 @@ import {
   Lock,
   Zap,
   Headphones,
-  Quote,
   Instagram,
   Youtube,
   Sparkles,
@@ -16,28 +15,40 @@ import {
   Award,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import caminhoCover from "@/assets/caminho-promo.png";
-import regrasCover from "@/assets/ebook-cover.png";
 import HotmartCheckoutButton from "@/components/HotmartCheckoutButton";
-import { buildCheckoutUrl } from "@/lib/checkout";
-import { PRODUCTS, Product, ProductId } from "@/config/products";
+import { PRODUCTS, PRODUCT_LIST, Product, ProductId } from "@/config/products";
 import { trackViewContent } from "@/lib/metaPixel";
+import { trackEvent } from "@/lib/analytics";
+import cornerCover from "@/assets/manual-corner-site-v2.png";
+import caminhoCover from "@/assets/caminho-boxeador-site-v2.png";
+import comboCover from "@/assets/combo-completo-site-v2.png";
 
-// 🔧 Links/preços dos produtos ficam em src/config/products.ts
-const LINK_COMBO = buildCheckoutUrl("combo");
-
-// 💰 Preços exibidos na página
-const PRICE_REGRAS = "R$ 49,90";
-const PRICE_FUNDAMENTOS = "R$ 67,90";
-const PRICE_COMBO = "R$ 89,90";
-const OLD_PRICE_COMBO = "R$ 117,80";
-
-const trackEvent = (name: string, params: Record<string, any> = {}) => {
-  if (typeof window === "undefined") return;
-  const w = window as any;
-  if (w.gtag) w.gtag("event", name, params);
-  if (w.fbq) w.fbq("trackCustom", name, params);
+// 🔧 Nome, preço, páginas, bullets e checkout: src/config/products.ts
+// Capas reais de cada produto (PNG com fundo transparente)
+const COVERS: Record<ProductId, { src: string; width: number; height: number; alt: string }> = {
+  corner: {
+    src: cornerCover,
+    width: 1024,
+    height: 1536,
+    alt: "Capa do e-book Regras do Boxe — O Manual do Córner, edição premium para treinadores",
+  },
+  caminho: {
+    src: caminhoCover,
+    width: 1024,
+    height: 1536,
+    alt: "Capa do e-book Domine os Fundamentos do Boxe — O Caminho do Boxeador",
+  },
+  combo: {
+    src: comboCover,
+    width: 1230,
+    height: 1278,
+    alt: "Combo Completo: os dois e-books Regras do Boxe e O Caminho do Boxeador lado a lado",
+  },
 };
+
+/** Menor preço vigente — usado em copy “a partir de”. */
+const LOWEST_PRICE_LABEL = PRODUCT_LIST.reduce((a, b) => (a.price <= b.price ? a : b)).priceLabel;
+const COMBO_SAVING_LABEL = "R$ 27,90";
 
 // CTA vermelho — wrapper do componente único de checkout
 const RedCta = ({
@@ -46,7 +57,6 @@ const RedCta = ({
   children,
   className = "",
 }: {
-  href?: string; // ignorado: cada CTA usa o checkout do seu produto
   label: string;
   product?: Product | ProductId;
   children: React.ReactNode;
@@ -64,7 +74,6 @@ const GoldCta = ({
   children,
   className = "",
 }: {
-  href?: string;
   label: string;
   product?: Product | ProductId;
   children: React.ReactNode;
@@ -108,37 +117,32 @@ const SectionTitle = ({
 );
 
 type CardProps = {
-  cover: string;
+  /** Único dado obrigatório: o resto vem de src/config/products.ts */
+  product: ProductId;
   badge: string;
-  title: string;
-  subtitle: string;
-  bullets: string[];
-  price: string;
-  oldPrice?: string;
-  href: string;
   ctaLabel: string;
   trackingLabel: string;
-  product: ProductId;
   highlight?: boolean;
-  badgeOff?: string;
 };
 
 
 const ProductCard = ({
-  cover,
+  product,
   badge,
-  title,
-  subtitle,
-  bullets,
-  price,
-  oldPrice,
-  href,
   ctaLabel,
   trackingLabel,
-  product,
   highlight = false,
-  badgeOff,
-}: CardProps) => (
+}: CardProps) => {
+  const p = PRODUCTS[product];
+  const cover = COVERS[product];
+  const title = p.shortName;
+  const subtitle = p.subtitle;
+  const bullets = [p.pages, ...p.bullets];
+  const price = p.priceLabel;
+  const oldPrice = p.oldPriceLabel;
+  const badgeOff = p.discountLabel;
+
+  return (
   <article
     className={`relative rounded-3xl p-6 sm:p-8 flex flex-col transition-smooth shadow-deep ${
       highlight
@@ -160,10 +164,13 @@ const ProductCard = ({
     <div className="relative mb-6 flex justify-center">
       <div className="absolute inset-0 bg-[#FFD700]/10 blur-2xl rounded-full" />
       <img
-        src={cover}
-        alt={title}
-        className="relative h-56 sm:h-64 w-auto drop-shadow-2xl rounded-xl"
+        src={cover.src}
+        alt={cover.alt}
+        width={cover.width}
+        height={cover.height}
+        className="relative h-56 sm:h-64 w-auto object-contain drop-shadow-2xl"
         loading="lazy"
+        decoding="async"
       />
     </div>
 
@@ -180,19 +187,20 @@ const ProductCard = ({
     </ul>
 
     <div className="flex items-baseline gap-3 mb-5">
-      {oldPrice && <span className="text-base text-muted-foreground line-through">{oldPrice}</span>}
-      <span className={`font-display font-bold text-gold-gradient ${highlight ? "text-5xl sm:text-6xl" : "text-4xl sm:text-5xl"}`}>
+      {oldPrice && <span className="text-base text-muted-foreground line-through whitespace-nowrap">{oldPrice}</span>}
+      <span className={`font-display font-bold text-gold-gradient whitespace-nowrap ${highlight ? "text-4xl sm:text-5xl" : "text-4xl sm:text-5xl"}`}>
         {price}
       </span>
     </div>
 
-    <RedCta href={href} label={trackingLabel} product={product}>{ctaLabel}</RedCta>
+    <RedCta label={trackingLabel} product={product}>{ctaLabel}</RedCta>
 
     <p className="text-xs text-muted-foreground mt-4 text-center inline-flex items-center justify-center gap-2">
       <ShieldCheck className="size-4 text-[#FFD700]" /> Garantia de 7 dias · Acesso imediato
     </p>
   </article>
-);
+  );
+};
 
 
 const faqs = [
@@ -206,7 +214,11 @@ const faqs = [
   },
   {
     q: "Vale mais a pena comprar o combo?",
-    a: "Sim. O combo sai por R$ 89,90 — você economiza R$ 27,90 em relação a comprar os dois separadamente, com 24% de desconto.",
+    a: `Sim. O combo sai por ${PRODUCTS.combo.priceLabel} (de ${PRODUCTS.combo.oldPriceLabel}) — você economiza ${COMBO_SAVING_LABEL} em relação a comprar os dois separadamente, com ${PRODUCTS.combo.discountLabel}.`,
+  },
+  {
+    q: "Qual o valor de cada material?",
+    a: `${PRODUCTS.corner.shortName}: ${PRODUCTS.corner.priceLabel}. ${PRODUCTS.caminho.shortName}: ${PRODUCTS.caminho.priceLabel}. ${PRODUCTS.combo.shortName}: ${PRODUCTS.combo.priceLabel}.`,
   },
   {
     q: "E se eu não gostar?",
@@ -278,39 +290,30 @@ const Index = () => {
             Dois guias visuais que transformam o improviso em aula profissional. Chega de conteúdo genérico.
           </p>
 
-          {/* Mockup duplo */}
-          <div className="relative flex items-end justify-center gap-4 sm:gap-8 mb-10 animate-slide-up">
+          {/* Imagem real do combo — evita sobreposição de duas capas */}
+          <div className="relative flex justify-center mb-10 animate-slide-up">
             <div className="absolute inset-0 bg-[#FFD700]/10 blur-3xl rounded-full" />
             <img
-              src={regrasCover}
-              alt="O Manual do Córner — Regras, Arbitragem & Preparação"
-              width="384"
-              height="512"
-              className="relative h-56 sm:h-80 md:h-96 w-auto drop-shadow-2xl rounded-xl rotate-[-6deg] hover:rotate-0 transition-transform duration-500"
+              src={COVERS.combo.src}
+              alt={COVERS.combo.alt}
+              width={COVERS.combo.width}
+              height={COVERS.combo.height}
+              className="relative w-full max-w-md sm:max-w-lg md:max-w-2xl h-auto object-contain drop-shadow-2xl"
+              style={{ aspectRatio: `${COVERS.combo.width} / ${COVERS.combo.height}` }}
               loading="eager"
               fetchPriority="high"
               decoding="async"
             />
-            <img
-              src={caminhoCover}
-              alt="O Caminho do Boxeador — Fundamentos Técnicos & Metodologia"
-              width="384"
-              height="512"
-              className="relative h-56 sm:h-80 md:h-96 w-auto drop-shadow-2xl rounded-xl rotate-[6deg] hover:rotate-0 transition-transform duration-500"
-              loading="eager"
-              fetchPriority="high"
-              decoding="async"
-            />
-
           </div>
 
           <div className="flex flex-col items-center gap-3">
-            <RedCta href={LINK_COMBO} label="Hero · Comprar agora" className="px-12 py-8 text-lg sm:text-xl">
+            <RedCta label="Hero · Comprar agora" product="combo" className="px-12 py-8 text-lg sm:text-xl">
               Comprar agora com acesso imediato
             </RedCta>
 
             <p className="text-sm text-muted-foreground inline-flex items-center gap-2">
-              <ArrowRight className="size-4 text-[#FFD700] animate-pulse" /> A partir de R$ 49,90 ou combo com 24% OFF
+              <ArrowRight className="size-4 text-[#FFD700] animate-pulse" /> A partir de {LOWEST_PRICE_LABEL} ou combo por{" "}
+              {PRODUCTS.combo.priceLabel} ({PRODUCTS.combo.discountLabel})
             </p>
           </div>
 
@@ -334,87 +337,66 @@ const Index = () => {
 
           <div className="grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
             <ProductCard
-              cover={regrasCover}
+              product="corner"
               badge="E-book 1 · Regras"
-              title="O Manual do Córner"
-              subtitle="Regras, Arbitragem & Preparação"
-              bullets={[
-                "44 páginas",
-                "Checklist pré-luta",
-                "Faltas ilustradas",
-                "Leitura de súmula",
-              ]}
-              price={PRICE_REGRAS}
-              href={LINK_COMBO}
               ctaLabel="Comprar agora"
               trackingLabel="Card · Manual do Córner"
-              product="corner"
             />
 
             <ProductCard
-              cover={caminhoCover}
+              product="caminho"
               badge="E-book 2 · Fundamentos"
-              title="O Caminho do Boxeador"
-              subtitle="Fundamentos Técnicos & Metodologia"
-              bullets={[
-                "85 páginas",
-                "Pranchas ilustradas",
-                "Biomecânica detalhada",
-                "Estrutura de aula",
-              ]}
-              price={PRICE_FUNDAMENTOS}
-              href={LINK_COMBO}
               ctaLabel="Comprar agora"
               trackingLabel="Card · Caminho do Boxeador"
-              product="caminho"
             />
 
             <ProductCard
-              cover={caminhoCover}
-              badge="Combo · Mais vendido"
-              title="Combo Completo"
-              subtitle="Os dois manuais juntos"
-              bullets={[
-                "129 páginas",
-                "Regras + Técnica",
-                "Preço com desconto",
-                "Método completo do professor",
-              ]}
-              price={PRICE_COMBO}
-              oldPrice={OLD_PRICE_COMBO}
-              href={LINK_COMBO}
+              product="combo"
+              badge="Combo · Os dois manuais"
               ctaLabel="Levar os dois"
               trackingLabel="Card · Combo"
-              product="combo"
               highlight
-              badgeOff="24% OFF"
             />
           </div>
         </div>
       </section>
 
-      {/* DEPOIMENTOS */}
+      {/* POR QUE CONFIAR — somente fatos verificáveis */}
       <section className="py-20 sm:py-28 bg-[#F5F5F5] text-[#0D0D0D]">
         <div className="container">
-          <SectionTitle light kicker="Prova social" title="Professores que já usam o método" />
-          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          <SectionTitle
+            light
+            kicker="Transparência"
+            title="Por que confiar"
+            sub="Sem promessas de resultado e sem depoimentos: só o que dá para conferir antes de comprar."
+          />
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
             {[
-              { name: "Carlos Mendes", role: "Professor · São Paulo/SP", text: "Material que todo professor de boxe deveria ter. Organizou minhas aulas completamente." },
-              { name: "Rafael Souza", role: "Treinador · Rio de Janeiro/RJ", text: "Finalmente um material que ensina boxe com método, segurança e didática real." },
-              { name: "André Lima", role: "Personal · Belo Horizonte/MG", text: "As pranchas visuais facilitam demais a correção dos meus alunos iniciantes." },
+              {
+                Icon: Award,
+                title: "Autoria identificada",
+                text: "Material assinado por Satoshi Nishiuchi, da Boxe de Cria, com canais públicos no Instagram e no YouTube.",
+              },
+              {
+                Icon: BookOpen,
+                title: "Material visual verificável",
+                text: `${PRODUCTS.corner.pages} e ${PRODUCTS.caminho.pages} de conteúdo ilustrado, com sumário e pranchas técnicas.`,
+              },
+              {
+                Icon: ShieldCheck,
+                title: "Base em regulamentos oficiais",
+                text: "O conteúdo de regras e arbitragem é organizado a partir de regulamentos oficiais vigentes; não substitui o texto original da entidade.",
+              },
+              {
+                Icon: Lock,
+                title: "Pagamento e garantia Hotmart",
+                text: "Compra processada pela Hotmart, com nota, suporte e prazo de arrependimento de 7 dias informado no checkout.",
+              },
             ].map((d) => (
-              <div key={d.name} className="bg-white border border-black/10 rounded-2xl p-6 shadow-sm">
-                <Quote className="size-7 text-[#D32F2F] mb-3" />
-                <p className="text-[15px] leading-relaxed mb-5">"{d.text}"</p>
-                <div className="flex items-center gap-3">
-                  <div className="size-12 rounded-full bg-gradient-to-br from-[#D32F2F] to-[#0D0D0D] flex items-center justify-center text-white font-display font-bold">
-                    {d.name.charAt(0)}
-                  </div>
-                  <div>
-                    <div className="font-display font-bold uppercase text-sm">{d.name}</div>
-                    <div className="text-xs text-black/60">{d.role}</div>
-                  </div>
-                </div>
+              <div key={d.title} className="bg-white border border-black/10 rounded-2xl p-6 shadow-sm">
+                <d.Icon className="size-7 text-[#D32F2F] mb-3" />
+                <h3 className="font-display font-bold uppercase text-sm mb-2">{d.title}</h3>
+                <p className="text-[15px] leading-relaxed text-black/75">{d.text}</p>
               </div>
             ))}
           </div>
@@ -431,7 +413,7 @@ const Index = () => {
           <p className="text-base sm:text-lg leading-relaxed mb-8 max-w-2xl mx-auto">
             Se não gostar por qualquer motivo, devolvo <strong>100% do seu dinheiro</strong>. Sem perguntas.
           </p>
-          <GoldCta href={LINK_COMBO} label="Garantia · Baixar e-book">Baixar o e-book agora</GoldCta>
+          <GoldCta label="Garantia · Baixar e-book" product="combo">Baixar o e-book agora</GoldCta>
         </div>
       </section>
 
@@ -449,7 +431,7 @@ const Index = () => {
       <footer className="py-16 border-t border-border bg-[#0a0a0a]">
         <div className="container text-center space-y-4">
           <div className="mb-8">
-            <RedCta href={LINK_COMBO} label="Footer · Comprar agora">Comprar agora com acesso imediato</RedCta>
+            <RedCta label="Footer · Comprar agora" product="combo">Comprar agora com acesso imediato</RedCta>
           </div>
 
           <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-3 text-xs font-display uppercase tracking-widest text-muted-foreground mb-6">
@@ -497,6 +479,7 @@ const Index = () => {
       <div className="fixed bottom-0 inset-x-0 z-40 lg:hidden p-3 pb-[calc(env(safe-area-inset-bottom)+12px)] bg-[#0D0D0D]/95 backdrop-blur border-t border-[#D32F2F]/40">
         <HotmartCheckoutButton
           label="Mobile · Comprar agora"
+          product="combo"
           variant="primary"
           icon="flame"
           ariaLabel="Comprar agora com acesso imediato"
