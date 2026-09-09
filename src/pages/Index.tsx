@@ -293,39 +293,30 @@ const Index = () => {
             Dois guias visuais que transformam o improviso em aula profissional. Chega de conteúdo genérico.
           </p>
 
-          {/* Mockup duplo */}
-          <div className="relative flex items-end justify-center gap-4 sm:gap-8 mb-10 animate-slide-up">
+          {/* Imagem real do combo — evita sobreposição de duas capas */}
+          <div className="relative flex justify-center mb-10 animate-slide-up">
             <div className="absolute inset-0 bg-[#FFD700]/10 blur-3xl rounded-full" />
             <img
-              src={regrasCover}
-              alt="O Manual do Córner — Regras, Arbitragem & Preparação"
-              width="384"
-              height="512"
-              className="relative h-56 sm:h-80 md:h-96 w-auto drop-shadow-2xl rounded-xl rotate-[-6deg] hover:rotate-0 transition-transform duration-500"
+              src={COVERS.combo.src}
+              alt={COVERS.combo.alt}
+              width={COVERS.combo.width}
+              height={COVERS.combo.height}
+              className="relative w-full max-w-md sm:max-w-lg md:max-w-2xl h-auto object-contain drop-shadow-2xl"
+              style={{ aspectRatio: `${COVERS.combo.width} / ${COVERS.combo.height}` }}
               loading="eager"
               fetchPriority="high"
               decoding="async"
             />
-            <img
-              src={caminhoCover}
-              alt="O Caminho do Boxeador — Fundamentos Técnicos & Metodologia"
-              width="384"
-              height="512"
-              className="relative h-56 sm:h-80 md:h-96 w-auto drop-shadow-2xl rounded-xl rotate-[6deg] hover:rotate-0 transition-transform duration-500"
-              loading="eager"
-              fetchPriority="high"
-              decoding="async"
-            />
-
           </div>
 
           <div className="flex flex-col items-center gap-3">
-            <RedCta href={LINK_COMBO} label="Hero · Comprar agora" className="px-12 py-8 text-lg sm:text-xl">
+            <RedCta label="Hero · Comprar agora" product="combo" className="px-12 py-8 text-lg sm:text-xl">
               Comprar agora com acesso imediato
             </RedCta>
 
             <p className="text-sm text-muted-foreground inline-flex items-center gap-2">
-              <ArrowRight className="size-4 text-[#FFD700] animate-pulse" /> A partir de R$ 49,90 ou combo com 24% OFF
+              <ArrowRight className="size-4 text-[#FFD700] animate-pulse" /> A partir de {LOWEST_PRICE_LABEL} ou combo por{" "}
+              {PRODUCTS.combo.priceLabel} ({PRODUCTS.combo.discountLabel})
             </p>
           </div>
 
