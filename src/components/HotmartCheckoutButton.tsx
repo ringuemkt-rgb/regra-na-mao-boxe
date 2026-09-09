@@ -54,7 +54,8 @@ export type HotmartCheckoutButtonProps = {
 export default function HotmartCheckoutButton({
   children,
   label,
-  value = PRODUCT_VALUE,
+  product = "combo",
+  postSlug,
   variant = "primary",
   icon = "flame",
   className = "",
