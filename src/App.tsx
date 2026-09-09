@@ -24,6 +24,9 @@ const RouteTracker = () => {
     captureTrackingParams();
     // [Meta Pixel] PageView — disparado em TODAS as páginas (somente se já carregado pós-consent)
     trackPageView();
+    // [GA4] um page_view por rota (somente pós-consentimento)
+    loadAnalytics();
+    trackPageViewGa(location.pathname + location.search);
   }, [location.pathname, location.search]);
   return null;
 };
