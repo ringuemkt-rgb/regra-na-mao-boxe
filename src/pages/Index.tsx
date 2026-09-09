@@ -120,37 +120,32 @@ const SectionTitle = ({
 );
 
 type CardProps = {
-  cover: string;
+  /** Único dado obrigatório: o resto vem de src/config/products.ts */
+  product: ProductId;
   badge: string;
-  title: string;
-  subtitle: string;
-  bullets: string[];
-  price: string;
-  oldPrice?: string;
-  href: string;
   ctaLabel: string;
   trackingLabel: string;
-  product: ProductId;
   highlight?: boolean;
-  badgeOff?: string;
 };
 
 
 const ProductCard = ({
-  cover,
+  product,
   badge,
-  title,
-  subtitle,
-  bullets,
-  price,
-  oldPrice,
-  href,
   ctaLabel,
   trackingLabel,
-  product,
   highlight = false,
-  badgeOff,
-}: CardProps) => (
+}: CardProps) => {
+  const p = PRODUCTS[product];
+  const cover = COVERS[product];
+  const title = p.shortName;
+  const subtitle = p.subtitle;
+  const bullets = [p.pages, ...p.bullets];
+  const price = p.priceLabel;
+  const oldPrice = p.oldPriceLabel;
+  const badgeOff = p.discountLabel;
+
+  return (
   <article
     className={`relative rounded-3xl p-6 sm:p-8 flex flex-col transition-smooth shadow-deep ${
       highlight
