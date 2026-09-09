@@ -217,7 +217,11 @@ const faqs = [
   },
   {
     q: "Vale mais a pena comprar o combo?",
-    a: "Sim. O combo sai por R$ 89,90 — você economiza R$ 27,90 em relação a comprar os dois separadamente, com 24% de desconto.",
+    a: `Sim. O combo sai por ${PRODUCTS.combo.priceLabel} (de ${PRODUCTS.combo.oldPriceLabel}) — você economiza ${COMBO_SAVING_LABEL} em relação a comprar os dois separadamente, com ${PRODUCTS.combo.discountLabel}.`,
+  },
+  {
+    q: "Qual o valor de cada material?",
+    a: `${PRODUCTS.corner.shortName}: ${PRODUCTS.corner.priceLabel}. ${PRODUCTS.caminho.shortName}: ${PRODUCTS.caminho.priceLabel}. ${PRODUCTS.combo.shortName}: ${PRODUCTS.combo.priceLabel}.`,
   },
   {
     q: "E se eu não gostar?",
