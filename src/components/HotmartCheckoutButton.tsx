@@ -40,8 +40,10 @@ export type HotmartCheckoutButtonProps = {
   children: React.ReactNode;
   /** Rótulo usado nos eventos de tracking (ex.: "Hero · Comprar agora") */
   label: string;
-  /** Valor reportado nos eventos (padrão: PRODUCT_VALUE em checkout.ts) */
-  value?: number;
+  /** Produto deste CTA (padrão: combo). Preços/links vêm de src/config/products.ts */
+  product?: Product | ProductId;
+  /** Slug do artigo, quando o CTA está dentro de um post */
+  postSlug?: string;
   variant?: Variant;
   icon?: keyof typeof ICONS;
   className?: string;
