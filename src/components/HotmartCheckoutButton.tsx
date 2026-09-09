@@ -78,7 +78,7 @@ export default function HotmartCheckoutButton({
       onClick={() => {
         // InitiateCheckout + begin_checkout; fallback de redirect se o overlay não abrir.
         // Purchase NUNCA é disparado aqui.
-        handleCheckoutClick(label, value);
+        trackCheckoutIntent(product, label, postSlug);
       }}
     >
       <Button
