@@ -19,29 +19,29 @@ import HotmartCheckoutButton from "@/components/HotmartCheckoutButton";
 import { PRODUCTS, PRODUCT_LIST, Product, ProductId } from "@/config/products";
 import { trackViewContent } from "@/lib/metaPixel";
 import { trackEvent } from "@/lib/analytics";
-import cornerCoverAsset from "@/assets/manual-corner-site-v2.png.asset.json";
-import caminhoCoverAsset from "@/assets/caminho-boxeador-site-v2.png.asset.json";
-import comboCoverAsset from "@/assets/combo-completo-site-v2.png.asset.json";
+import cornerCover from "@/assets/manual-corner-site-v2.png";
+import caminhoCover from "@/assets/caminho-boxeador-site-v2.png";
+import comboCover from "@/assets/combo-completo-site-v2.png";
 
 // 🔧 Nome, preço, páginas, bullets e checkout: src/config/products.ts
 // Capas reais de cada produto (PNG com fundo transparente)
 const COVERS: Record<ProductId, { src: string; width: number; height: number; alt: string }> = {
   corner: {
-    src: cornerCoverAsset.url,
+    src: cornerCover,
     width: 1024,
     height: 1536,
     alt: "Capa do e-book Regras do Boxe — O Manual do Córner, edição premium para treinadores",
   },
   caminho: {
-    src: caminhoCoverAsset.url,
+    src: caminhoCover,
     width: 1024,
     height: 1536,
     alt: "Capa do e-book Domine os Fundamentos do Boxe — O Caminho do Boxeador",
   },
   combo: {
-    src: comboCoverAsset.url,
-    width: 1210,
-    height: 1280,
+    src: comboCover,
+    width: 1230,
+    height: 1278,
     alt: "Combo Completo: os dois e-books Regras do Boxe e O Caminho do Boxeador lado a lado",
   },
 };
