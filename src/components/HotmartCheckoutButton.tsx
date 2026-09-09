@@ -67,7 +67,7 @@ export default function HotmartCheckoutButton({
   }, []);
 
   const Icon = ICONS[icon];
-  const href = buildCheckoutUrl();
+  const href = buildCheckoutUrl(product);
 
   return (
     <a
