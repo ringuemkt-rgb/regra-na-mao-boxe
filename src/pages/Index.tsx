@@ -167,10 +167,13 @@ const ProductCard = ({
     <div className="relative mb-6 flex justify-center">
       <div className="absolute inset-0 bg-[#FFD700]/10 blur-2xl rounded-full" />
       <img
-        src={cover}
-        alt={title}
-        className="relative h-56 sm:h-64 w-auto drop-shadow-2xl rounded-xl"
+        src={cover.src}
+        alt={cover.alt}
+        width={cover.width}
+        height={cover.height}
+        className="relative h-56 sm:h-64 w-auto object-contain drop-shadow-2xl"
         loading="lazy"
+        decoding="async"
       />
     </div>
 
