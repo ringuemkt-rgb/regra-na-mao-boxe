@@ -42,37 +42,37 @@ const trackEvent = (name: string, params: Record<string, any> = {}) => {
 // CTA vermelho — wrapper do componente único de checkout
 const RedCta = ({
   label,
-  value = PRODUCT_VALUE,
+  product = "combo",
   children,
   className = "",
 }: {
-  href?: string; // ignorado: todos usam o mesmo checkout
+  href?: string; // ignorado: cada CTA usa o checkout do seu produto
   label: string;
-  value?: number;
+  product?: Product | ProductId;
   children: React.ReactNode;
   className?: string;
 }) => (
-  <HotmartCheckoutButton label={label} value={value} variant="primary" icon="flame" className={className}>
+  <HotmartCheckoutButton label={label} product={product} variant="primary" icon="flame" className={className}>
     {children}
   </HotmartCheckoutButton>
 );
 
-// CTA dourado — mesmo checkout, variação visual
+// CTA dourado — variação visual
 const GoldCta = ({
   label,
-  value = PRODUCT_VALUE,
+  product = "combo",
   children,
   className = "",
 }: {
   href?: string;
   label: string;
-  value?: number;
+  product?: Product | ProductId;
   children: React.ReactNode;
   className?: string;
 }) => (
   <HotmartCheckoutButton
     label={label}
-    value={value}
+    product={product}
     variant="gold"
     icon="sparkles"
     className={`sm:text-xl px-6 sm:px-12 py-8 ${className}`}
