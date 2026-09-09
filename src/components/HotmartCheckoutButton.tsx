@@ -13,7 +13,8 @@
 import { useEffect } from "react";
 import { Flame, Sparkles, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { buildCheckoutUrl, handleCheckoutClick, PRODUCT_VALUE } from "@/lib/checkout";
+import { buildCheckoutUrl, trackCheckoutIntent } from "@/lib/checkout";
+import { Product, ProductId } from "@/config/products";
 import { loadHotmartWidget } from "@/lib/hotmartWidget";
 
 type Variant = "primary" | "gold" | "outline";
