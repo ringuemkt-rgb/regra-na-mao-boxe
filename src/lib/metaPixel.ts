@@ -84,3 +84,8 @@ export function trackViewContent(p: ContentParams) {
 export function trackInitiateCheckout(p: ContentParams) {
   fbq()?.("track", "InitiateCheckout", payload(p));
 }
+
+/** Evento customizado (ex.: article_view, product_cta_click). */
+export function trackCustom(name: string, params: Record<string, unknown> = {}) {
+  fbq()?.("trackCustom", name, params);
+}

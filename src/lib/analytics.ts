@@ -14,6 +14,7 @@ import {
   GTM_CONTAINER_ID,
 } from "@/config/analytics";
 import { getConsent } from "./tracking";
+import { trackCustom } from "./metaPixel";
 
 let loaded = false;
 
@@ -75,6 +76,7 @@ export function trackPageViewGa(path: string, title?: string) {
 
 export function trackArticleView(slug: string, title: string, category?: string) {
   trackEvent("article_view", { post_slug: slug, post_title: title, category });
+  trackCustom("article_view", { post_slug: slug, post_title: title, category });
 }
 
 export function trackNewsletterSignup(source: string) {

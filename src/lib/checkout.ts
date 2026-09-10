@@ -12,7 +12,7 @@
 //    begin_checkout (GA4). Purchase é só na Hotmart.
 // =============================================================
 import { Product, PRODUCTS, ProductId } from "@/config/products";
-import { trackInitiateCheckout } from "./metaPixel";
+import { trackCustom, trackInitiateCheckout } from "./metaPixel";
 import { appendTrackingParamsToUrl } from "./tracking";
 import { trackEvent } from "./analytics";
 import { logOutboundClick } from "./blog";
@@ -61,6 +61,15 @@ export function trackCheckoutIntent(
     contentName: p.name,
     contentCategory: p.category,
     contentIds: [p.id],
+    label,
+  });
+
+  trackCustom("product_cta_click", {
+    product_id: p.id,
+    content_name: p.name,
+    content_category: p.category,
+    value: p.price,
+    currency: p.currency,
     label,
   });
 
