@@ -19,6 +19,7 @@ import HotmartCheckoutButton from "@/components/HotmartCheckoutButton";
 import { PRODUCTS, PRODUCT_LIST, Product, ProductId } from "@/config/products";
 import { trackViewContent } from "@/lib/metaPixel";
 import { trackEvent } from "@/lib/analytics";
+import Seo from "@/lib/seo";
 import cornerCover from "@/assets/manual-corner-site-v2.png";
 import caminhoCover from "@/assets/caminho-boxeador-site-v2.png";
 import comboCover from "@/assets/combo-completo-site-v2.png";
