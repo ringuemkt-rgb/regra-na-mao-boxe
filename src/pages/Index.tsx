@@ -261,6 +261,11 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-[#0D0D0D] overflow-x-hidden">
+      <Seo
+        title="Manuais de Boxe para Treinadores | Boxe de Cria"
+        description="Dois manuais visuais para quem ensina boxe: regras e arbitragem (R$ 49,90) e fundamentos técnicos (R$ 67,90). Combo com os dois por R$ 89,90."
+        path="/"
+      />
       {/* HERO */}
       <header className="relative pt-12 pb-20">
         <div className="absolute inset-0 z-0 gradient-hero" />
