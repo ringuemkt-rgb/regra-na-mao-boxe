@@ -9,6 +9,10 @@ import NotFound from "./pages/NotFound.tsx";
 import Trust from "./pages/Trust.tsx";
 import Auth from "./pages/Auth.tsx";
 import OAuthConsent from "./pages/OAuthConsent.tsx";
+import ProductPage from "./pages/ProductPage.tsx";
+import Articles from "./pages/Articles.tsx";
+import ArticlePage from "./pages/ArticlePage.tsx";
+import Admin from "./pages/Admin.tsx";
 
 import CookieConsent from "@/components/CookieConsent";
 import { captureTrackingParams } from "@/lib/tracking";
