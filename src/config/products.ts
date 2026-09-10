@@ -37,6 +37,7 @@ export type Product = {
 export const PRODUCTS: Record<ProductId, Product> = {
   corner: {
     id: "corner",
+    slug: "manual-do-corner",
     name: "O Manual do Córner — Regras, Arbitragem & Preparação",
     shortName: "O Manual do Córner",
     subtitle: "Regras, Arbitragem & Preparação",
@@ -56,6 +57,7 @@ export const PRODUCTS: Record<ProductId, Product> = {
   },
   caminho: {
     id: "caminho",
+    slug: "caminho-do-boxeador",
     name: "O Caminho do Boxeador — Fundamentos Técnicos & Metodologia",
     shortName: "O Caminho do Boxeador",
     subtitle: "Fundamentos Técnicos & Metodologia",
@@ -75,6 +77,7 @@ export const PRODUCTS: Record<ProductId, Product> = {
   },
   combo: {
     id: "combo",
+    slug: "combo-completo",
     name: "Combo Completo — Manual do Córner + Caminho do Boxeador",
     shortName: "Combo Completo",
     subtitle: "Os dois manuais juntos",
@@ -120,4 +123,9 @@ export function productForTopic(topic?: string | null): Product {
   if (/tecnic|treino|metodolog|fundament|didatic|equipament/.test(t))
     return PRODUCTS.caminho;
   return PRODUCTS.combo;
+}
+
+/** Busca um produto pelo slug da rota /produtos/:slug */
+export function productBySlug(slug?: string): Product | undefined {
+  return PRODUCT_LIST.find((p) => p.slug === slug);
 }
