@@ -12,6 +12,8 @@ export type ProductId = "corner" | "caminho" | "combo";
 
 export type Product = {
   id: ProductId;
+  /** Slug da página própria do produto: /produtos/:slug */
+  slug: string;
   /** Nome comercial completo (usado em eventos content_name) */
   name: string;
   shortName: string;
