@@ -18,6 +18,7 @@ import CookieConsent from "@/components/CookieConsent";
 import { captureTrackingParams } from "@/lib/tracking";
 import { trackPageView } from "@/lib/metaPixel";
 import { loadAnalytics, trackPageViewGa } from "@/lib/analytics";
+import { trackTikTokPageView } from "@/lib/tiktokPixel";
 
 const queryClient = new QueryClient();
 
@@ -31,6 +32,8 @@ const RouteTracker = () => {
     // [GA4] um page_view por rota (somente pós-consentimento)
     loadAnalytics();
     trackPageViewGa(location.pathname + location.search);
+    // [TikTok Pixel] Page — somente quando já carregado pós-consentimento
+    trackTikTokPageView();
   }, [location.pathname, location.search]);
   return null;
 };
