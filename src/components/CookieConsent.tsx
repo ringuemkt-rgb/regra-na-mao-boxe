@@ -1,6 +1,6 @@
 // =============================================================
 // Banner LGPD — Aceitar / Recusar cookies.
-// Só carrega o Meta Pixel após o aceite.
+// Só carrega os medidores de marketing após o aceite.
 // =============================================================
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,7 @@ import { Cookie } from "lucide-react";
 import { getConsent, setConsent } from "@/lib/tracking";
 import { loadMetaPixel } from "@/lib/metaPixel";
 import { loadAnalytics, trackPageViewGa } from "@/lib/analytics";
+import { loadTikTokPixel } from "@/lib/tiktokPixel";
 
 export default function CookieConsent() {
   const [visible, setVisible] = useState(false);
@@ -18,6 +19,7 @@ export default function CookieConsent() {
       // Usuário já aceitou em sessão anterior → carrega pixel
       loadMetaPixel();
       loadAnalytics();
+      loadTikTokPixel();
     } else if (status === "unknown") {
       setVisible(true);
     }
@@ -27,6 +29,7 @@ export default function CookieConsent() {
     setConsent("granted");
     loadMetaPixel();
     loadAnalytics();
+    loadTikTokPixel();
     trackPageViewGa(window.location.pathname + window.location.search);
     setVisible(false);
   };
