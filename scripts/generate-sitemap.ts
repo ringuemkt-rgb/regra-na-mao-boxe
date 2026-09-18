@@ -17,6 +17,12 @@ const PRODUCT_SLUGS = [
   "combo-completo",
 ];
 
+// Notícias editoriais confirmadas no CMS também ficam disponíveis quando o
+// ambiente de geração não expõe credenciais de leitura da API.
+const CONFIRMED_ARTICLE_SLUGS = [
+  "brasil-semifinais-boxe-santa-fe-17-setembro-2026",
+];
+
 const entries: SitemapEntry[] = [
   { path: "/", changefreq: "weekly", priority: "1.0" },
   { path: "/artigos", changefreq: "weekly", priority: "0.8" },
@@ -65,7 +71,10 @@ function generateSitemap(list: SitemapEntry[]) {
   ].join("\n");
 }
 
-const articlePaths = await publishedArticlePaths();
+const articlePaths = Array.from(new Set([
+  ...CONFIRMED_ARTICLE_SLUGS.map((slug) => `/artigos/${slug}`),
+  ...(await publishedArticlePaths()),
+]));
 const all = [
   ...entries,
   ...articlePaths.map((path) => ({
